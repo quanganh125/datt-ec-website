@@ -1,0 +1,14 @@
+@import "../../../../sass/common";
+@import "../../../../sass/variables";
+
+#productManagerContainer {
+    @include width-container();
+    @include page-frame();
+    padding: 0px 80px;
+}
+
+@media (min-width: 1500px) {
+    #productManagerContainer {
+        @include width-lg-container();
+    }
+}
