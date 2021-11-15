@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./layouts/Navigation";
 import ProductManager from "./pages/ProductManager";
+import ProductList from "./layouts/ProductList/index";
 
 export default function App() {
     console.log("App");
@@ -17,7 +18,7 @@ export default function App() {
                     <Route exact path="/" render={() => <Home />} />
                     <Route
                         exact
-                        path="/detail"
+                        path="/product/manager"
                         render={() => <ProductManager />}
                     />
                     <Route exact path="/login" render={() => <Signin />} />

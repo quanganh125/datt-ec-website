@@ -9,10 +9,6 @@ export default function Item({ data }) {
         <div className="itemContainer">
             <div className="itemHeader">
                 <img src={data.image} alt="productImg" className="itemImg" />
-                <i
-                    className="fas fa-heart favorite-heart"
-                    onClick={() => toggleFavorite()}
-                ></i>
             </div>
             <div className="itemContent">
                 <h6>{data.nameProduct}</h6>
