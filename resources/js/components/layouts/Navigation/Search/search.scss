@@ -1,0 +1,57 @@
+@import "../../../../../sass/common";
+@import "../../../../../sass/variables";
+
+#boxSearch {
+    @include makeCenter();
+    border-radius: 45px;
+    // width: 100%;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.3);
+        transform: scale(1.02);
+    }
+    &:focus-within {
+        box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.3);
+        transform: scale(1.02);
+    }
+}
+
+//mobile nav
+@media (max-width: 500px) {
+    #boxSearch {
+        // margin-left: 10%;
+        // margin-right: 10%;
+    }
+}
+
+#header-search {
+    width: 50%;
+    height: 45px;
+    background-color: #f4f4f4;
+    border-top-left-radius: 45px;
+    border-bottom-left-radius: 45px;
+    padding-left: 40px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+#button {
+    width: 60px;
+    height: 47px;
+    border-top-right-radius: 60px;
+    border-bottom-right-radius: 60px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: $base-color-2;
+}
+
+#iconSearch {
+    color: white;
+    font-size: 30;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+        transform: scale(1.2);
+    }
+}
