@@ -1,0 +1,51 @@
+@import "./variables";
+
+@mixin makeCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin makeLeft {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+@mixin makeRight {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+@mixin deleteSpace {
+    margin: 0px;
+    padding: 0px;
+}
+
+@mixin styleButton {
+    cursor: pointer;
+    color: white;
+    padding: 10px 15px 10px 15px;
+    background: $base-color-1;
+    border-radius: 10px;
+    transition: all 0.3 ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+@mixin width-container {
+    padding: 0px 80px;
+}
+
+@mixin width-lg-container {
+    padding: 0px 200px;
+}
+
+@mixin page-frame {
+    min-height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    margin-top: $height-sum;
+}

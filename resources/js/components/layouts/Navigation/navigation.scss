@@ -1,0 +1,116 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/common";
+
+.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: top 0.3s ease-in-out;
+    z-index: 10;
+    box-shadow: 0 10px 10px 3px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+    display: flex;
+    background: $base-color-1;
+    justify-content: space-between;
+    align-items: center;
+    @include width-container();
+    height: $height-top-nav;
+}
+.logo-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo {
+    width: 45px;
+    height: 45px;
+}
+.nav-options {
+    padding-left: 25px;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 50px;
+    list-style-type: none;
+}
+.mobile-option {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.option :hover {
+    color: #bcc4c5;
+    // transform: scale(1.05);
+}
+.signin-up {
+    display: flex;
+    list-style-type: none;
+}
+.sign-in {
+    align-self: center;
+    position: relative;
+    a {
+        color: white;
+    }
+}
+.sign-in :hover {
+    color: #0abfd2;
+    transform: scale(1.05);
+}
+
+.sign-in::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #0abfd2;
+    transform-origin: center;
+    transform: translate(-50%, 0) scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.sign-in:hover::before {
+    transform: translate(-50%, 0) scaleX(1);
+}
+
+.signup-btn {
+    margin-left: 20px;
+    cursor: pointer;
+    padding: 10px 15px 10px 15px;
+    background: $base-color-2;
+    border-radius: 10px;
+    transition: all 0.5 ease-in-out;
+    a {
+        color: white;
+    }
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+.icon-btn {
+    padding-right: 10px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+.bottomNav {
+    background: $base-color-1;
+    @include makeCenter();
+    @include width-container();
+    height: $height-bottom-nav;
+    @include makeCenter();
+    z-index: 3;
+}

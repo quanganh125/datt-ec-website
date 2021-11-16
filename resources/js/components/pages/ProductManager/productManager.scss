@@ -1,0 +1,20 @@
+@import "../../../../sass/common";
+@import "../../../../sass/variables";
+
+#productManagerContainer {
+    @include width-container();
+    padding: 0px 80px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 1500px) {
+    #productManagerContainer {
+        @include width-lg-container();
+    }
+}
+
+.btn-action {
+    cursor: pointer;
+    background-color: $base-color-1;
+}
