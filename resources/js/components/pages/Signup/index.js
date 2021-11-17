@@ -12,7 +12,9 @@ import Typography from "@material-ui/core/Typography";
 import useStyles from "./styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { setCookie } from "../../utils/cookie";
 import {
     validateName,
     validateEmail,
@@ -23,6 +25,7 @@ const api = "http://127.0.0.1:8000/api/auth/register";
 
 export default function Signup() {
     const classes = useStyles();
+    const history = useHistory();
     const [user, setUser] = useState({
         name: "",
         email: "",
@@ -67,7 +70,7 @@ export default function Signup() {
         return state;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(user);
         let userRegister = {
@@ -76,26 +79,18 @@ export default function Signup() {
             password: user.password,
             password_confirmation: user.confirmPassword,
         };
-        // let userRegister = {
-        //     name: "hungabc",
-        //     email: "hungabc@gmail.com",
-        //     password: "hungabc",
-        //     password_confirmation: "hungabc",
-        // };
         if (validate()) {
-            axios
+            await axios
                 .post(`${api}`, userRegister)
                 .then((res) => {
                     const data = res.data;
-                    console.log("data", res);
-                    if (data) {
-                        setErrorPassword("");
-                        toast.success("Đăng kí thành công!");
-                    } else {
-                    }
-                    console.log(res);
+                    setCookie("access_token", data.access_token, 3600);
+                    setErrorPassword("");
+                    toast.success("Đăng kí thành công!");
+                    history.push("/");
                 })
                 .catch((error) => {
+                    console.log("loi loi");
                     console.error(error);
                     toast.error("Đăng kí không thành công!");
                 });

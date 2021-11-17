@@ -12,8 +12,13 @@ import Typography from "@material-ui/core/Typography";
 import useStyles from "./styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
+import { InputAdornment, IconButton } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast } from "react-toastify";
 import { validateEmail, validatePassword } from "../../utils/validate";
+import { setCookie } from "./../../utils/cookie";
+import { useHistory } from "react-router-dom";
 
 const api = "http://127.0.0.1:8000/api/auth/login";
 
@@ -26,7 +31,10 @@ export default function Signin({ setAuth }) {
     const [errorEmail, setErrorEmail] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
     const [loginFaild, setLoginFaild] = useState("");
-
+    const [showPassword, setShowPassword] = useState(false);
+    const history = useHistory();
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
     const handleOnChange = (e) => {
         setUser((prevState) => ({
             ...prevState,
@@ -65,14 +73,14 @@ export default function Signin({ setAuth }) {
                 .post(`${api}`, userLogin)
                 .then((res) => {
                     const data = res.data;
-                    console.log("data", res);
-                    if (data) {
-                        setErrorPassword("");
+                    console.log("data", data.access_token);
+                    if (data.access_token) {
                         toast.success("Đăng nhập thành công!");
-                    } else {
-                        setErrorPassword("Mật khẩu không chính xác!");
+                        setCookie("access_token", data.access_token, 3600);
                     }
                     setLoginFaild("");
+                    setErrorPassword("");
+                    history.push("/");
                 })
                 .catch((error) => {
                     toast.error("Đăng nhập không thành công!");
@@ -116,10 +124,31 @@ export default function Signin({ setAuth }) {
                         fullWidth
                         name="password"
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         autoComplete="current-password"
                         onChange={(e) => handleOnChange(e)}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() =>
+                                            handleClickShowPassword()
+                                        }
+                                        onMouseDown={() =>
+                                            handleMouseDownPassword()
+                                        }
+                                    >
+                                        {showPassword ? (
+                                            <Visibility />
+                                        ) : (
+                                            <VisibilityOff />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                     <p id="validatepassword" className={classes.nofi}>
                         {errorPassword}

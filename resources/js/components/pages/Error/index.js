@@ -4,7 +4,7 @@ import "./error.scss";
 export default function Error({ setHome }) {
     return (
         <div>
-            <p>Day la Error</p>
+            <p>Day la noi dung</p>
         </div>
     );
 }
