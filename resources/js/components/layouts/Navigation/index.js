@@ -58,13 +58,7 @@ export default function Navigation() {
     }, [isScroll]);
 
     return (
-        <div
-            id="nav"
-            style={{
-                height: 140,
-                top: isScroll.onTop ? -150 : 0,
-            }}
-        >
+        <div id="nav">
             <div className="header">
                 <div className="logo-nav">
                     <div className="logo-container">

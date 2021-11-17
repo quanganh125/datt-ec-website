@@ -4,8 +4,10 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import Navigation from "./layouts/Navigation";
 import ProductManager from "./pages/ProductManager";
+toast.configure();
 import ProductList from "./layouts/ProductList/index";
 
 export default function App() {
