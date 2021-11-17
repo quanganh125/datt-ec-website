@@ -13,7 +13,7 @@ import useStyles from "./styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import { validateEmail, validatePassword } from "../../utils/validate";
+import { validateEmail, validatePassword } from "../../utils/validate";
 import logoGoogle from "../../../assets/images/google.png";
 import logoFacebook from "../../../assets/images/facebook.png";
 
