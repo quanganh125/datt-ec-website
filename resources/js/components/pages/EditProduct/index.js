@@ -19,7 +19,7 @@
 import React, { Component } from 'react';
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
-class CreateProduct extends Component {
+class EditProduct extends Component {
     state = {
         content: '',
         imageUrl: '',
@@ -264,4 +264,4 @@ class CreateProduct extends Component {
 }
 
 
-export default CreateProduct;
+export default EditProduct;
