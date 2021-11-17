@@ -7,7 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./layouts/Navigation";
 import ProductManager from "./pages/ProductManager";
 import ProductList from "./layouts/ProductList/index";
-
+import CreateProduct from "./pages/CreateProduct";
+import EditProduct from "./pages/EditProduct";
 export default function App() {
     console.log("App");
     return (
@@ -23,6 +24,8 @@ export default function App() {
                     />
                     <Route exact path="/login" render={() => <Signin />} />
                     <Route exact path="/register" render={() => <Signup />} />
+                    <Route exact path="/create/product" render={() => <CreateProduct />} />
+                    <Route exact path="/edit/product" render={() => <EditProduct />} />
                 </Switch>
             </Router>
         </Fragment>

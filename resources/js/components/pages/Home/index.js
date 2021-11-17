@@ -5,6 +5,7 @@ import "./home.scss";
 import ProductList from "../../layouts/ProductList";
 import imgTest1 from "../../../assets/images/google.png";
 
+
 const dataList = [
     {
         id: 0,
@@ -83,6 +84,7 @@ export default function Home() {
         <div id="homeContainer">
             <h3>レコメンデーション</h3>
             <ProductList dataList={dataList} />
+            
         </div>
     );
 }
