@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./layouts/Navigation";
 import ProductManager from "./pages/ProductManager";
 import ProductList from "./layouts/ProductList/index";
+import CreateProduct from "./pages/CreateProduct";
 
 export default function App() {
     console.log("App");
@@ -23,6 +24,7 @@ export default function App() {
                     />
                     <Route exact path="/login" render={() => <Signin />} />
                     <Route exact path="/register" render={() => <Signup />} />
+                    <Route exact path="/create" render={() => <CreateProduct />} />
                 </Switch>
             </Router>
         </Fragment>
