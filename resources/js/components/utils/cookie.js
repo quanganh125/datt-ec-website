@@ -2,7 +2,7 @@
 export const setCookie = (cname, cvalue, exTime) => {
     if (exTime) {
         var d = new Date();
-        d.setTime(d.getTime() + exTime * 24 * 60 * 60 * 1000);
+        d.setTime(d.getTime() + exTime * 1000);
         var expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + "; " + expires;
     } else {

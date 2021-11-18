@@ -19,6 +19,7 @@
 }
 
 .itemHeader {
+    height: 300px;
     display: block;
     overflow: hidden;
     max-width: 100%;
@@ -46,6 +47,7 @@
 }
 
 .itemContent {
+    height: 150px;
     margin: 20px;
     .item-value {
         color: red;

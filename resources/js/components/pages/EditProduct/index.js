@@ -27,7 +27,7 @@ class EditProduct extends Component {
         errormessage: "",
         successmessage: "",
         price: "",
-        oldname: "",
+        category: "",
         newname: "",
     };
     handleReturnHomePage = () => {
@@ -37,12 +37,12 @@ class EditProduct extends Component {
         window.location.href = `/`;
     };
     //xu li ten cua san pham
-    handleoldNameChange = (event) => {
+    handleCategoryChange = (event) => {
         this.setState({
             successmessage: "",
         });
         this.setState({
-            oldname: event.target.value,
+            category: event.target.value,
         });
     };
     handlenewNameChange = (event) => {
@@ -147,7 +147,7 @@ class EditProduct extends Component {
                             //them gia va ten cua san pham vao request.body
                             price: this.state.price,
                             newname: this.state.newname,
-                            oldname: this.state.oldname,
+                            category: this.state.category,
                         }),
                     }
                 )
@@ -169,28 +169,16 @@ class EditProduct extends Component {
     };
     render() {
         return (
-            <div className="row mt-5">
-                <div className="col-4"></div>
-                <div className="col-4">
+            <div
+                className="row mt-5"
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <div className="col-8">
                     <form onSubmit={this.handleFormSubmit}>
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Please input the old name of the product..."
-                                value={this.state.oldname}
-                                onChange={this.handleoldNameChange}
-                            />
-                            {/* input gia cua san pham */}
-                        </div>
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Please input the old name of the product..."
-                                value={this.state.newname}
-                                onChange={this.handlenewNameChange}
-                            />
-                            {/* input gia cua san pham */}
-                        </div>
                         <div className="form-group">
                             <div
                                 style={{
@@ -238,7 +226,24 @@ class EditProduct extends Component {
                             ></textarea>
                         </div>
                         {/* input ten cua san pham */}
-
+                        <div className="form-group">
+                            <input
+                                className="form-control"
+                                placeholder="Please input the old name of the product..."
+                                value={this.state.newname}
+                                onChange={this.handlenewNameChange}
+                            />
+                            {/* input gia cua san pham */}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                className="form-control"
+                                placeholder="Please input category of the product..."
+                                value={this.state.category}
+                                onChange={this.handleCategoryChange}
+                            />
+                            {/* input gia cua san pham */}
+                        </div>
                         <div className="form-group">
                             <input
                                 className="form-control"
@@ -247,7 +252,6 @@ class EditProduct extends Component {
                                 onChange={this.handlePriceChange}
                             />
                         </div>
-
                         <div className="form-group"></div>
                         {this.state.errormessage ? (
                             <div className="alert alert-danger" role="alert">
@@ -269,24 +273,19 @@ class EditProduct extends Component {
                                 type="submit"
                                 className="btn btn-primary"
                                 value="Create"
+                                style={{ marginRight: 10 }}
                             />
-                        </div>
-                        <div
-                            style={{
-                                textAlign: "center",
-                            }}
-                        >
                             <button
                                 type="button"
                                 className="btn btn-success"
                                 onClick={this.handleReturnHomePage}
+                                style={{ marginLeft: 10 }}
                             >
-                                Return to home page
+                                Cancel
                             </button>
                         </div>
                     </form>
                 </div>
-                <div className="col-2"></div>
             </div>
         );
     }

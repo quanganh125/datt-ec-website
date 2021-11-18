@@ -23,6 +23,7 @@ class CreateProduct extends Component {
     state = {
         content: "",
         imageUrl: "",
+        category: "",
         file: undefined,
         errormessage: "",
         successmessage: "",
@@ -42,6 +43,14 @@ class CreateProduct extends Component {
         });
         this.setState({
             name: event.target.value,
+        });
+    };
+    handleCategoryChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        this.setState({
+            category: event.target.value,
         });
     };
     //xu li gia cua san pham
@@ -159,9 +168,15 @@ class CreateProduct extends Component {
     };
     render() {
         return (
-            <div className="row mt-5">
-                <div className="col-4"></div>
-                <div className="col-4">
+            <div
+                className="row mt-5"
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <div className="col-8">
                     <form onSubmit={this.handleFormSubmit}>
                         <div className="form-group">
                             <div
@@ -222,6 +237,15 @@ class CreateProduct extends Component {
                         <div className="form-group">
                             <input
                                 className="form-control"
+                                placeholder="Please input category."
+                                value={this.state.category}
+                                onChange={this.handleCategoryChange}
+                            />
+                            {/* input gia cua san pham */}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                className="form-control"
                                 placeholder="Please input price..."
                                 value={this.state.price}
                                 onChange={this.handlePriceChange}
@@ -249,24 +273,19 @@ class CreateProduct extends Component {
                                 type="submit"
                                 className="btn btn-primary"
                                 value="Create"
+                                style={{ marginRight: 10 }}
                             />
-                        </div>
-                        <div
-                            style={{
-                                textAlign: "center",
-                            }}
-                        >
                             <button
                                 type="button"
                                 className="btn btn-success"
                                 onClick={this.handleReturnHomePage}
+                                style={{ marginLeft: 10 }}
                             >
-                                Return to home page
+                                Cancel
                             </button>
                         </div>
                     </form>
                 </div>
-                <div className="col-2"></div>
             </div>
         );
     }
