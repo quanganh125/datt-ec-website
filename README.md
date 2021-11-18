@@ -2,6 +2,9 @@
 ## Cách chạy project
 **Cài đặt xampp rồi clone project vào thư mục htdocs của xampp**
 
+**Tải và cài đặt composer trên trang chủ**
+Download *[Tại đây](https://getcomposer.org/download/)*.
+
 **Cài đặt thư viện npm**
 ```sh
 npm install

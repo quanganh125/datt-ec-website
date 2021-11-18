@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,5 +21,9 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
   Route::post('/logout', [AuthController::class, 'logout']);
   Route::post('/refresh', [AuthController::class, 'refresh']);
   Route::get('/user-profile', [AuthController::class, 'userProfile']); 
-  Route::post('/change-pass', [AuthController::class, 'changePassWord']);       
+  Route::post('/change-pass', [AuthController::class, 'changePassWord']);   
+});
+
+Route::group(['middleware' => 'api'], function ($router) {  
+  Route::get('/products', [ProductController::class, 'index']);  
 });

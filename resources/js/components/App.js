@@ -18,6 +18,10 @@ import { getCookie } from "./utils/cookie";
 
 const apiUser = "http://127.0.0.1:8000/api/auth/user-profile";
 
+import ProductList from "./layouts/ProductList/index";
+import CreateProduct from "./pages/CreateProduct";
+import EditProduct from "./pages/EditProduct";
+import StoreProfile from "./pages/StoreProfile";
 export default function App() {
     const [user, setUser] = useState(null);
     const [auth, setauth] = useState(false);
@@ -99,6 +103,21 @@ export default function App() {
                                 <Redirect to="/login" />
                             );
                         }}
+                    />
+                    <Route
+                        exact
+                        path="/create/product"
+                        render={() => <CreateProduct />}
+                    />
+                    <Route
+                        exact
+                        path="/edit/product"
+                        render={() => <EditProduct />}
+                    />
+                    <Route
+                        exact
+                        path="/store/profile"
+                        render={() => <StoreProfile />}
                     />
                 </Switch>
             </Router>
