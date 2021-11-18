@@ -9,7 +9,7 @@ import ProductManager from "./pages/ProductManager";
 import ProductList from "./layouts/ProductList/index";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
-import StoreProfile from "./pages/Store's Profile";
+import StoreProfile from "./pages/StoreProfile";
 export default function App() {
     console.log("App");
     return (
