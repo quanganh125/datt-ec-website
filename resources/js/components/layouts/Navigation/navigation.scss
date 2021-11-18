@@ -2,12 +2,13 @@
 @import "../../../../sass/common";
 
 .nav {
-    position: fixed;
-    top: 0;
     width: 100%;
     transition: top 0.3s ease-in-out;
     z-index: 10;
     box-shadow: 0 10px 10px 3px rgba(0, 0, 0, 0.3);
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
 
 .header {
