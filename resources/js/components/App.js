@@ -25,9 +25,21 @@ export default function App() {
                     />
                     <Route exact path="/login" render={() => <Signin />} />
                     <Route exact path="/register" render={() => <Signup />} />
-                    <Route exact path="/create/product" render={() => <CreateProduct />} />
-                    <Route exact path="/edit/product" render={() => <EditProduct />} />
-                    <Route exact path="/store/profile" render={() => <StoreProfile />} />
+                    <Route
+                        exact
+                        path="/create/product"
+                        render={() => <CreateProduct />}
+                    />
+                    <Route
+                        exact
+                        path="/edit/product"
+                        render={() => <EditProduct />}
+                    />
+                    <Route
+                        exact
+                        path="/store/profile"
+                        render={() => <StoreProfile />}
+                    />
                 </Switch>
             </Router>
         </Fragment>
