@@ -9,6 +9,7 @@ import ProductManager from "./pages/ProductManager";
 import ProductList from "./layouts/ProductList/index";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
+import StoreProfile from "./pages/StoreProfile";
 export default function App() {
     console.log("App");
     return (
@@ -26,6 +27,7 @@ export default function App() {
                     <Route exact path="/register" render={() => <Signup />} />
                     <Route exact path="/create/product" render={() => <CreateProduct />} />
                     <Route exact path="/edit/product" render={() => <EditProduct />} />
+                    <Route exact path="/store/profile" render={() => <StoreProfile />} />
                 </Switch>
             </Router>
         </Fragment>
