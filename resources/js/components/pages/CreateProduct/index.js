@@ -16,67 +16,73 @@
 //         </div>
 //     );
 // }
-import React, { Component } from 'react';
+import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 class CreateProduct extends Component {
     state = {
-        content: '',
-        imageUrl: '',
+        content: "",
+        imageUrl: "",
+        category: "",
         file: undefined,
-        errormessage: '',
-        successmessage: '',
-        price: '',
-        name: '',
+        errormessage: "",
+        successmessage: "",
+        price: "",
+        name: "",
     };
     handleReturnHomePage = () => {
-       
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         window.location.href = `/`;
-    }
+    };
     //xu li ten cua san pham
     handleNameChange = (event) => {
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         this.setState({
             name: event.target.value,
-        })
-    }
+        });
+    };
+    handleCategoryChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        this.setState({
+            category: event.target.value,
+        });
+    };
     //xu li gia cua san pham
     handlePriceChange = (event) => {
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         this.setState({
             price: event.target.value,
-        })
-    }
+        });
+    };
     handleContentChange = (event) => {
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         this.setState({
             content: event.target.value,
-        })
+        });
     };
     handleFileChange = (event) => {
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
-                errormessage: 'invalid file',
+                errormessage: "invalid file",
             });
-        }
-        else if (file.size > maxFileSize) {
+        } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: 'file is too large',
+                errormessage: "file is too large",
             });
-
         } else {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
@@ -84,141 +90,163 @@ class CreateProduct extends Component {
                 //filereader.result
                 console.log(fileReader.result);
                 this.setState({
-                    errormessage: '',
+                    errormessage: "",
                     file: file,
                     imageUrl: fileReader.result,
                 });
             };
-
         }
-
-    }
+    };
     handleFormSubmit = async (event) => {
         event.preventDefault();
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         if (!this.state.content) {
             this.setState({
-                errormessage: 'please upload content',
-
-            })
-        }
-        else if (!this.state.file) {
+                errormessage: "please upload content",
+            });
+        } else if (!this.state.file) {
             this.setState({
-                errormessage: 'please upload image',
-            })
+                errormessage: "please upload image",
+            });
         } else {
             this.setState({
-                errormessage: '',
-            })
+                errormessage: "",
+            });
             try {
                 const formData = new FormData();
-                formData.append('image', this.state.file);
+                formData.append("image", this.state.file);
                 console.log(this.state.file);
-                const uploadResult = await fetch(`http://localhost:5000/upload/photos`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    body: formData,
-                }
-                )
-                    .then((res) => {
-                        return res.json();
-                    })
+                const uploadResult = await fetch(
+                    `http://localhost:5000/upload/photos`,
+                    {
+                        method: "POST",
+                        credentials: "include",
+                        body: formData,
+                    }
+                ).then((res) => {
+                    return res.json();
+                });
                 console.log(uploadResult);
                 // .then((data) => {
                 //     console.log(data);
                 // })
-                const result = await fetch('http://localhost:5000/post/create-post', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    credentials: 'include',
+                const result = await fetch(
+                    "http://localhost:5000/post/create-post",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
 
-                    body: JSON.stringify({
-                        content: this.state.content,
-                        imageUrl: uploadResult.data,
-                        //them gia va ten cua san pham vao request.body
-                        price: this.state.price,
-                        name: this.state.name,
-                    }),
-                }).then((res) => {
-                    return res.json();
-                })
+                        body: JSON.stringify({
+                            content: this.state.content,
+                            imageUrl: uploadResult.data,
+                            //them gia va ten cua san pham vao request.body
+                            price: this.state.price,
+                            name: this.state.name,
+                        }),
+                    }
+                )
+                    .then((res) => {
+                        return res.json();
+                    })
                     .then((data) => {
                         this.setState({
                             successmessage: data.message,
                         });
-                    })
+                    });
                 //  window.location.href = `/`;
             } catch (error) {
                 this.setState({
                     errormessage: error.message,
-                })
+                });
             }
         }
-    }
+    };
     render() {
         return (
-            <div className='row mt-5'>
-                <div className='col-4'></div>
-                <div className='col-4'>
+            <div
+                className="row mt-5"
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <div className="col-8">
                     <form onSubmit={this.handleFormSubmit}>
-                        <div className='form-group' >
+                        <div className="form-group">
                             <div
                                 style={{
                                     position: `relative`,
                                     top: `30px`,
-                                    textAlign: 'center',
+                                    textAlign: "center",
                                 }}
-                            >Select image ...</div>
+                            >
+                                Select image ...
+                            </div>
                             <input
-                                id='file'
-                                type='file'
-                                className='form-control'
+                                id="file"
+                                type="file"
+                                className="form-control"
                                 accept="image/*"
                                 style={{
-                                    color: 'transparent',
+                                    color: "transparent",
                                     margin: `0 auto`,
                                     textIndent: `-999em`,
                                     zIndex: 10,
-                                    height: `50px`
+                                    height: `50px`,
                                 }}
-
                                 onChange={this.handleFileChange}
                             />
                         </div>
                         {this.state.imageUrl ? (
-                            <div style={{
-                                backgroundImage: `url(${this.state.imageUrl})`,
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover',
-                                width: '100%',
-                                height: '400px',
-
-                            }}></div>
+                            <div
+                                style={{
+                                    backgroundImage: `url(${this.state.imageUrl})`,
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundSize: "cover",
+                                    width: "100%",
+                                    height: "400px",
+                                }}
+                            ></div>
                         ) : null}
                         <div className="form-group">
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder='Please input content ...'
+                                placeholder="Please input content ..."
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             ></textarea>
                         </div>
                         {/* input ten cua san pham */}
                         <div className="form-group">
-                            <input className="form-control" placeholder="Please input name of the product..."
+                            <input
+                                className="form-control"
+                                placeholder="Please input name of the product..."
                                 value={this.state.name}
                                 onChange={this.handleNameChange}
                             />
                             {/* input gia cua san pham */}
                         </div>
                         <div className="form-group">
-                            <input className="form-control" placeholder="Please input price..."
+                            <input
+                                className="form-control"
+                                placeholder="Please input category."
+                                value={this.state.category}
+                                onChange={this.handleCategoryChange}
+                            />
+                            {/* input gia cua san pham */}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                className="form-control"
+                                placeholder="Please input price..."
                                 value={this.state.price}
                                 onChange={this.handlePriceChange}
                             />
@@ -235,33 +263,32 @@ class CreateProduct extends Component {
                                 {this.state.successmessage}
                             </div>
                         ) : null}
-                        <div className='form-group'
-                        style = {{
-                                textAlign:`center`,
+                        <div
+                            className="form-group"
+                            style={{
+                                textAlign: `center`,
                             }}
                         >
-                            <input type='submit' className='btn btn-primary'
-
-                                value='Create' />
-
-                        </div>
-                        <div
-                        style = {{
-                            textAlign:'center',}}
-                        >
-                            <button type="button" className="btn btn-success"
-
+                            <input
+                                type="submit"
+                                className="btn btn-primary"
+                                value="Create"
+                                style={{ marginRight: 10 }}
+                            />
+                            <button
+                                type="button"
+                                className="btn btn-success"
                                 onClick={this.handleReturnHomePage}
-                            >Return to home page</button>
+                                style={{ marginLeft: 10 }}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </form>
                 </div>
-                <div className='col-2'></div>
             </div>
-        )
+        );
     }
-
 }
-
 
 export default CreateProduct;
