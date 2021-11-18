@@ -84,10 +84,9 @@ export default function Signup() {
                 .post(`${api}`, userRegister)
                 .then((res) => {
                     const data = res.data;
-                    setCookie("access_token", data.access_token, 3600);
                     setErrorPassword("");
                     toast.success("Đăng kí thành công!");
-                    history.push("/");
+                    history.push("/login");
                 })
                 .catch((error) => {
                     console.log("loi loi");

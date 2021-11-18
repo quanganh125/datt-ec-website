@@ -57,11 +57,6 @@ export default function App() {
         checkAuth();
     }, [auth]);
 
-    // const Home = React.lazy(() => import("../components/pages/Home"));
-    // const ProductManager = React.lazy(() =>
-    //     import("../components/pages/ProductManager")
-    // );
-
     console.log("chuyen huong");
     return (
         <Fragment>
@@ -86,18 +81,14 @@ export default function App() {
                         exact
                         path="/"
                         render={() => {
-                            return getCookie("access_token") ? (
-                                <Home />
-                            ) : (
-                                <Redirect to="/login" />
-                            );
+                            return <Home />;
                         }}
                     />
                     <Route
                         exact
                         path="/product/manager"
                         render={() => {
-                            return getCookie("access_token") ? (
+                            return auth ? (
                                 <ProductManager />
                             ) : (
                                 <Redirect to="/login" />

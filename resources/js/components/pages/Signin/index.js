@@ -73,7 +73,6 @@ export default function Signin({ setAuth }) {
                 .post(`${api}`, userLogin)
                 .then((res) => {
                     const data = res.data;
-                    console.log("data", data.access_token);
                     if (data.access_token) {
                         toast.success("Đăng nhập thành công!");
                         setCookie("access_token", data.access_token, 3600);
@@ -81,6 +80,7 @@ export default function Signin({ setAuth }) {
                     setLoginFaild("");
                     setErrorPassword("");
                     history.push("/");
+                    window.location.reload();
                 })
                 .catch((error) => {
                     toast.error("Đăng nhập không thành công!");

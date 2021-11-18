@@ -5,45 +5,13 @@ import { toast } from "react-toastify";
 import Logo from "../../../assets/images/facebook.png";
 import Search from "./Search";
 import axios from "axios";
-import { getCookie } from "../../utils/cookie";
-import { deleteCookie } from "./../../utils/cookie";
-
-function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window;
-    return {
-        width,
-        height,
-    };
-}
-
-function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState(
-        getWindowDimensions()
-    );
-
-    useEffect(() => {
-        function handleResize() {
-            setWindowDimensions(getWindowDimensions());
-        }
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    return windowDimensions;
-}
-
-var lastScrollTop = 0;
+import { deleteCookie, getCookie } from "./../../utils/cookie";
 
 const apiLogout = "http://127.0.0.1:8000/api/auth/logout";
 
 export default function Navigation({ auth }) {
     const [click, setClick] = useState(false);
-    const handleClickMobile = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
-    const [isScroll, setIsScroll] = useState({
-        onTop: false,
-    });
 
     const logout = async () => {
         const headers = {
@@ -63,24 +31,6 @@ export default function Navigation({ auth }) {
             });
         window.location.reload();
     };
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            window.onscroll = () => {
-                let currentScrollPos = window.pageYOffset;
-                if (
-                    currentScrollPos > lastScrollTop &&
-                    currentScrollPos > 150
-                ) {
-                    setIsScroll({ onTop: true });
-                } else {
-                    setIsScroll({ onTop: false });
-                }
-                lastScrollTop = currentScrollPos <= 0 ? 0 : currentScrollPos;
-            };
-        }
-        console.log("cuon xuong:", isScroll.onTop);
-    }, [isScroll]);
 
     return (
         <div id="nav">
@@ -106,7 +56,7 @@ export default function Navigation({ auth }) {
                         </a>
                     </div>
                 </div>
-                {!getCookie("access_token") ? (
+                {!auth ? (
                     <ul className="signin-up">
                         <li className="sign-in" onClick={closeMobileMenu}>
                             <a href="/login">
