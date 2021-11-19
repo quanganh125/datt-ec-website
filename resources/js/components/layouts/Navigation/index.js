@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./navigation.scss";
 import { Grid } from "@material-ui/core";
 import { toast } from "react-toastify";
-import Logo from "../../../assets/images/facebook.png";
+import Logo from "../../../assets/images/shop.png";
 import Search from "./Search";
 import axios from "axios";
 import { deleteCookie, getCookie } from "./../../utils/cookie";
 
 const apiLogout = "http://127.0.0.1:8000/api/auth/logout";
 
-export default function Navigation({ auth }) {
+export default function Navigation({ userProfile }) {
     const [click, setClick] = useState(false);
     const closeMobileMenu = () => setClick(false);
 
@@ -22,14 +22,14 @@ export default function Navigation({ auth }) {
             .post(apiLogout, { data: "mydata" }, { headers: headers })
             .then((res) => {
                 toast.success("Đăng xuất thành công!");
-                localStorage.setItem("auth", false);
+                localStorage.removeItem("auth");
                 deleteCookie("access_token");
+                window.location.reload();
             })
             .catch((error) => {
                 toast.error("Đăng xuất không thành công!");
                 console.error(error);
             });
-        window.location.reload();
     };
 
     return (
@@ -56,7 +56,7 @@ export default function Navigation({ auth }) {
                         </a>
                     </div>
                 </div>
-                {!auth ? (
+                {!localStorage.getItem("auth") ? (
                     <ul className="signin-up">
                         <li className="sign-in" onClick={closeMobileMenu}>
                             <a href="/login">

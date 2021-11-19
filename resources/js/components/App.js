@@ -9,59 +9,42 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Navigation from "./layouts/Navigation";
 import ProductManager from "./pages/ProductManager";
 toast.configure();
-import axios from "axios";
 import { getCookie } from "./utils/cookie";
-
-const apiUser = "http://127.0.0.1:8000/api/auth/user-profile";
-
-import ProductList from "./layouts/ProductList/index";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
 import StoreProfile from "./pages/StoreProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../components/redux/actions/userActions";
+
 export default function App() {
-    const [user, setUser] = useState(null);
-    const [auth, setauth] = useState(false);
+    const dispatch = useDispatch();
+    const [param, setParam] = useState("");
 
-    const setIsAuth = (state) => {
-        setauth(state);
-    };
-
-    const checkAuth = async () => {
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
+    const checkAuth = () => {
         getCookie("access_token") &&
-            (await axios
-                .get(apiUser, {
-                    headers: headers,
-                })
-                .then((res) => {
-                    const user = res.data;
-                    setUser(user);
-                    setIsAuth(true);
-                    localStorage.setItem("auth", true);
-                })
-                .catch((error) => {
-                    setIsAuth(false);
-                    localStorage.setItem("auth", false);
-                    console.error(error);
-                }));
+            dispatch(fetchUser(getCookie("access_token")));
     };
-
+    const userProfile = useSelector((state) => state.user.user);
+    console.log(userProfile);
     useEffect(() => {
         checkAuth();
-    }, [auth]);
+    }, []);
 
-    console.log("chuyen huong");
+    useEffect(() => {
+        setParam(window.location.pathname);
+        return () => {
+            setParam("");
+        };
+    }, [param]);
+
     return (
         <Fragment>
             <Router>
-                <Navigation auth={auth} />
+                <Navigation userProfile={userProfile} />
                 <Switch>
                     <Route
                         exact
@@ -88,10 +71,10 @@ export default function App() {
                         exact
                         path="/product/manager"
                         render={() => {
-                            return auth ? (
+                            return localStorage.getItem("auth") ? (
                                 <ProductManager />
                             ) : (
-                                <Redirect to="/login" />
+                                <Redirect to="/" />
                             );
                         }}
                     />
