@@ -1,0 +1,27 @@
+.item-manager-container {
+    width: 100%;
+    height: auto;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #dfe1e3;
+    border-radius: 5px;
+    position: relative;
+    justify-content: left;
+    align-items: center;
+    display: flex;
+}
+.item-manager-image {
+    .itemImg {
+        padding: 5px;
+        width: 100px;
+        height: 100px;
+    }
+}
+.item-manager-content {
+}
+
+.item-manager-button {
+    .item-btn-manager {
+        width: 100%;
+    }
+}

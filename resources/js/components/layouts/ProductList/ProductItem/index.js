@@ -20,6 +20,20 @@ export default function Item({ data }) {
             </div>
             <div className="itemDrop-btn">
                 <Button className="item-btn-care">Chi tiết</Button>
+                {/* <Button
+                    variant="contained"
+                    color="primary"
+                    className="btn-manager"
+                >
+                    Chỉnh sửa
+                </Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    className="btn-manager"
+                >
+                    Xóa
+                </Button> */}
             </div>
         </div>
     );
