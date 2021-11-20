@@ -19,6 +19,7 @@ import EditProduct from "./pages/EditProduct";
 import StoreProfile from "./pages/StoreProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../components/redux/actions/userActions";
+import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -80,20 +81,26 @@ export default function App() {
                     />
                     <Route
                         exact
-                        path="/create/product"
+                        path="/product/create"
                         render={() => <CreateProduct />}
                     />
                     <Route
                         exact
-                        path="/edit/product"
+                        path="/product/:id/edit"
                         render={() => <EditProduct />}
                     />
                     <Route
                         exact
-                        path="/store/profile"
+                        path="/store/:id/profile"
                         render={() => <StoreProfile />}
                     />
-<Route exact path="/Details" render={() => <Details />} />
+                    <Route
+                        exact
+                        path="/product/:id/detail"
+                        render={() => {
+                            return <ProductDetail />;
+                        }}
+                    />
                 </Switch>
             </Router>
         </Fragment>
