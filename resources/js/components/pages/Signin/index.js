@@ -40,7 +40,6 @@ export default function Signin({ setAuth }) {
             ...prevState,
             [e.target.name]: e.target.value,
         }));
-        console.log(e.target.value);
     };
 
     const validate = () => {

@@ -13,7 +13,8 @@ class Product extends Model
         'name',
         'image_link',
         'price',
-        'description'
+        'description',
+        'category_id'
     ];
 
     public $timestamps = true;

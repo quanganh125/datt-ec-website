@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 // import "~font-awesome/css/font-awesome.css";
 import "./productManager.scss";
-import ProductList from "../../layouts/ProductList";
-import imgTest1 from "../../../assets/images/facebook.png";
+import ProductManagerList from "../../layouts/ProductManagerList";
+import imgTest1 from "../../../assets/images/shop.png";
 
 const dataList = [
     {
@@ -74,7 +74,7 @@ export default function Detail() {
                 </div>
             </div>
             <div className="product-list">
-                <ProductList dataList={dataList} />
+                <ProductManagerList dataList={dataList} />
             </div>
         </div>
     );
