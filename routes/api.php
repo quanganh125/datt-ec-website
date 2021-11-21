@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,4 +40,12 @@ Route::group(['prefix' => 'shop'], function ($router) {
   Route::get('/{id}', [ShopController::class, 'show']);
   Route::post('/{id}/edit', [ShopController::class, 'update']);
   Route::post('/{id}/delete', [ShopController::class, 'delete']);
+});
+
+Route::group(['prefix' => 'review'], function ($router) { 
+  Route::get('/', [ReviewController::class, 'index']);
+  Route::post('/', [ReviewController::class, 'store']);
+  Route::get('/{product_id}', [ReviewController::class, 'showAllReviewForProduct']);
+  Route::put('/{id}', [ReviewController::class, 'update']);
+  Route::delete('/{id}', [ReviewController::class, 'destroy']);
 });
