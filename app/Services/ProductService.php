@@ -26,12 +26,8 @@ class ProductService
         return Product::all();
     }
 
-    public function find($id)
+    public function update($id, array $product_data)
     {
-        return Product::find($id);
-    }
-
-    public function update($id, array $product_data){
         $product = Product::findOrFail($id);
         $product->fill($product_data)->save();
         return $product;
@@ -46,5 +42,12 @@ class ProductService
     {
         $product = Product::destroy($id);
         return response()->json($id);
+    }
+
+    public function addRecommendMark($products)
+    {
+        foreach ($products as $product) {
+            $product->getRecommendMarkAttribute();
+        }
     }
 }

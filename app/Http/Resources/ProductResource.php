@@ -18,12 +18,11 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'category_id' => $this->category_id,
-            'image_link' => $this->email,
-            'price' => $this->logo,
-            'description' => $this->url,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-           
+            'image_link' => $this->image_link,
+            'price' => $this->price,
+            'description' => $this->description,
+            'recommend_mark' => $this->recommend_mark,
+            'reviews' => $this->reviews,
         ];
     }
 }

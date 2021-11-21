@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductCollection;
-use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use App\Models\Category;
 use App\Services\ProductService;
+use Illuminate\Http\Request;
 use Validator;
-
 
 class ProductController extends Controller
 {
-
     protected $productService;
 
     public function __construct(ProductService $productService)
@@ -29,10 +26,16 @@ class ProductController extends Controller
     {
         $products = $this->productService->getAll();
         return (new ProductCollection($products))->response();
-
     }
 
-     /**
+    public function recommend()
+    {
+        $products = $this->productService->getAll();
+        $this->addRecommendMark($products);
+        return (new ProductCollection($products->sortBy('recommend_mark')->reverse()))->response();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -44,13 +47,12 @@ class ProductController extends Controller
             'name' => 'bail|required|string|max:255',
             'image_link' => 'bail|required|string|max:255',
             'category_id' => 'bail|required|numeric',
-            'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',         
-            'description' => 'bail|string'
-            
+            'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
+            'description' => 'bail|string',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
 
         $product = new Product();
@@ -63,7 +65,6 @@ class ProductController extends Controller
         $product->save();
         return (new ProductResource($product))->response();
     }
-
 
     /**
      * Display the specified resource.
@@ -85,7 +86,6 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        
     }
 
     /**
@@ -101,13 +101,12 @@ class ProductController extends Controller
             'name' => 'bail|required|string|max:255',
             'image_link' => 'bail|required|string|max:255',
             'category_id' => 'bail|required|numeric',
-            'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',         
-            'description' => 'bail|string'
-           
+            'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
+            'description' => 'bail|string',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
 
         $input = $request->all();
