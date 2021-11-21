@@ -17,6 +17,8 @@ import { getCookie } from "./utils/cookie";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
 import StoreProfile from "./pages/StoreProfile";
+import EditStoreProfile from "./pages/EditProfile";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
@@ -97,13 +99,14 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/profile"
-                        render={() => <StoreProfile />}
+                        component ={EditStoreProfile}
                     />
                     <Route
                         exact
                         path="/store/create"
                         component={StoreProfile}
                     />
+                    
                     <Route
                         exact
                         path="/product/:id/detail"

@@ -96,7 +96,7 @@ class StoreProfile extends Component {
                             {/* input dia chi cua cua hang */}
                         </div>
                         <div className="form-group">
-                            <input className="form-control" placeholder="Please input address..."
+                            <input className="form-control" placeholder="Please input logo..."
                                 value={this.state.address}
                                 onChange={this.handleaddressChange}
                             />
