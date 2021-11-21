@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,14 @@ Route::group(['prefix' => 'product'], function ($router) {
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::post('/{id}/edit', [ProductController::class, 'update']);
     Route::post('/{id}/delete', [ProductController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'category'], function ($router) {
+  Route::get('/', [CategoryController::class, 'index']);
+  Route::post('/', [CategoryController::class, 'store']);
+  Route::get('/{id}', [CategoryController::class, 'show']);
+  Route::post('/{id}/edit', [CategoryController::class, 'update']);
+  Route::post('/{id}/delete', [CategoryController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'shop'], function ($router) {
