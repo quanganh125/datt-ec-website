@@ -5,8 +5,6 @@ const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 class StoreProfile extends Component {
     state = {
         content: '',
-        //imageUrl: '',
-        //file: undefined,
         errormessage: '',
         successmessage: '',
         address: '',
@@ -56,72 +54,32 @@ class StoreProfile extends Component {
         })
     };
     
-    handleFormSubmit = async (event) => {
+    handleFormSubmit = async(event) => {
         event.preventDefault();
-        this.setState({
-            successmessage: '',
-        });
-        if (!this.state.content) {
-            this.setState({
-                errormessage: 'please upload content',
+        // const {match} = this.props;
+        const packets = {
+            name: this.state.name,
+            address: this.state.address,
+            //file: this.state.file,
+            //category_id: this.state.category,
+            description: this.state.content,
+            url: this.state.url,
+        };
+        await axios
+            .post(
+                `http://127.0.0.1:8000/api/shop`,
+                packets
+            )
+            .then((response) => {
+                alert(JSON.stringify(response.data));
+                console.log("thanh cong");
+            })
 
-            })
-        }
-        else if (!this.state.file) {
-            this.setState({
-                errormessage: 'please upload image',
-            })
-        } else {
-            this.setState({
-                errormessage: '',
-            })
-            try {
-                const formData = new FormData();
-                
-                const uploadResult = await fetch(`http://localhost:5000/upload/photos`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    body: formData,
-                }
-                )
-                    .then((res) => {
-                        return res.json();
-                    })
-                console.log(uploadResult);
-                // .then((data) => {
-                //     console.log(data);
-                // })
-                const result = await fetch('http://localhost:5000/post/create-post', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    credentials: 'include',
-
-                    body: JSON.stringify({
-                        content: this.state.content,
-                        
-                        //them gia va ten cua san pham vao request.body
-                        address: this.state.address,
-                        name: this.state.name,
-                        url: this.state.url,
-                    }),
-                }).then((res) => {
-                    return res.json();
-                })
-                    .then((data) => {
-                        this.setState({
-                            successmessage: data.message,
-                        });
-                    })
-                //  window.location.href = `/`;
-            } catch (error) {
-                this.setState({
-                    errormessage: error.message,
-                })
-            }
-        }
-    }
+            .catch((error) => {
+                console.log("ERROR:: ", error.response.data);
+                console.log(" loi");
+            });
+    };
     render() {
         return (
             <div className='row mt-5'>

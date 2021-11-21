@@ -101,6 +101,11 @@ export default function App() {
                     />
                     <Route
                         exact
+                        path="/store/create"
+                        component={StoreProfile}
+                    />
+                    <Route
+                        exact
                         path="/product/:id/detail"
                         render={() => {
                             return <ProductDetail />;

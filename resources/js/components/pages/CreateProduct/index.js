@@ -80,7 +80,7 @@ class CreateProduct extends Component {
         });
     };
 
-    handleFormSubmit = (event) => {
+    handleFormSubmit = async (event) => {
         // window.location.reload(false);
         event.preventDefault();
         const packets = {
@@ -93,7 +93,7 @@ class CreateProduct extends Component {
             // userLevel: this.state.userLevel,
             // password: this.state.password
         };
-        axios
+        await axios
             .post("http://127.0.0.1:8000/api/product", packets)
             .then((response) => {
                 alert(JSON.stringify(response.data));
@@ -201,7 +201,7 @@ class CreateProduct extends Component {
                                 onChange={this.handleCategoryChange}
                             >
                                 <option>
-                                    There are 5 category.Choose carefully.
+                                    There are 5 categories.Choose carefully.
                                 </option>
                                 <option value="1">Spring</option>
                                 <option value="2">Summer</option>

@@ -71,7 +71,7 @@ class EditProduct extends React.Component {
         });
     };
 
-    handleFormSubmit = (event) => {
+    handleFormSubmit = async(event) => {
         event.preventDefault();
         // const {match} = this.props;
         const packets = {
@@ -82,7 +82,7 @@ class EditProduct extends React.Component {
             description: this.state.content,
             image_link: this.state.imageUrl,
         };
-        axios
+        await axios
             .post(
                 `http://127.0.0.1:8000/api/product/${this.state.id}/edit`,
                 packets
@@ -180,12 +180,12 @@ class EditProduct extends React.Component {
                             <h4>Choose a category</h4>
                             <select
                                 className="form-control"
-                                name="Please input category of the product..."
+                                placeholder="Please input category of the product..."
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                             >
                                 <option>
-                                    There are 5 category.Choose carefully.
+                                    There are 5 categories.Choose carefully.
                                 </option>
                                 <option value="1">Spring</option>
                                 <option value="2">Summer</option>
