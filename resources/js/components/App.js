@@ -17,6 +17,7 @@ import { getCookie } from "./utils/cookie";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
 import StoreProfile from "./pages/StoreProfile";
+import ShowStoreProfile from "./pages/ShowProfile";
 import EditStoreProfile from "./pages/EditProfile";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -106,7 +107,11 @@ export default function App() {
                         path="/store/create"
                         component={StoreProfile}
                     />
-                
+                    <Route
+                        exact
+                        path="/store/:id/show"
+                        component={ShowStoreProfile}
+                    />
                     <Route
                         exact
                         path="/product/:id/detail"
