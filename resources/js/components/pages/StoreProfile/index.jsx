@@ -62,7 +62,7 @@ class StoreProfile extends Component {
             address: this.state.address,
             //file: this.state.file,
             //category_id: this.state.category,
-            description: this.state.content,
+            logo: this.state.content,
             url: this.state.url,
         };
         await axios
