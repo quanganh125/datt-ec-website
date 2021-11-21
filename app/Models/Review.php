@@ -11,7 +11,9 @@ class Review extends Model
     
     protected $fillable = [
         'comment',
-        'rating'
+        'rating',
+        'user_id',
+        'product_id'
     ];
 
     public $timestamps = true;
