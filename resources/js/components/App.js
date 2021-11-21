@@ -84,10 +84,15 @@ export default function App() {
                         path="/product/create"
                         render={() => <CreateProduct />}
                     />
-                    <Route
+                    {/* <Route
                         exact
                         path="/product/:id/edit"
                         render={() => <EditProduct />}
+                    /> */}
+                    <Route
+                        exact
+                        path="/product/:id/edit"
+                        component={EditProduct}
                     />
                     <Route
                         exact
