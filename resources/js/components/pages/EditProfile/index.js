@@ -12,6 +12,24 @@ class EditStoreProfile extends Component {
         url:'',
         id: this.props.match.params.id,
     };
+    handleDelete = async(event) => {
+        event.preventDefault();
+        // const {match} = this.props;
+       
+        await axios
+            .post(
+                `http://127.0.0.1:8000/api/shop/${this.state.id}/delete`,
+            )
+            .then((response) => {
+               
+                console.log("thanh cong");
+            })
+
+            .catch((error) => {
+                console.log("ERROR:: ", error.response.data);
+                console.log(" loi");
+            });
+    };
     handleReturnHomePage = () => {
        
         this.setState({
@@ -147,6 +165,16 @@ class EditStoreProfile extends Component {
 
                                 onClick={this.handleReturnHomePage}
                             >Return to home page</button>
+                        </div>
+                        <br></br>
+                        <div
+                        style = {{
+                            textAlign:'center',}}
+                        >
+                            <button type="button" className="btn btn-success"
+
+                                onClick={this.handleDelete}
+                            >Delete</button>
                         </div>
                     </form>
                 </div>

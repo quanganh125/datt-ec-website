@@ -18,7 +18,7 @@ import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
 import StoreProfile from "./pages/StoreProfile";
 import EditStoreProfile from "./pages/EditProfile";
-import DeleteStoreProfile from "./pages/DeleteProfile";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
@@ -106,11 +106,7 @@ export default function App() {
                         path="/store/create"
                         component={StoreProfile}
                     />
-                    <Route
-                        exact
-                        path="/store/:id/delete"
-                        component={DeleteStoreProfile}
-                    />
+                
                     <Route
                         exact
                         path="/product/:id/detail"
