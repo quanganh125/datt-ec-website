@@ -33,7 +33,6 @@ export default function App() {
             dispatch(fetchUser(getCookie("access_token")));
     };
     const userProfile = useSelector((state) => state.user.user);
-    console.log(userProfile);
     useEffect(() => {
         checkAuth();
     }, []);
@@ -100,7 +99,7 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/profile"
-                        component ={EditStoreProfile}
+                        component={EditStoreProfile}
                     />
                     <Route
                         exact

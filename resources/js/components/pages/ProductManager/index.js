@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@material-ui/core";
-// import "~font-awesome/css/font-awesome.css";
 import "./productManager.scss";
 import ProductManagerList from "../../layouts/ProductManagerList";
 import imgTest1 from "../../../assets/images/shop.png";
+import { fetchAllProduct } from "./../../redux/actions/productActions";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const dataList = [
     {
@@ -49,20 +51,35 @@ const dataList = [
 ];
 
 export default function Detail() {
+    const dispatch = useDispatch();
+    const fetchProducts = () => {
+        dispatch(fetchAllProduct());
+    };
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const all_product_datas = useSelector((state) => state.product.all_product);
+
+    console.log(all_product_datas);
+
     return (
         <div id="productManagerContainer">
             <div className="product-handler">
                 <h3>エクスポート↓</h3>
                 <div>
-                    <Button
-                        className="btn-action"
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: 30 }}
-                    >
-                        <i className="fas fa-plus-circle icon-btn"></i>
-                        新しい商品を追加
-                    </Button>
+                    <Link to="/product/create">
+                        <Button
+                            className="btn-action"
+                            variant="contained"
+                            color="primary"
+                            style={{ marginRight: 30 }}
+                        >
+                            <i className="fas fa-plus-circle icon-btn"></i>
+                            新しい商品を追加
+                        </Button>
+                    </Link>
                     <Button
                         className="btn-action"
                         variant="contained"
@@ -74,7 +91,7 @@ export default function Detail() {
                 </div>
             </div>
             <div className="product-list">
-                <ProductManagerList dataList={dataList} />
+                <ProductManagerList dataList={all_product_datas} />
             </div>
         </div>
     );

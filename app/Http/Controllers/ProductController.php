@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function recommend()
     {
         $products = $this->productService->getAll();
-        $this->addRecommendMark($products);
+        $this->productService->addRecommendMark($products);
         return (new ProductCollection($products->sortBy('recommend_mark')->reverse()))->response();
     }
 

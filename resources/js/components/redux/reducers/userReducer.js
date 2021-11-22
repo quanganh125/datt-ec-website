@@ -3,9 +3,11 @@ const initialState = {
     user: {},
 };
 
+const USER_PROFILE = "USER_PROFILE";
+
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case "USER_PROFILE":
+        case USER_PROFILE:
             return {
                 ...state,
                 user: action.payload,
