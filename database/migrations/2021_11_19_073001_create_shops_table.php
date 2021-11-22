@@ -20,6 +20,9 @@ class CreateShopsTable extends Migration
             $table->string('logo')->nullable()->default(null);
             $table->string('url')->nullable()->default(null);
             $table->timestamps();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
