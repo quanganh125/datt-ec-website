@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 //import { useParams } from 'react-router-dom';
 class EditProduct extends React.Component {
     constructor(props) {
@@ -71,7 +71,7 @@ class EditProduct extends React.Component {
         });
     };
 
-    handleFormSubmit = async(event) => {
+    handleFormSubmit = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
         const packets = {
@@ -88,15 +88,39 @@ class EditProduct extends React.Component {
                 packets
             )
             .then((response) => {
-                alert(JSON.stringify(response.data));
-                console.log("thanh cong");
+                toast.success("Cập nhật sản phẩm thành công!");
+                window.location.href = `/product/manager`;
             })
-
             .catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-                console.log(" loi");
+                toast.error("Cập nhật sản phẩm không thành công!");
+                console.error("ERROR:: ", error.response.data);
             });
     };
+
+    componentDidMount() {
+        console.log("goi api");
+        const apiGetProduct = `http://127.0.0.1:8000/api/product/${this.state.id}`;
+        axios
+            .get(apiGetProduct)
+            .then((response) => {
+                console.log("data", response.data.data);
+                let dataProduct = response.data.data;
+                this.setState({
+                    content: dataProduct.description,
+                    imageUrl: dataProduct.image_link,
+                    errormessage: "",
+                    successmessage: "",
+                    price: dataProduct.price,
+                    category: dataProduct.category_id,
+                    newname: dataProduct.name,
+                    id: this.props.match.params.id,
+                });
+            })
+            .catch((error) => {
+                console.error("ERROR:: ", error.response.data);
+            });
+    }
+
     render() {
         return (
             <div
@@ -107,7 +131,8 @@ class EditProduct extends React.Component {
                     justifyContent: "center",
                 }}
             >
-                <div className="col-8">
+                <div className="col-9">
+                    <h3>Edit product</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* <div className="form-group">
                             <div
@@ -147,46 +172,46 @@ class EditProduct extends React.Component {
 
                         ) : null} */}
                         <div className="form-group">
+                            <h5>Image</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input link ..."
+                                placeholder="Please input image link ..."
                                 value={this.state.imageUrl}
                                 onChange={this.handleImageUrlChange}
                             ></textarea>
                         </div>
+                        {/* input ten cua san pham */}
                         <div className="form-group">
+                            <h5>Name</h5>
+                            <input
+                                className="form-control"
+                                placeholder="Please input the new name of the product ..."
+                                value={this.state.newname}
+                                onChange={this.handlenewNameChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <h5>Description</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input content ..."
+                                placeholder="Please input description ..."
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             ></textarea>
                         </div>
-                        {/* input ten cua san pham */}
                         <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Please input the new name of the product..."
-                                value={this.state.newname}
-                                onChange={this.handlenewNameChange}
-                            />
-                            {/* input gia cua san pham */}
-                        </div>
-                        <div className="form-group">
-                            <h4>Choose a category</h4>
+                            <h5>Category</h5>
                             <select
                                 className="form-control"
                                 placeholder="Please input category of the product..."
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                             >
-                                <option>
-                                    There are 5 categories.Choose carefully.
-                                </option>
+                                <option>Choose category</option>
                                 <option value="1">Spring</option>
                                 <option value="2">Summer</option>
                                 <option value="3">Autumn</option>
@@ -195,6 +220,7 @@ class EditProduct extends React.Component {
                             </select>
                         </div>
                         <div className="form-group">
+                            <h5>Price</h5>
                             <input
                                 className="form-control"
                                 placeholder="Please input price..."
@@ -222,7 +248,7 @@ class EditProduct extends React.Component {
                             <input
                                 type="submit"
                                 className="btn btn-primary"
-                                value="Create"
+                                value="Update"
                                 style={{ marginRight: 10 }}
                             />
                             <button

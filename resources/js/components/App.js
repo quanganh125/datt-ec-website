@@ -33,7 +33,6 @@ export default function App() {
             dispatch(fetchUser(getCookie("access_token")));
     };
     const userProfile = useSelector((state) => state.user.user);
-    console.log(userProfile);
     useEffect(() => {
         checkAuth();
     }, []);
@@ -87,11 +86,6 @@ export default function App() {
                         path="/product/create"
                         render={() => <CreateProduct />}
                     />
-                    {/* <Route
-                        exact
-                        path="/product/:id/edit"
-                        render={() => <EditProduct />}
-                    /> */}
                     <Route
                         exact
                         path="/product/:id/edit"
@@ -99,8 +93,15 @@ export default function App() {
                     />
                     <Route
                         exact
-                        path="/store/:id/profile"
-                        component ={EditStoreProfile}
+                        path="/product/:id/detail"
+                        render={() => {
+                            return <ProductDetail />;
+                        }}
+                    />
+                    <Route
+                        exact
+                        path="/store/:id/edit"
+                        component={EditStoreProfile}
                     />
                     <Route
                         exact
@@ -109,15 +110,8 @@ export default function App() {
                     />
                     <Route
                         exact
-                        path="/store/:id/show"
+                        path="/store/:id"
                         component={ShowStoreProfile}
-                    />
-                    <Route
-                        exact
-                        path="/product/:id/detail"
-                        render={() => {
-                            return <ProductDetail />;
-                        }}
                     />
                 </Switch>
             </Router>
