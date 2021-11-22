@@ -19,7 +19,6 @@ import EditProduct from "./pages/EditProduct";
 import StoreProfile from "./pages/StoreProfile";
 import ShowStoreProfile from "./pages/ShowProfile";
 import EditStoreProfile from "./pages/EditProfile";
-
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";

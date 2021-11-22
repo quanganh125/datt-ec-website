@@ -45,7 +45,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required|string|max:255',
-            'image_link' => 'bail|required|string|max:255',
+            'image_link' => 'bail|required|string',
             'category_id' => 'bail|required|numeric',
             'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
             'description' => 'bail|string',
@@ -99,7 +99,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required|string|max:255',
-            'image_link' => 'bail|required|string|max:255',
+            'image_link' => 'bail|required|string',
             'category_id' => 'bail|required|numeric',
             'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
             'description' => 'bail|string',

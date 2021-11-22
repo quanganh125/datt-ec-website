@@ -15,6 +15,7 @@ class EditProduct extends React.Component {
             price: "",
             category: "",
             newname: "",
+            url:"",
             id: this.props.match.params.id,
             // id:"",
         };
@@ -28,14 +29,14 @@ class EditProduct extends React.Component {
         });
         window.location.href = `/`;
     };
-    handleImageUrlChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            imageUrl: event.target.value,
-        });
-    };
+    // handleImageUrlChange = (event) => {
+    //     this.setState({
+    //         successmessage: "",
+    //     });
+    //     this.setState({
+    //         imageUrl: event.target.value,
+    //     });
+    // };
     //xu li ten cua san pham
     handleCategoryChange = (event) => {
         this.setState({
@@ -70,7 +71,38 @@ class EditProduct extends React.Component {
             content: event.target.value,
         });
     };
+    handleFileChange = (event) => {
+        this.setState({
+            successmessage: '',
+        });
+        const file = event.target.files[0];
+        if (!imageFileRegex.test(file.name)) {
+            this.setState({
+                errormessage: 'invalid file',
+            });
+        }
+        else if (file.size > maxFileSize) {
+            this.setState({
+                errormessage: 'file is too large',
+            });
 
+        } else {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                //filereader.result
+                console.log(fileReader.result.split(',')[1]);
+                this.setState({
+                    errormessage: '',
+                    file: file,
+                    url: fileReader.result.split(',')[1],
+                    imageUrl:fileReader.result
+                });
+            };
+
+        }
+
+    }
     handleFormSubmit = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
@@ -134,7 +166,7 @@ class EditProduct extends React.Component {
                 <div className="col-9">
                     <h3>Edit product</h3>
                     <form onSubmit={this.handleFormSubmit}>
-                        {/* <div className="form-group">
+                        <div className="form-group">
                             <div
                                 style={{
                                     position: `relative`,
@@ -158,8 +190,8 @@ class EditProduct extends React.Component {
                                 }}
                                 onChange={this.handleFileChange}
                             />
-                        </div> */}
-                        {/* {this.state.imageUrl ? (
+                        </div>
+                        {this.state.imageUrl ? (
                             <div
                                 style={{
                                     backgroundImage: `url(${this.state.imageUrl})`,
@@ -170,7 +202,7 @@ class EditProduct extends React.Component {
                                 }}
                             ></div>
 
-                        ) : null} */}
+                        ) : null}
                         <div className="form-group">
                             <h5>Image</h5>
                             <textarea

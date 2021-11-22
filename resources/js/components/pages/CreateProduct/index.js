@@ -26,11 +26,12 @@ class CreateProduct extends Component {
         content: "",
         imageUrl: "",
         category: "",
-        //file: undefined,
+        file: undefined,
         errormessage: "",
         successmessage: "",
         price: "",
         name: "",
+        url: "",
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -47,14 +48,14 @@ class CreateProduct extends Component {
             name: event.target.value,
         });
     };
-    handleImageUrlChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            imageUrl: event.target.value,
-        });
-    };
+    // handleImageUrlChange = (event) => {
+    //     this.setState({
+    //         successmessage: "",
+    //     });
+    //     this.setState({
+    //         imageUrl: event.target.value,
+    //     });
+    // };
     handleCategoryChange = (event) => {
         this.setState({
             successmessage: "",
@@ -80,7 +81,34 @@ class CreateProduct extends Component {
             content: event.target.value,
         });
     };
-
+    handleFileChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        const file = event.target.files[0];
+        if (!imageFileRegex.test(file.name)) {
+            this.setState({
+                errormessage: "invalid file",
+            });
+        } else if (file.size > maxFileSize) {
+            this.setState({
+                errormessage: "file is too large",
+            });
+        } else {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                //filereader.result
+                console.log(fileReader.result.split(",")[1]);
+                this.setState({
+                    errormessage: "",
+                    file: file,
+                    url: fileReader.result.split(",")[1],
+                    imageUrl: fileReader.result,
+                });
+            };
+        }
+    };
     handleFormSubmit = async (event) => {
         // window.location.reload(false);
         event.preventDefault();
@@ -90,7 +118,7 @@ class CreateProduct extends Component {
             //file: this.state.file,
             category_id: this.state.category,
             description: this.state.content,
-            image_link: this.state.imageUrl,
+            image_link: this.state.url,
             // userLevel: this.state.userLevel,
             // password: this.state.password
         };
@@ -98,7 +126,7 @@ class CreateProduct extends Component {
             .post("http://127.0.0.1:8000/api/product", packets)
             .then((response) => {
                 toast.success("Tạo sản phẩm thành công!");
-                window.location.href = `/product/manager`;
+                //window.location.href = `/product/manager`;
             })
             .catch((error) => {
                 toast.error("Tạo sản phẩm không thành công!");
@@ -118,7 +146,7 @@ class CreateProduct extends Component {
                 <div className="col-9">
                     <h3>Create new product</h3>
                     <form onSubmit={this.handleFormSubmit}>
-                        {/* <div className="form-group">
+                        <div className="form-group">
                             <div
                                 style={{
                                     position: `relative`,
@@ -153,8 +181,8 @@ class CreateProduct extends Component {
                                     height: "400px",
                                 }}
                             ></div>
-                        ) : null} */}
-                        <div className="form-group">
+                        ) : null}
+                        {/* <div className="form-group">
                             <h5>Image</h5>
                             <textarea
                                 className="form-control"
@@ -164,7 +192,7 @@ class CreateProduct extends Component {
                                 value={this.state.imageUrl}
                                 onChange={this.handleImageUrlChange}
                             ></textarea>
-                        </div>
+                        </div> */}
                         {/* input ten cua san pham */}
                         <div className="form-group">
                             <h5>Name</h5>
