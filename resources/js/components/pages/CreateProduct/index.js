@@ -18,6 +18,7 @@
 // }
 import React, { Component } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 class CreateProduct extends Component {
@@ -96,13 +97,12 @@ class CreateProduct extends Component {
         await axios
             .post("http://127.0.0.1:8000/api/product", packets)
             .then((response) => {
-                alert(JSON.stringify(response.data));
-                console.log("thanh cong");
+                toast.success("Tạo sản phẩm thành công!");
+                window.location.href = `/product/manager`;
             })
-
             .catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-                console.log(" loi");
+                toast.error("Tạo sản phẩm không thành công!");
+                console.error("ERROR:: ", error.response.data);
             });
     };
     render() {
@@ -115,7 +115,8 @@ class CreateProduct extends Component {
                     justifyContent: "center",
                 }}
             >
-                <div className="col-8">
+                <div className="col-9">
+                    <h3>Create new product</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* <div className="form-group">
                             <div
@@ -154,34 +155,36 @@ class CreateProduct extends Component {
                             ></div>
                         ) : null} */}
                         <div className="form-group">
+                            <h5>Image</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input link ..."
+                                placeholder="Please input image link ..."
                                 value={this.state.imageUrl}
                                 onChange={this.handleImageUrlChange}
                             ></textarea>
                         </div>
+                        {/* input ten cua san pham */}
                         <div className="form-group">
+                            <h5>Name</h5>
+                            <input
+                                className="form-control"
+                                placeholder="Please input name of the product ..."
+                                value={this.state.name}
+                                onChange={this.handleNameChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <h5>Description</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input content ..."
+                                placeholder="Please input description ..."
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             ></textarea>
-                        </div>
-                        {/* input ten cua san pham */}
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Please input name of the product..."
-                                value={this.state.name}
-                                onChange={this.handleNameChange}
-                            />
-                            {/* input gia cua san pham */}
                         </div>
                         {/* <div className="form-group">
                             <input
@@ -193,16 +196,14 @@ class CreateProduct extends Component {
                             
                         </div> */}
                         <div className="form-group">
-                            <h4>Choose a category</h4>
+                            <h5>Category</h5>
                             <select
                                 className="form-control"
                                 name="Please input category of the product..."
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                             >
-                                <option>
-                                    There are 5 categories.Choose carefully.
-                                </option>
+                                <option>Choose category</option>
                                 <option value="1">Spring</option>
                                 <option value="2">Summer</option>
                                 <option value="3">Autumn</option>
@@ -212,6 +213,7 @@ class CreateProduct extends Component {
                             {/* input gia cua san pham */}
                         </div>
                         <div className="form-group">
+                            <h5>Price</h5>
                             <input
                                 className="form-control"
                                 placeholder="Please input price..."
