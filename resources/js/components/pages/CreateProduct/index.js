@@ -31,7 +31,7 @@ class CreateProduct extends Component {
         successmessage: "",
         price: "",
         name: "",
-        url: "",
+        url:"",
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -83,32 +83,36 @@ class CreateProduct extends Component {
     };
     handleFileChange = (event) => {
         this.setState({
-            successmessage: "",
+            successmessage: '',
         });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
-                errormessage: "invalid file",
+                errormessage: 'invalid file',
             });
-        } else if (file.size > maxFileSize) {
+        }
+        else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: "file is too large",
+                errormessage: 'file is too large',
             });
+
         } else {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
                 //filereader.result
-                console.log(fileReader.result.split(",")[1]);
+                console.log(fileReader.result.split(',')[1]);
                 this.setState({
-                    errormessage: "",
+                    errormessage: '',
                     file: file,
-                    url: fileReader.result.split(",")[1],
-                    imageUrl: fileReader.result,
+                    url: fileReader.result.split(',')[1],
+                    imageUrl:fileReader.result
                 });
             };
+
         }
-    };
+
+    }
     handleFormSubmit = async (event) => {
         // window.location.reload(false);
         event.preventDefault();
@@ -125,11 +129,11 @@ class CreateProduct extends Component {
         await axios
             .post("http://127.0.0.1:8000/api/product", packets)
             .then((response) => {
-                toast.success("Tạo sản phẩm thành công!");
+                toast.success("製品が正常に作成されました！");
                 //window.location.href = `/product/manager`;
             })
             .catch((error) => {
-                toast.error("Tạo sản phẩm không thành công!");
+                toast.error("製品の作成に失敗しました！");
                 console.error("ERROR:: ", error.response.data);
             });
     };
@@ -144,7 +148,7 @@ class CreateProduct extends Component {
                 }}
             >
                 <div className="col-9">
-                    <h3>Create new product</h3>
+                    <h3>新製品を作成</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         <div className="form-group">
                             <div
@@ -154,7 +158,7 @@ class CreateProduct extends Component {
                                     textAlign: "center",
                                 }}
                             >
-                                Select image ...
+                                画像を選択 ...
                             </div>
                             <input
                                 id="file"
@@ -195,21 +199,21 @@ class CreateProduct extends Component {
                         </div> */}
                         {/* input ten cua san pham */}
                         <div className="form-group">
-                            <h5>Name</h5>
+                            <h5>名前</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input name of the product ..."
+                                placeholder="製品名を入力してください ..."
                                 value={this.state.name}
                                 onChange={this.handleNameChange}
                             />
                         </div>
                         <div className="form-group">
-                            <h5>Description</h5>
+                            <h5>説明</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input description ..."
+                                placeholder="説明を入力してください ..."
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             ></textarea>
@@ -224,27 +228,27 @@ class CreateProduct extends Component {
                             
                         </div> */}
                         <div className="form-group">
-                            <h5>Category</h5>
+                            <h5>カテゴリー</h5>
                             <select
                                 className="form-control"
-                                name="Please input category of the product..."
+                                name="製品のカテゴリを入力してください..."
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                             >
-                                <option>Choose category</option>
-                                <option value="1">Spring</option>
-                                <option value="2">Summer</option>
-                                <option value="3">Autumn</option>
-                                <option value="4">Winter</option>
-                                <option value="5">Whatever</option>
+                                <option>カテゴリを選択</option>
+                                <option value="1">春</option>
+                                <option value="2">夏</option>
+                                <option value="3">秋</option>
+                                <option value="4">冬</option>
+                                <option value="5">なんでもいい</option>
                             </select>
                             {/* input gia cua san pham */}
                         </div>
                         <div className="form-group">
-                            <h5>Price</h5>
+                            <h5>価格</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input price..."
+                                placeholder="価格を入力してください..."
                                 value={this.state.price}
                                 onChange={this.handlePriceChange}
                             />
@@ -270,7 +274,7 @@ class CreateProduct extends Component {
                             <input
                                 type="submit"
                                 className="btn btn-primary"
-                                value="Create"
+                                value="作成"
                                 style={{ marginRight: 10 }}
                             />
                             <button
@@ -279,7 +283,7 @@ class CreateProduct extends Component {
                                 onClick={this.handleReturnHomePage}
                                 style={{ marginLeft: 10 }}
                             >
-                                Cancel
+                                キャンセル
                             </button>
                         </div>
                     </form>
