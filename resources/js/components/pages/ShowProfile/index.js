@@ -3,6 +3,7 @@ import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
+import { api } from "../../constant";
 class ShowStoreProfile extends Component {
     constructor(props) {
         super(props);
@@ -19,7 +20,7 @@ class ShowStoreProfile extends Component {
 
     componentDidMount() {
         axios
-            .get(`http://127.0.0.1:8000/api/shop/${this.state.id}`)
+            .get(`${api}api/shop/${this.state.id}`)
             .then((res) => {
                 this.setState({
                     name: res.data.data.name,

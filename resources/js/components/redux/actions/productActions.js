@@ -1,7 +1,8 @@
 import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
 import { toast } from "react-toastify";
-const apiProduct = "http://127.0.0.1:8000/api/product/";
+import { api } from "../../constant";
+const apiProduct = `${api}api/product/`;
 
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";

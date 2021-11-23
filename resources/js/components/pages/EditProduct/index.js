@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { api } from "../../constant";
 //import { useParams } from 'react-router-dom';
 class EditProduct extends React.Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class EditProduct extends React.Component {
             price: "",
             category: "",
             newname: "",
-            url:"",
+            url: "",
             id: this.props.match.params.id,
             // id:"",
         };
@@ -73,36 +74,32 @@ class EditProduct extends React.Component {
     };
     handleFileChange = (event) => {
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
-                errormessage: 'invalid file',
+                errormessage: "invalid file",
             });
-        }
-        else if (file.size > maxFileSize) {
+        } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: 'file is too large',
+                errormessage: "file is too large",
             });
-
         } else {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
                 //filereader.result
-                console.log(fileReader.result.split(',')[1]);
+                console.log(fileReader.result.split(",")[1]);
                 this.setState({
-                    errormessage: '',
+                    errormessage: "",
                     file: file,
-                    url: fileReader.result.split(',')[1],
-                    imageUrl:fileReader.result
+                    url: fileReader.result.split(",")[1],
+                    imageUrl: fileReader.result,
                 });
             };
-
         }
-
-    }
+    };
     handleFormSubmit = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
@@ -115,10 +112,7 @@ class EditProduct extends React.Component {
             image_link: this.state.imageUrl,
         };
         await axios
-            .post(
-                `http://127.0.0.1:8000/api/product/${this.state.id}/edit`,
-                packets
-            )
+            .post(`${api}api/product/${this.state.id}/edit`, packets)
             .then((response) => {
                 toast.success("製品の編集に成功しました！!");
                 window.location.href = `/product/manager`;
@@ -131,7 +125,7 @@ class EditProduct extends React.Component {
 
     componentDidMount() {
         console.log("goi api");
-        const apiGetProduct = `http://127.0.0.1:8000/api/product/${this.state.id}`;
+        const apiGetProduct = `${api}api/product/${this.state.id}`;
         axios
             .get(apiGetProduct)
             .then((response) => {
@@ -201,7 +195,6 @@ class EditProduct extends React.Component {
                                     height: "400px",
                                 }}
                             ></div>
-
                         ) : null}
                         {/* <div className="form-group">
                             <h5>Image</h5>

@@ -21,6 +21,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
+import { api } from "../../constant";
 class CreateProduct extends Component {
     state = {
         content: "",
@@ -31,7 +32,7 @@ class CreateProduct extends Component {
         successmessage: "",
         price: "",
         name: "",
-        url:"",
+        url: "",
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -83,36 +84,32 @@ class CreateProduct extends Component {
     };
     handleFileChange = (event) => {
         this.setState({
-            successmessage: '',
+            successmessage: "",
         });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
-                errormessage: 'invalid file',
+                errormessage: "invalid file",
             });
-        }
-        else if (file.size > maxFileSize) {
+        } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: 'file is too large',
+                errormessage: "file is too large",
             });
-
         } else {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
                 //filereader.result
-                console.log(fileReader.result.split(',')[1]);
+                console.log(fileReader.result.split(",")[1]);
                 this.setState({
-                    errormessage: '',
+                    errormessage: "",
                     file: file,
-                    url: fileReader.result.split(',')[1],
-                    imageUrl:fileReader.result
+                    url: fileReader.result.split(",")[1],
+                    imageUrl: fileReader.result,
                 });
             };
-
         }
-
-    }
+    };
     handleFormSubmit = async (event) => {
         // window.location.reload(false);
         event.preventDefault();
@@ -127,7 +124,7 @@ class CreateProduct extends Component {
             // password: this.state.password
         };
         await axios
-            .post("http://127.0.0.1:8000/api/product", packets)
+            .post(`${api}api/product`, packets)
             .then((response) => {
                 toast.success("製品が正常に作成されました！");
                 //window.location.href = `/product/manager`;

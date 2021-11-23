@@ -19,8 +19,9 @@ import { toast } from "react-toastify";
 import { validateEmail, validatePassword } from "../../utils/validate";
 import { setCookie } from "./../../utils/cookie";
 import { useHistory } from "react-router-dom";
+import { api } from "../../constant";
 
-const api = "http://127.0.0.1:8000/api/auth/login";
+const apiLogin = `${api}api/auth/login`;
 
 export default function Signin({ setAuth }) {
     const classes = useStyles();
@@ -68,7 +69,7 @@ export default function Signin({ setAuth }) {
         };
         if (validate()) {
             await axios
-                .post(`${api}`, userLogin)
+                .post(`${apiLogin}`, userLogin)
                 .then((res) => {
                     const data = res.data;
                     if (data.access_token) {
