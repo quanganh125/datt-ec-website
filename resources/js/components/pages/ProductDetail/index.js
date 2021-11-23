@@ -1,316 +1,146 @@
-import styled from "styled-components";
-import { Button } from "antd";
 import React, { Component } from "react";
-import { FaStar } from "react-icons/fa";
-
+import "../ProductDetail/productDetail.scss";
+import StarRatings from "react-star-ratings";
+import Review from "./review";
+import { Grid, Button } from "@material-ui/core";
+import { apiCategory } from "../../constant";
+import { apiProduct } from "./../../redux/actions/productActions";
+import axios from "axios";
 class ProductDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: "",
+            image_link: "",
+            price: "",
+            description: "",
+            recommend_mark: "",
+            reviews: [],
+            category: "",
+            shop: "",
+            id: this.getProductId(),
+        };
+    }
+
+    componentDidMount() {
+        const getProductApi = axios.get(`${apiProduct}${this.state.id}`);
+        const getCategoryApi = axios.get(apiCategory);
+        axios.all([getProductApi, getCategoryApi]).then(
+            axios.spread((...allData) => {
+                const dataProducts = allData[0].data.data;
+                const dataCategory = allData[1].data.data;
+
+                this.setState({
+                    name: dataProducts.name,
+                    image_link: dataProducts.image_link,
+                    price: dataProducts.price,
+                    description: dataProducts.description,
+                    recommend_mark: dataProducts.recommend_mark,
+                    reviews: dataProducts.reviews,
+                    shop: dataProducts.shop,
+                });
+                this.setState({
+                    category: dataCategory.filter(
+                        (element) => element.id === dataProducts.category_id
+                    )[0].name,
+                });
+            })
+        );
+    }
+
+    getProductId = () => {
+        let slice_arr = window.location.href.split("/");
+        return slice_arr[slice_arr.length - 2];
+    };
+
+    getProductRating = () => {
+        if (this.state.reviews.length == 0) return 0;
+        let sum = 0;
+        this.state.reviews.forEach((element) => {
+            sum += element.rating;
+        });
+        return sum / this.state.reviews.length;
+    };
+
     render() {
-        const MoreDetail = styled.div`
-            width: 25%;
-        `;
-        console.log("detail");
-
-        const Logo = styled.img`
-            width: 120px;
-            height: 120px;
-            margin-top: 20px;
-        `;
-
         return (
             <div className="container">
                 <div className="row">
-                    <div
-                        className="col-6"
-                        style={{ marginTop: 10, textAlign: "center" }}
-                    >
-                        <div>
+                    <div className="col-xs-12 col-sm-6">
+                        <div className="product-name">
+                            <h1 className="title text-center">
+                                {this.state.name}
+                            </h1>
+                        </div>
+                        <div className="image">
                             <img
-                                style={{
-                                    width: 300,
-                                    height: 300,
-                                    marginTop: 30,
-                                }}
-                                src={
-                                    "https://vcdn-dulich.vnecdn.net/2020/09/04/1-Meo-chup-anh-dep-khi-di-bien-9310-1599219010.jpg"
-                                }
+                                className="product-image"
+                                src="https://media.thieunien.vn/thumb/uploads/2021/10/31/tiktoker-reency-ngo-khong-sexy-boc-lua-nhung-thu-hut-hang-trieu-follow_43688.jpg"
                             />
                         </div>
-                        <Button
-                            style={{
-                                width: 300,
-                                marginTop: 30,
-                                borderWidth: 1,
-                                borderColor: "red",
-                            }}
-                        >
-                            コメントを書く
-                        </Button>
-                        <div style={{ display: "flex" }}>
-                            <p
-                                style={{
-                                    marginTop: 30,
-                                    marginLeft: 50,
-                                }}
-                            >
-                                評価
-                            </p>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginTop: 30, marginLeft: 20 }}
-                            ></i>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginTop: 30, marginLeft: 20 }}
-                            ></i>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginTop: 30, marginLeft: 20 }}
-                            ></i>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginTop: 30, marginLeft: 20 }}
-                            ></i>
-                        </div>
-                        <Button
-                            style={{
-                                width: 300,
-                                marginTop: 30,
-                                borderWidth: 1,
-                                borderColor: "red",
-                            }}
-                        >
-                            関連商品
-                        </Button>
-                        <div className="row">
-                            <div className="col-3">
-                                <MoreDetail>
-                                    <Logo
-                                        src={
-                                            "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg"
-                                        }
-                                    />
-                                    <p>San Pham So 1</p>
-                                </MoreDetail>
-                            </div>
-                            <div className="col-3">
-                                <MoreDetail>
-                                    <Logo
-                                        src={
-                                            "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg"
-                                        }
-                                    />
-                                    <p>San Pham So 1</p>
-                                </MoreDetail>
-                            </div>
-                            <div className="col-3">
-                                <MoreDetail>
-                                    <Logo
-                                        src={
-                                            "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg"
-                                        }
-                                    />
-                                    <p>San Pham So 1</p>
-                                </MoreDetail>
-                            </div>
-                            <div className="col-3">
-                                <MoreDetail>
-                                    <Logo
-                                        src={
-                                            "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg"
-                                        }
-                                    />
-                                    <p>San Pham So 1</p>
-                                </MoreDetail>
-                            </div>
+                        <div className="review-btn">
+                            <Button className="item-btn-care">レビュー</Button>
                         </div>
                     </div>
-                    <div className="col-6" style={{ marginTop: 10 }}>
-                        <div
-                            style={{
-                                display: "flex",
-                                marginTop: 30,
-                            }}
-                        >
-                            <p>商品の詳細</p>
-                            <p style={{ marginLeft: 30 }}>
-                                商品の詳細商品の詳細商品の詳細商品の詳細商品の詳細商品の詳細商品の詳細
-                            </p>
+                    <div className="col-xs-12 col-sm-6">
+                        <div className="product-price">
+                            <label className="title"> 価値 </label>
+                            <h3>
+                                {this.state.price} 円
+                                <span className="lead">オンライン価格</span>
+                            </h3>
                         </div>
-                        <div
-                            style={{
-                                display: "flex",
-                            }}
-                        >
-                            <p>店舗の詳細</p>
-                            <p style={{ marginLeft: 30 }}>
-                                商品の詳細商品の詳細商品の詳細商品の詳細商品の詳細商品の詳細商品の詳細
-                            </p>
-                        </div>
-                        <div style={{ display: "flex" }}>
-                            <p
-                                style={{
-                                    marginTop: 30,
-                                }}
-                            >
-                                評価
-                            </p>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginLeft: 20, marginTop: 30 }}
-                            ></i>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginLeft: 20, marginTop: 30 }}
-                            ></i>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginLeft: 20, marginTop: 30 }}
-                            ></i>
-                            <i
-                                className="fas fa-star"
-                                style={{ marginLeft: 20, marginTop: 30 }}
-                            ></i>
-                        </div>
-                        <div
-                            className="row"
-                            style={{ border: "2px dotted red", width: 500 }}
-                        >
-                            <div
-                                className="col-4"
-                                style={{ textAlign: "center" }}
-                            >
-                                <p style={{ marginTop: 10 }}>名前</p>
-                            </div>
-                            <div className="col-8">
-                                <div style={{ display: "flex" }}>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
+                        <ul className="theme-offers product-offers">
+                            <div className="flex">
+                                <div className="elem product-rating">
+                                    <div className="product-rating-number">
+                                        {this.getProductRating()}
+                                    </div>
+                                    <div className="product-rating-star">
+                                        <StarRatings
+                                            rating={this.getProductRating()}
+                                            starDimension="15px"
+                                            starSpacing="0"
+                                            starRatedColor="#d0011b"
+                                        />
+                                    </div>
                                 </div>
-                                <p>
-                                    fsafasfassssssssssssssssssssssgfsdghdshdshshds
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            className="row"
-                            style={{
-                                border: "2px dotted red",
-                                width: 500,
-                                marginTop: 10,
-                            }}
-                        >
-                            <div
-                                className="col-4"
-                                style={{ textAlign: "center" }}
-                            >
-                                <p style={{ marginTop: 10 }}>名前</p>
-                            </div>
-                            <div className="col-8">
-                                <div style={{ display: "flex" }}>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
+                                <div className="product-review-number">
+                                    {this.state.reviews.length} レビュー
                                 </div>
-                                <p>名前fasssssssssssssssssssfasfsafsa</p>
                             </div>
+                        </ul>
+                        <div className="product-detail">
+                            <label className="title"> 製品詳細 </label>
+                            <ul>
+                                <li>
+                                    <p>
+                                        <b>説明：</b>
+                                        {this.state.description}{" "}
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        <b>カテゴリー：</b>
+                                        {this.state.category}{" "}
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        <b>店舗：</b>
+                                        {this.state.shop}{" "}
+                                    </p>
+                                </li>
+                            </ul>
                         </div>
-                        <div
-                            className="row"
-                            style={{
-                                border: "2px dotted red",
-                                width: 500,
-                                marginTop: 10,
-                            }}
-                        >
-                            <div
-                                className="col-4"
-                                style={{ textAlign: "center" }}
-                            >
-                                <p style={{ marginTop: 10 }}>名前</p>
-                            </div>
-                            <div className="col-8">
-                                <div style={{ display: "flex" }}>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                </div>
-                                <p>名前fasssssssssssssssssssfasfsafsa</p>
-                            </div>
-                        </div>
-                        <div
-                            className="row"
-                            style={{
-                                border: "2px dotted red",
-                                width: 500,
-                                marginTop: 10,
-                            }}
-                        >
-                            <div
-                                className="col-4"
-                                style={{ textAlign: "center" }}
-                            >
-                                <p style={{ marginTop: 10 }}>名前</p>
-                            </div>
-                            <div className="col-8">
-                                <div style={{ display: "flex" }}>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                    <i
-                                        className="fas fa-star"
-                                        style={{ marginLeft: 20 }}
-                                    ></i>
-                                </div>
-                                <p>名前fasssssssssssssssssssfasfsafsa</p>
+                        <div className="product-reviews">
+                            <label className="title"> レビュー </label>
+                            <div className="reviews">
+                                {this.state.reviews.map((data) => (
+                                    <Grid key={data.id}>
+                                        <Review data={data} />
+                                    </Grid>
+                                ))}
                             </div>
                         </div>
                     </div>
