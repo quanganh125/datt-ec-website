@@ -62,6 +62,25 @@ export default function Navigation({ userProfile, loginState }) {
                                 height="50"
                             />
                         </a>
+                        <ul
+                            className={
+                                click ? "nav-options active" : "nav-options"
+                            }
+                        >
+                            <li className="option">
+                                <a href="/store/create" className="underline">
+                                    ストアを作成
+                                </a>
+                            </li>
+                            <li className="option">
+                                <a
+                                    href="/product/manager"
+                                    className="underline"
+                                >
+                                    製品管理
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 {!loginState ? (
@@ -69,17 +88,17 @@ export default function Navigation({ userProfile, loginState }) {
                         <li className="sign-in" onClick={closeMobileMenu}>
                             <a href="/login">
                                 <i className="fas fa-sign-in-alt icon-btn"></i>
-                                Đăng nhập
+                                ログイン
                             </a>
                         </li>
                         <li className="signup-btn" onClick={closeMobileMenu}>
-                            <a href="/register">Đăng ký</a>
+                            <a href="/register">サインアップ</a>
                         </li>
                     </ul>
                 ) : (
                     <ul className="signin-up">
                         <li className="signup-btn" onClick={closeMobileMenu}>
-                            <a onClick={() => logout()}>Đăng xuất</a>
+                            <a onClick={() => logout()}>サインアウト</a>
                         </li>
                     </ul>
                 )}

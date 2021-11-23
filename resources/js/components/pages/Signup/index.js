@@ -85,13 +85,13 @@ export default function Signup() {
                 .then((res) => {
                     const data = res.data;
                     setErrorPassword("");
-                    toast.success("Đăng kí thành công!");
+                    toast.success("サインアップ成功！");
                     history.push("/login");
                 })
                 .catch((error) => {
                     console.log("loi loi");
                     console.error(error);
-                    toast.error("Đăng kí không thành công!");
+                    toast.error("サインアップに失敗しました！");
                 });
         }
     };
@@ -104,7 +104,7 @@ export default function Signup() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Đăng ký
+                    サインアップ
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -115,7 +115,7 @@ export default function Signup() {
                                 required
                                 fullWidth
                                 id="name"
-                                label="Username"
+                                label="ユーザー名"
                                 name="name"
                                 autoComplete="name"
                                 onChange={(e) => handleOnChange(e)}
@@ -131,7 +131,7 @@ export default function Signup() {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label="メール"
                                 name="email"
                                 autoComplete="email"
                                 onChange={(e) => handleOnChange(e)}
@@ -147,7 +147,7 @@ export default function Signup() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="パスワード"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -164,7 +164,7 @@ export default function Signup() {
                                 required
                                 fullWidth
                                 name="confirmPassword"
-                                label="Confirm Password"
+                                label="パスワードを認証"
                                 type="password"
                                 id="confirmPassword"
                                 autoComplete="current-password"
@@ -183,12 +183,12 @@ export default function Signup() {
                         className={classes.submit}
                         onClick={(e) => handleSubmit(e)}
                     >
-                        Sign Up
+                        サインアップ
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link to="/login">
-                                Already have an account? Sign in
+                                すでにアカウントをお持ちですか？ ログイン
                             </Link>
                         </Grid>
                     </Grid>

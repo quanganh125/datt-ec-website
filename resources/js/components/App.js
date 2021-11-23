@@ -105,7 +105,13 @@ export default function App() {
                     <Route
                         exact
                         path="/store/create"
-                        component={StoreProfile}
+                        render={() => {
+                            return getCookie("access_token") != "" ? (
+                                <StoreProfile />
+                            ) : (
+                                <Redirect to="/" />
+                            );
+                        }}
                     />
                     <Route
                         exact
