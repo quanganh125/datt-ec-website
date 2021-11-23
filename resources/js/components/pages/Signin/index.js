@@ -62,7 +62,6 @@ export default function Signin({ setAuth }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
         let userLogin = {
             email: user.email,
             password: user.password,
@@ -78,8 +77,7 @@ export default function Signin({ setAuth }) {
                     }
                     setLoginFaild("");
                     setErrorPassword("");
-                    history.push("/");
-                    window.location.reload();
+                    window.location.href = `/`;
                 })
                 .catch((error) => {
                     toast.error("Đăng nhập không thành công!");

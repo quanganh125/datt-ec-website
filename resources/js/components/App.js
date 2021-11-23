@@ -26,28 +26,27 @@ import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
     const dispatch = useDispatch();
-    const [param, setParam] = useState("");
+    const [login, setLogin] = useState(false);
 
     const checkAuth = () => {
-        getCookie("access_token") &&
+        if (getCookie("access_token") != "") {
             dispatch(fetchUser(getCookie("access_token")));
+        }
     };
     const userProfile = useSelector((state) => state.user.user);
+    const loginState = useSelector((state) => state.user.loginState);
     useEffect(() => {
         checkAuth();
     }, []);
 
     useEffect(() => {
-        setParam(window.location.pathname);
-        return () => {
-            setParam("");
-        };
-    }, [param]);
-
+        setLogin(loginState);
+    }, [loginState]);
+    console.log("login", login);
     return (
         <Fragment>
             <Router>
-                <Navigation userProfile={userProfile} />
+                <Navigation userProfile={userProfile} loginState={login} />
                 <Switch>
                     <Route
                         exact
@@ -74,7 +73,7 @@ export default function App() {
                         exact
                         path="/product/manager"
                         render={() => {
-                            return localStorage.getItem("auth") ? (
+                            return getCookie("access_token") != "" ? (
                                 <ProductManager />
                             ) : (
                                 <Redirect to="/" />
