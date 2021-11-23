@@ -52,7 +52,8 @@ class ShopController extends Controller
             'name' => 'bail|required|string|max:255',
             'address' => 'bail|required|string|max:255',
             'logo' => 'bail|string',
-            'url' => 'bail|string'
+            'url' => 'bail|string',
+            'user_id' => 'bail|required|numeric',
         ]);
 
         if($validator->fails()){
@@ -64,6 +65,7 @@ class ShopController extends Controller
         $shop->address = $request->input('address');
         $shop->logo = $request->input('logo');
         $shop->url = $request->input('url');
+        $shop->user_id = $request->input('user_id');
         $shop->save();
         return (new ShopResource($shop))->response();
     }
@@ -104,7 +106,8 @@ class ShopController extends Controller
             'name' => 'bail|required|string|max:255',
             'address' => 'bail|required|string|max:255',
             'logo' => 'bail|string',
-            'url' => 'bail|string'
+            'url' => 'bail|string',
+            'user_id' => 'bail|required|numeric',
         ]);
 
         if($validator->fails()){

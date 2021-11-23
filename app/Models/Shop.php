@@ -14,6 +14,7 @@ class Shop extends Model
         'address',
         'logo',
         'url',
+        'user_id',
     ];
 
     public $timestamps = true;
