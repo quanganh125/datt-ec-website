@@ -3,6 +3,7 @@ import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
+import { api } from "../../constant";
 class EditStoreProfile extends Component {
     state = {
         content: "",
@@ -18,7 +19,7 @@ class EditStoreProfile extends Component {
         // const {match} = this.props;
 
         await axios
-            .post(`http://127.0.0.1:8000/api/shop/${this.state.id}/delete`)
+            .post(`${api}api/shop/${this.state.id}/delete`)
             .then((response) => {
                 console.log("thanh cong");
             })
@@ -82,10 +83,7 @@ class EditStoreProfile extends Component {
             url: this.state.url,
         };
         await axios
-            .post(
-                `http://127.0.0.1:8000/api/shop/${this.state.id}/edit`,
-                packets
-            )
+            .post(`${api}api/shop/${this.state.id}/edit`, packets)
             .then((response) => {
                 toast.success("店舗の更新に成功しました！");
             })
@@ -97,7 +95,7 @@ class EditStoreProfile extends Component {
 
     componentDidMount() {
         console.log("goi api");
-        const apiGetProduct = `http://127.0.0.1:8000/api/shop/${this.state.id}`;
+        const apiGetProduct = `${api}api/shop/${this.state.id}`;
         axios
             .get(apiGetProduct)
             .then((response) => {

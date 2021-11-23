@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
-const apiUser = "http://127.0.0.1:8000/api/auth/user-profile";
+import { api } from "../../constant";
+const apiUser = `${api}api/auth/user-profile`;
 
 const USER_PROFILE = "USER_PROFILE";
 const LOGIN_STATE = "LOGIN_STATE";

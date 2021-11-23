@@ -20,8 +20,9 @@ import {
     validateEmail,
     validatePassword,
 } from "../../utils/validate";
+import { api } from "../../constant";
 
-const api = "http://127.0.0.1:8000/api/auth/register";
+const apiSignup = `${api}api/auth/register`;
 
 export default function Signup() {
     const classes = useStyles();
@@ -81,7 +82,7 @@ export default function Signup() {
         };
         if (validate()) {
             await axios
-                .post(`${api}`, userRegister)
+                .post(`${apiSignup}`, userRegister)
                 .then((res) => {
                     const data = res.data;
                     setErrorPassword("");
