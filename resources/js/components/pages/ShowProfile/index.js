@@ -59,10 +59,10 @@ class ShowStoreProfile extends Component {
                 }}
             >
                 <div className="col-9">
-                    <h3>Store profile</h3>
+                    <h3>ストアプロファイル</h3>
                     <form>
                         {/* input ten cua cua hang */}
-                        <h5>Name</h5>
+                        <h5>名前</h5>
                         <div className="form-group">
                             <label className="form-control">
                                 {" "}
@@ -71,21 +71,21 @@ class ShowStoreProfile extends Component {
 
                             {/* input dia chi cua cua hang */}
                         </div>
-                        <h5>Address</h5>
+                        <h5>住所</h5>
                         <div className="form-group">
                             <label className="form-control">
                                 {" "}
                                 {this.state.address}
                             </label>
                         </div>
-                        <h5>Logo</h5>
+                        <h5>ロゴ</h5>
                         <div className="form-group">
                             <label className="form-control">
                                 {" "}
                                 {this.state.content}
                             </label>
                         </div>
-                        <h5>Url store</h5>
+                        <h5>ストアのURL</h5>
                         <div className="form-group">
                             <label className="form-control">
                                 {" "}
@@ -115,7 +115,7 @@ class ShowStoreProfile extends Component {
                                 onClick={this.handleGoToEdit}
                                 style={{ margin: 5 }}
                             >
-                                Edit
+                                編集
                             </button>
                             <button
                                 type="button"
@@ -123,7 +123,7 @@ class ShowStoreProfile extends Component {
                                 onClick={this.handleReturnHomePage}
                                 style={{ margin: 5 }}
                             >
-                                Back to Home
+                                家に帰る
                             </button>
                         </div>
                     </form>

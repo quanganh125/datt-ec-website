@@ -15,6 +15,7 @@ class EditProduct extends React.Component {
             price: "",
             category: "",
             newname: "",
+            url:"",
             id: this.props.match.params.id,
             // id:"",
         };
@@ -28,14 +29,14 @@ class EditProduct extends React.Component {
         });
         window.location.href = `/`;
     };
-    handleImageUrlChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            imageUrl: event.target.value,
-        });
-    };
+    // handleImageUrlChange = (event) => {
+    //     this.setState({
+    //         successmessage: "",
+    //     });
+    //     this.setState({
+    //         imageUrl: event.target.value,
+    //     });
+    // };
     //xu li ten cua san pham
     handleCategoryChange = (event) => {
         this.setState({
@@ -70,7 +71,38 @@ class EditProduct extends React.Component {
             content: event.target.value,
         });
     };
+    handleFileChange = (event) => {
+        this.setState({
+            successmessage: '',
+        });
+        const file = event.target.files[0];
+        if (!imageFileRegex.test(file.name)) {
+            this.setState({
+                errormessage: 'invalid file',
+            });
+        }
+        else if (file.size > maxFileSize) {
+            this.setState({
+                errormessage: 'file is too large',
+            });
 
+        } else {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                //filereader.result
+                console.log(fileReader.result.split(',')[1]);
+                this.setState({
+                    errormessage: '',
+                    file: file,
+                    url: fileReader.result.split(',')[1],
+                    imageUrl:fileReader.result
+                });
+            };
+
+        }
+
+    }
     handleFormSubmit = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
@@ -88,11 +120,11 @@ class EditProduct extends React.Component {
                 packets
             )
             .then((response) => {
-                toast.success("Cập nhật sản phẩm thành công!");
+                toast.success("製品の編集に成功しました！!");
                 window.location.href = `/product/manager`;
             })
             .catch((error) => {
-                toast.error("Cập nhật sản phẩm không thành công!");
+                toast.error("編集に失敗しました!");
                 console.error("ERROR:: ", error.response.data);
             });
     };
@@ -132,9 +164,9 @@ class EditProduct extends React.Component {
                 }}
             >
                 <div className="col-9">
-                    <h3>Edit product</h3>
+                    <h3>製品の編集</h3>
                     <form onSubmit={this.handleFormSubmit}>
-                        {/* <div className="form-group">
+                        <div className="form-group">
                             <div
                                 style={{
                                     position: `relative`,
@@ -142,7 +174,7 @@ class EditProduct extends React.Component {
                                     textAlign: "center",
                                 }}
                             >
-                                Select image ...
+                                画像を選択 ...
                             </div>
                             <input
                                 id="file"
@@ -158,8 +190,8 @@ class EditProduct extends React.Component {
                                 }}
                                 onChange={this.handleFileChange}
                             />
-                        </div> */}
-                        {/* {this.state.imageUrl ? (
+                        </div>
+                        {this.state.imageUrl ? (
                             <div
                                 style={{
                                     backgroundImage: `url(${this.state.imageUrl})`,
@@ -170,8 +202,8 @@ class EditProduct extends React.Component {
                                 }}
                             ></div>
 
-                        ) : null} */}
-                        <div className="form-group">
+                        ) : null}
+                        {/* <div className="form-group">
                             <h5>Image</h5>
                             <textarea
                                 className="form-control"
@@ -181,49 +213,49 @@ class EditProduct extends React.Component {
                                 value={this.state.imageUrl}
                                 onChange={this.handleImageUrlChange}
                             ></textarea>
-                        </div>
+                        </div> */}
                         {/* input ten cua san pham */}
                         <div className="form-group">
-                            <h5>Name</h5>
+                            <h5>名前</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input the new name of the product ..."
+                                placeholder="製品名を入力してください ..."
                                 value={this.state.newname}
                                 onChange={this.handlenewNameChange}
                             />
                         </div>
                         <div className="form-group">
-                            <h5>Description</h5>
+                            <h5>説明</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input description ..."
+                                placeholder="説明を入力してください ..."
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             ></textarea>
                         </div>
                         <div className="form-group">
-                            <h5>Category</h5>
+                            <h5>カテゴリー</h5>
                             <select
                                 className="form-control"
-                                placeholder="Please input category of the product..."
+                                placeholder="製品のカテゴリを入力してください..."
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                             >
-                                <option>Choose category</option>
-                                <option value="1">Spring</option>
-                                <option value="2">Summer</option>
-                                <option value="3">Autumn</option>
-                                <option value="4">Winter</option>
-                                <option value="5">Whatever</option>
+                                <option>カテゴリを選択</option>
+                                <option value="1">春</option>
+                                <option value="2">夏</option>
+                                <option value="3">秋</option>
+                                <option value="4">冬</option>
+                                <option value="5">なんでもいい</option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <h5>Price</h5>
+                            <h5>価格</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input price..."
+                                placeholder="価格を入力してください..."
                                 value={this.state.price}
                                 onChange={this.handlePriceChange}
                             />
@@ -248,7 +280,7 @@ class EditProduct extends React.Component {
                             <input
                                 type="submit"
                                 className="btn btn-primary"
-                                value="Update"
+                                value="アップデート"
                                 style={{ marginRight: 10 }}
                             />
                             <button
@@ -257,7 +289,7 @@ class EditProduct extends React.Component {
                                 onClick={this.handleReturnHomePage}
                                 style={{ marginLeft: 10 }}
                             >
-                                Cancel
+                                キャンセル
                             </button>
                         </div>
                     </form>

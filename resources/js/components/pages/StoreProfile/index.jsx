@@ -68,12 +68,12 @@ class StoreProfile extends Component {
         await axios
             .post(`http://127.0.0.1:8000/api/shop`, packets)
             .then((response) => {
-                toast.success("Tạo cửa hàng thành công!");
+                toast.success("ストアを正常に作成する!");
             })
 
             .catch((error) => {
                 console.log("ERROR:: ", error.response.data);
-                toast.error("Tạo cửa hàng không thành công!");
+                toast.error("ストアの作成に失敗しました!");
             });
     };
     render() {
@@ -87,44 +87,44 @@ class StoreProfile extends Component {
                 }}
             >
                 <div className="col-9">
-                    <h3>Create store</h3>
+                    <h3>ストアを作成する</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* input ten cua cua hang */}
                         <div className="form-group">
-                            <h5>Name</h5>
+                            <h5>名前</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input name of the store..."
+                                placeholder="お店の名前を入力してください..."
                                 value={this.state.name}
                                 onChange={this.handleNameChange}
                             />
                             {/* input dia chi cua cua hang */}
                         </div>
                         <div className="form-group">
-                            <h5>Address</h5>
+                            <h5>住所</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input address..."
+                                placeholder="住所を入力してください..."
                                 value={this.state.address}
                                 onChange={this.handleaddressChange}
                             />
                         </div>
                         <div className="form-group">
-                            <h5>Logo</h5>
+                            <h5>ロゴ</h5>
                             <textarea
                                 className="form-control"
                                 id="exampleFormControlTextarea1"
                                 rows="4"
-                                placeholder="Please input logo ..."
+                                placeholder="ロゴを入力してください ..."
                                 value={this.state.content}
                                 onChange={this.handleContentChange}
                             ></textarea>
                         </div>
                         <div className="form-group">
-                            <h5>Url store</h5>
+                            <h5>ストアのURL</h5>
                             <input
                                 className="form-control"
-                                placeholder="Please input url..."
+                                placeholder="URLを入力してください..."
                                 value={this.state.url}
                                 onChange={this.handleUrlChange}
                             />
@@ -149,7 +149,7 @@ class StoreProfile extends Component {
                             <input
                                 type="submit"
                                 className="btn btn-primary"
-                                value="Create"
+                                value="作成"
                                 style={{ margin: 5 }}
                             />
 
@@ -159,7 +159,7 @@ class StoreProfile extends Component {
                                 onClick={this.handleReturnHomePage}
                                 style={{ margin: 5 }}
                             >
-                                Cancel
+                                キャンセル
                             </button>
                         </div>
                     </form>
