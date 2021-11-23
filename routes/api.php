@@ -30,6 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::group(['prefix' => 'product'], function ($router) {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/recommend', [ProductController::class, 'recommend']);
+    Route::get('/shop', [ProductController::class, 'getShopProducts']);
     Route::post('/', [ProductController::class, 'store']);
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::post('/{id}/edit', [ProductController::class, 'update']);

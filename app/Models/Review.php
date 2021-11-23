@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'comment',
         'rating',
         'user_id',
-        'product_id'
+        'product_id',
     ];
 
     public $timestamps = true;

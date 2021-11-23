@@ -15,6 +15,7 @@ class Product extends Model
         'price',
         'description',
         'category_id',
+        'shop_id',
     ];
 
     protected $appends = ['recommend_mark'];
@@ -24,6 +25,11 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
     }
 
     public function reviews()

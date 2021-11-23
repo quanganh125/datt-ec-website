@@ -62,7 +62,6 @@ export default function Signin({ setAuth }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
         let userLogin = {
             email: user.email,
             password: user.password,
@@ -73,17 +72,18 @@ export default function Signin({ setAuth }) {
                 .then((res) => {
                     const data = res.data;
                     if (data.access_token) {
-                        toast.success("Đăng nhập thành công!");
+                        toast.success("正常にログインしました！");
                         setCookie("access_token", data.access_token, 3600);
                     }
                     setLoginFaild("");
                     setErrorPassword("");
-                    history.push("/");
-                    window.location.reload();
+                    window.location.href = `/`;
                 })
                 .catch((error) => {
-                    toast.error("Đăng nhập không thành công!");
-                    setLoginFaild("Email hoặc mật khẩu sai!");
+                    toast.error("ログインに失敗しました！");
+                    setLoginFaild(
+                        "メールアドレスまたはパスワードが間違っています！"
+                    );
                 });
         }
     };
@@ -106,7 +106,7 @@ export default function Signin({ setAuth }) {
                         required
                         fullWidth
                         id="email"
-                        label="Email"
+                        label="メール"
                         name="email"
                         autoComplete="email"
                         autoFocus
@@ -122,7 +122,7 @@ export default function Signin({ setAuth }) {
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label="パスワード"
                         type={showPassword ? "text" : "password"}
                         id="password"
                         autoComplete="current-password"
@@ -166,14 +166,15 @@ export default function Signin({ setAuth }) {
                         Login
                     </Button>
                     <Grid container>
-                        <Grid item xs>
+                        <Grid item xs={6}>
                             <Link to="/" variant="body2">
-                                Forgot password?
+                                パスワードをお忘れですか？
                             </Link>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={6}>
                             <Link to="/register">
-                                Don't have an account? Sign Up
+                                アカウントをお持ちではありませんか？
+                                サインアップ
                             </Link>
                         </Grid>
                     </Grid>

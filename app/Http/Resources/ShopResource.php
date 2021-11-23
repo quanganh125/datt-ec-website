@@ -20,6 +20,7 @@ class ShopResource extends JsonResource
             'address' => $this->address,
             'logo' => $this->logo,
             'url' => $this->url,
+            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -13,7 +13,8 @@ class Shop extends Model
         'name',
         'address',
         'logo',
-        'url'
+        'url',
+        'user_id',
     ];
 
     public $timestamps = true;
@@ -21,5 +22,10 @@ class Shop extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

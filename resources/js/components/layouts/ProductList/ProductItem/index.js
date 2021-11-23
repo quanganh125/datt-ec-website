@@ -31,7 +31,7 @@ export default function Item({ data }) {
             </div>
             <div className="itemContent">
                 <h6>{data.name}</h6>
-                <p className="item-value">Giá: {data.price}đ</p>
+                <p className="item-value">価格: {data.price}đ</p>
                 <Rate
                     numberVoted={caculatorAvgRate([])}
                     size={15}
@@ -43,23 +43,8 @@ export default function Item({ data }) {
             </div>
             <div className="itemDrop-btn">
                 <Button className="item-btn-care" onClick={() => goToDetail()}>
-                    Chi tiết
+                    詳細
                 </Button>
-
-                {/* <Button
-                    variant="contained"
-                    color="primary"
-                    className="btn-manager"
-                >
-                    Chỉnh sửa
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    className="btn-manager"
-                >
-                    Xóa
-                </Button> */}
             </div>
         </div>
     );

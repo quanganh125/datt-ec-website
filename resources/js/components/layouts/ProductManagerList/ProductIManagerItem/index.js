@@ -36,7 +36,6 @@ export default function Item({ data }) {
     };
 
     const handleDeleteProduct = (id) => {
-        console.log("Xoa san pham co id: ", id);
         dispatch(deleteProduct(id));
         handleClose();
     };
@@ -66,7 +65,7 @@ export default function Item({ data }) {
                 </Grid>
                 <Grid item className="item-manager-content" xs={6}>
                     <h6>{data.name}</h6>
-                    <p>Review count: {reviews.length}</p>
+                    <p>レビュー数: {reviews.length}</p>
                 </Grid>
                 <Grid item className="item-manager-button" xs={3}>
                     <Button
@@ -76,7 +75,7 @@ export default function Item({ data }) {
                         style={{ fontSize: 15, marginBottom: 2 }}
                         onClick={() => goToDetail()}
                     >
-                        Chỉnh sửa
+                        編集
                     </Button>
                     <Button
                         color="secondary"
@@ -85,7 +84,7 @@ export default function Item({ data }) {
                         style={{ fontSize: 15, marginTop: 2 }}
                         onClick={() => handleClickOpen()}
                     >
-                        Xóa
+                        消去
                     </Button>
                 </Grid>
             </Grid>
@@ -107,7 +106,7 @@ export default function Item({ data }) {
                 <DialogActions>
                     <Button onClick={handleClose}>キャンセル</Button>
                     <Button onClick={() => handleDeleteProduct(data.id)}>
-                        はい
+                        確認
                     </Button>
                 </DialogActions>
             </Dialog>
