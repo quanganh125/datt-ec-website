@@ -3,7 +3,7 @@ import { Grid, Button } from "@material-ui/core";
 import "./productManager.scss";
 import ProductManagerList from "../../layouts/ProductManagerList";
 import imgTest1 from "../../../assets/images/shop.png";
-import { fetchAllProduct } from "./../../redux/actions/productActions";
+import { fetchShopProduct } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -52,17 +52,19 @@ const dataList = [
 
 export default function Detail() {
     const dispatch = useDispatch();
-    const fetchProducts = () => {
-        dispatch(fetchAllProduct());
+    const fetchShopProducts = () => {
+        dispatch(fetchShopProduct());
     };
 
     useEffect(() => {
-        fetchProducts();
+        fetchShopProducts();
     }, []);
 
-    const all_product_datas = useSelector((state) => state.product.all_product);
+    const all_shop_product_datas = useSelector(
+        (state) => state.product.shop_products
+    );
 
-    console.log(all_product_datas);
+    console.log(all_shop_product_datas);
 
     return (
         <div id="productManagerContainer">
@@ -91,7 +93,7 @@ export default function Detail() {
                 </div>
             </div>
             <div className="product-list">
-                <ProductManagerList dataList={all_product_datas} />
+                <ProductManagerList dataList={all_shop_product_datas} />
             </div>
         </div>
     );

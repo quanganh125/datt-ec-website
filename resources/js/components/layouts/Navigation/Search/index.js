@@ -11,7 +11,7 @@ export default function Search() {
             <input
                 type="text"
                 id="header-search"
-                placeholder="Tìm kiếm sản phẩm"
+                placeholder="製品を検索。。。"
                 name="search"
                 value={inputVal}
                 onChange={(e) => {

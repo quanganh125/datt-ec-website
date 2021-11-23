@@ -7,16 +7,20 @@ use App\Models\Shop;
 use App\Http\Resources\ShopResource;
 use App\Http\Resources\ShopCollection;
 use App\Services\ShopService;
+use App\Services\UserService;
 use Validator;
 
 
 class ShopController extends Controller
 {
     protected $shopService;
+    protected $userService;
 
-    public function __construct(ShopService $shopService)
+    public function __construct(ShopService $shopService, UserService $userService)
     {
         $this->shopService = $shopService;
+        $this->userService = $userService;
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
     /**
      * Display a listing of the resource.
@@ -53,19 +57,20 @@ class ShopController extends Controller
             'address' => 'bail|required|string|max:255',
             'logo' => 'bail|string',
             'url' => 'bail|string',
-            'user_id' => 'bail|required|numeric',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
+        $user_id = auth()->user()->id;
+
         $shop = new Shop();
         $shop->name = $request->input('name');
         $shop->address = $request->input('address');
         $shop->logo = $request->input('logo');
         $shop->url = $request->input('url');
-        $shop->user_id = $request->input('user_id');
+        $shop->user_id = $user_id;
         $shop->save();
         return (new ShopResource($shop))->response();
     }
@@ -107,7 +112,6 @@ class ShopController extends Controller
             'address' => 'bail|required|string|max:255',
             'logo' => 'bail|string',
             'url' => 'bail|string',
-            'user_id' => 'bail|required|numeric',
         ]);
 
         if($validator->fails()){

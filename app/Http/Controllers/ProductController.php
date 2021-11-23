@@ -6,16 +6,20 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
+use App\Services\ShopService;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     protected $productService;
+    protected $shopService;
 
-    public function __construct(ProductService $productService)
+    public function __construct(ProductService $productService, ShopService $shopService)
     {
         $this->productService = $productService;
+        $this->shopService = $shopService;
     }
     /**
      * Create a new AuthController instance.
@@ -49,12 +53,14 @@ class ProductController extends Controller
             'category_id' => 'bail|required|numeric',
             'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
             'description' => 'bail|string',
-            'shop_id' => 'bail|required|numeric',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
+
+        $user_id = Auth::user()->id;
+        $shop_id = $this->shopService->getIdShop($user_id);
 
         $product = new Product();
         $product->name = $request->input('name');
@@ -62,7 +68,7 @@ class ProductController extends Controller
         $product->image_link = $request->input('image_link');
         $product->price = $request->input('price');
         $product->description = $request->input('description');
-        $product->shop_id = $request->input('shop_id');
+        $product->shop_id = $shop_id;
 
         $product->save();
         return (new ProductResource($product))->response();
@@ -105,7 +111,6 @@ class ProductController extends Controller
             'category_id' => 'bail|required|numeric',
             'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
             'description' => 'bail|string',
-            'shop_id' => 'bail|required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -126,5 +131,12 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = $this->productService->delete($id);
+    }
+
+    public function getShopProducts(){
+        $user_id = Auth::user()->id;
+        $shop_id = $this->shopService->getIdShop($user_id);
+        $products = $this->productService->getProductOfShop($shop_id);
+        return (new ProductCollection($products))->response();
     }
 }

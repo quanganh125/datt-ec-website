@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use App\Models\Shop;
-
+use App\Models\User;
 class ShopService
 {
     /**
@@ -29,6 +29,11 @@ class ShopService
     public function find($id)
     {
         return Shop::find($id);
+    }
+
+    public function getIdShop($user_id){
+        $shop_id = User::find($user_id)->shops()->get()->pluck('id')->first();
+        return $shop_id;
     }
 
     public function update($id, array $shop_data){
