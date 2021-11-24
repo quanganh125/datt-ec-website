@@ -18,7 +18,7 @@ class ReviewSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             DB::table('reviews')->insert([
                 'comment' => Str::random(100),
-                'rating' => random_int(1,10),
+                'rating' => random_int(1,5),
                 'user_id' => 1,
                 'product_id' => random_int(1,50)
             ]);

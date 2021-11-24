@@ -2,7 +2,7 @@ import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
 import { toast } from "react-toastify";
 import { api } from "../../constant";
-const apiProduct = `${api}api/product/`;
+export const apiProduct = `${api}api/product/`;
 
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";

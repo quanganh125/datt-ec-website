@@ -51,7 +51,8 @@ class ProductService
         }
     }
 
-    public function getProductOfShop($shop_id){
+    public function getProductOfShop($shop_id)
+    {
         $products = Product::where("shop_id", "=", $shop_id)->get();
         return $products;
     }
