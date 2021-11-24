@@ -31,7 +31,7 @@ export default function Item({ data }) {
             </div>
             <div className="itemContent">
                 <h6>{data.name}</h6>
-                <p className="item-value">価格: {data.price}đ</p>
+                <p className="item-value">価格: {data.price}円</p>
                 <Rate
                     numberVoted={caculatorAvgRate([])}
                     size={15}
