@@ -17,13 +17,14 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'category_id' => $this->category_id,
+            'category' => $this->category->name,
             'image_link' => $this->image_link,
             'price' => $this->price,
             'description' => $this->description,
             'recommend_mark' => $this->recommend_mark,
-            'shop_id' => $this->shop_id, 
-            'reviews' => $this->reviews,
+            'shop_id' => $this->shop_id,
+            'shop' =>$this->shop->name,
+            'reviews' => ReviewResource::collection($this->reviews),
         ];
     }
 }

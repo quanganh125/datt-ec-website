@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./productItem.scss";
 import { Button } from "@material-ui/core";
-import Logo from "../../../../assets/images/facebook.png";
 import Rate from "./../../Rate";
 import { useHistory } from "react-router-dom";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
-        return 4;
+        if (reviews.length == 0) return 0;
+        let sum = 0;
+        reviews.forEach((element) => {
+            sum += element.rating;
+        });
+        var avg = sum / reviews.length;
+        return parseFloat(avg.toFixed(1));
     };
     const [linkDetail, setLinkDetail] = useState("");
     const history = useHistory();
@@ -33,7 +38,7 @@ export default function Item({ data }) {
                 <h6>{data.name}</h6>
                 <p className="item-value">価格: {data.price}円</p>
                 <Rate
-                    numberVoted={caculatorAvgRate([])}
+                    numberVoted={caculatorAvgRate(data.reviews)}
                     size={15}
                     choice={data.vote}
                 />
