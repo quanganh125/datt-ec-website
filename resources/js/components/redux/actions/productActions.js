@@ -61,9 +61,9 @@ export const setShopProduct = (products) => {
     return { type: GET_SHOP_PRODUCT, payload: products };
 };
 
-export const fetchProductRecommend = () => async (dispatch) => {
+export const fetchProductRecommend = (page) => async (dispatch) => {
     await axios
-        .get(`${apiProduct}recommend`, { headers: headers })
+        .get(`${apiProduct}recommend/?page=${page}`, { headers: headers })
         .then((res) => {
             const get_product_recommend = res.data.data;
             dispatch(setProductRecommend(get_product_recommend));
