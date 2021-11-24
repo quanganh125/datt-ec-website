@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Container, Radio, Rating } from "./styles";
-const Rate = ({ numberVoted, size, choice }) => {
+const Rate = ({ numberVoted, size, choice, handleGetNumStar }) => {
     const [rate, setRate] = useState(numberVoted || 0);
+
+    const handleVoteStar = (givenRating) => {
+        if (choice === true) {
+            setRate(givenRating);
+            handleGetNumStar(givenRating);
+        }
+    };
+
     return (
         <Container style={{ fontSize: size || null }}>
             {[...Array(5)].map((item, index) => {
@@ -12,9 +20,7 @@ const Rate = ({ numberVoted, size, choice }) => {
                         <Radio
                             type="radio"
                             value={givenRating}
-                            onClick={() => {
-                                if (choice === true) setRate(givenRating);
-                            }}
+                            onClick={() => handleVoteStar(givenRating)}
                         />
                         <Rating>
                             <FaStar

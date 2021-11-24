@@ -6,6 +6,7 @@ import { Grid, Button } from "@material-ui/core";
 import { apiCategory } from "../../constant";
 import { apiProduct } from "./../../redux/actions/productActions";
 import axios from "axios";
+import RatingForm from "../../layouts/RatingForm";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +20,7 @@ class ProductDetail extends Component {
             category: "",
             shop: "",
             id: this.getProductId(),
+            isOpenRate: false,
         };
     }
 
@@ -62,9 +64,21 @@ class ProductDetail extends Component {
         return sum / this.state.reviews.length;
     };
 
+    handeOpenRatingForm = () => {
+        this.setState({
+            isOpenRate: true,
+        });
+    };
+
+    setIsOpen = (isOpen) => {
+        this.setState({
+            isOpenRate: isOpen,
+        });
+    };
+
     render() {
         return (
-            <div className="container">
+            <div className="product-detail-container">
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
                         <div className="product-name">
@@ -77,9 +91,6 @@ class ProductDetail extends Component {
                                 className="product-image"
                                 src="https://media.thieunien.vn/thumb/uploads/2021/10/31/tiktoker-reency-ngo-khong-sexy-boc-lua-nhung-thu-hut-hang-trieu-follow_43688.jpg"
                             />
-                        </div>
-                        <div className="review-btn">
-                            <Button className="item-btn-care">レビュー</Button>
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
@@ -133,6 +144,14 @@ class ProductDetail extends Component {
                                 </li>
                             </ul>
                         </div>
+                        <div className="review-btn">
+                            <Button
+                                onClick={() => this.handeOpenRatingForm()}
+                                className="item-btn-care"
+                            >
+                                レビュー
+                            </Button>
+                        </div>
                         <div className="product-reviews">
                             <label className="title"> レビュー </label>
                             <div className="reviews">
@@ -145,6 +164,11 @@ class ProductDetail extends Component {
                         </div>
                     </div>
                 </div>
+                <RatingForm
+                    isOpen={this.state.isOpenRate}
+                    setIsOpen={this.setIsOpen}
+                    idProduct={this.state.id}
+                />
             </div>
         );
     }
