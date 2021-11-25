@@ -39,18 +39,37 @@ class Product extends Model
 
     public function getRecommendMarkAttribute()
     {
-        $review_count = $this->reviews->count();
-        $rating_count = $this->reviews->sum('rating');
+        $recommend_mark = 0;
+        foreach ($this->reviews as $review) {
+            switch ($review->rating) {
+                case 1:
+                    $recommend_mark -= 2;
+                    break;
+                case 2:
+                    $recommend_mark += 0;
+                    break;
+                    break;
+                case 3:
+                    $recommend_mark += 1;
+                    break;
+                case 4:
+                    $recommend_mark += 2;
+                    break;
+                default:
+                    $recommend_mark += 3;
+                    break;
+            }
+        }
         /* CACH TINH DIEM RECOMMEND
-        Moi review tang 1 diem recommend
+        Moi review tang 0.5 diem recommend
         rating 1 sao -2
-        rating 2 sao -1
-        rating 3 sao 0
-        rating 4 sao +1
-        rating 5 sao +2
+        rating 2 sao 0
+        rating 3 sao +1
+        rating 4 sao +2
+        rating 5 sao +3
         => Tong diem
          */
-        $recommend_mark = $rating_count - 2 * $review_count;
+        $recommend_mark += ($this->reviews->count() / 2);
         return $recommend_mark;
     }
 }
