@@ -23,7 +23,7 @@ class ProductService
      */
     public function getAll()
     {
-        return Product::all();
+        return Product::paginate(8);
     }
 
     public function update($id, array $product_data)
@@ -55,5 +55,9 @@ class ProductService
     {
         $products = Product::where("shop_id", "=", $shop_id)->get();
         return $products;
+    }
+
+    public function getCount(){
+        return Product::count();
     }
 }

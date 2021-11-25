@@ -3,6 +3,7 @@ import "./productItem.scss";
 import { Button } from "@material-ui/core";
 import Rate from "./../../Rate";
 import { useHistory } from "react-router-dom";
+import StarRatings from "react-star-ratings";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -26,7 +27,7 @@ export default function Item({ data }) {
     };
 
     return (
-        <div className="itemContainer">
+        <div className="itemContainer" onClick={() => goToDetail()}>
             <div className="itemHeader">
                 <img
                     src={data.image_link}
@@ -37,17 +38,21 @@ export default function Item({ data }) {
             <div className="itemContent">
                 <h6>{data.name}</h6>
                 <p className="item-value">価格: {data.price}円</p>
-                <Rate
-                    numberVoted={caculatorAvgRate(data.reviews)}
-                    size={15}
-                    choice={data.vote}
+                <StarRatings
+                    rating={caculatorAvgRate(data.reviews)}
+                    starDimension="20px"
+                    starSpacing="0"
+                    starRatedColor="#fcec00"
                 />
                 <div className="item-create-location">
                     <span className="item-location">{data.location}</span>
                 </div>
             </div>
             <div className="itemDrop-btn">
-                <Button className="item-btn-care" onClick={() => goToDetail()}>
+                <Button
+                    className="item-btn-detail"
+                    onClick={() => goToDetail()}
+                >
                     詳細
                 </Button>
             </div>

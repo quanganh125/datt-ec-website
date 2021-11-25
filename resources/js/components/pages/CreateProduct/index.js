@@ -1,27 +1,10 @@
-// import React from "react";
-
-// export default function CreateProduct() {
-//     return (
-//         <div>
-//             <label class="mdc-text-field mdc-text-field--outlined">
-//                 <span class="mdc-notched-outline">
-//                     <span class="mdc-notched-outline__leading"></span>
-//                     <span class="mdc-notched-outline__notch">
-//                         <span class="mdc-floating-label" id="my-label-id">Your Name</span>
-//                     </span>
-//                     <span class="mdc-notched-outline__trailing"></span>
-//                 </span>
-//                 <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id"/>
-//             </label>
-//         </div>
-//     );
-// }
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { api } from "../../constant";
+import { getCookie } from "./../../utils/cookie";
 class CreateProduct extends Component {
     state = {
         content: "",
@@ -100,7 +83,6 @@ class CreateProduct extends Component {
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
                 //filereader.result
-                console.log(fileReader.result.split(",")[1]);
                 this.setState({
                     errormessage: "",
                     file: file,
@@ -123,11 +105,15 @@ class CreateProduct extends Component {
             // userLevel: this.state.userLevel,
             // password: this.state.password
         };
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
         await axios
-            .post(`${api}api/product`, packets)
+            .post(`${api}api/product`, packets, { headers: headers })
             .then((response) => {
                 toast.success("製品が正常に作成されました！");
-                //window.location.href = `/product/manager`;
+                // window.location.href = `/product/manager`;
             })
             .catch((error) => {
                 toast.error("製品の作成に失敗しました！");

@@ -49,10 +49,10 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required|string|max:255',
-            'image_link' => 'bail|required|string',
+            'image_link' => 'bail|string',
             'category_id' => 'bail|required|numeric',
-            'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
-            'description' => 'bail|string',
+            'price' => 'bail|required|regex:/^\d+(\.\d{1,2})?$/',
+            'description' => 'bail|required|string',
         ]);
 
         if ($validator->fails()) {
@@ -138,5 +138,9 @@ class ProductController extends Controller
         $shop_id = $this->shopService->getIdShop($user_id);
         $products = $this->productService->getProductOfShop($shop_id);
         return (new ProductCollection($products))->response();
+    }
+
+    public function getCountProduct(){
+        return $this->productService->getCount();
     }
 }

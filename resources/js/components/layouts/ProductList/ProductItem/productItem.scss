@@ -5,6 +5,7 @@
     border-color: #dfe1e3;
     position: relative;
     transition: all 0.4s ease-out;
+    border-radius: 10px;
     &:hover {
         cursor: pointer;
         // box-shadow: 0 0 20px 8px #c4c4c4;
@@ -70,12 +71,15 @@
 .itemDrop-btn {
     margin: 0px 20px 0px 20px;
     padding-bottom: 10px;
-    .item-btn-care {
+    .item-btn-detail {
         width: 100%;
-        background: linear-gradient(45deg, orange 10%, coral 90%);
+        background: #05042c;
         border-radius: 10px;
         margin-bottom: 10px;
         color: white;
+        &:hover {
+            background: #0abfd2;
+        }
     }
     .item-btn-chat {
         width: 100%;
