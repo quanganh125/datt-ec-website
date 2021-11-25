@@ -1,22 +1,22 @@
 import { Grid, Button } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import { TramRounded } from "@material-ui/icons";
 import Rating from "../Rate";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+import { api } from "../../constant/index";
+import { toast } from "react-toastify";
+import { headers } from "../../redux/actions/productActions.js"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function RatingForm({ isOpen, setIsOpen, idProduct }) {
+export default function RatingForm({ isOpen, setIsOpen, productId }) {
     const classes = useStyles();
 
     const [evaluate, setEvaluate] = useState("");
@@ -24,21 +24,32 @@ export default function RatingForm({ isOpen, setIsOpen, idProduct }) {
 
     const handleGetNumStar = (num) => {
         setNumStar(num);
-        console.log("num", num);
     };
 
     const handleOnChange = (e) => {
         setEvaluate(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("submit tai day");
-        //kiem tra dieu kien
         if (evaluate == "" && numStar == 0) {
             alert("製品を評価するには、完全な情報を入力する必要があります");
         } else {
-            //cho goi api
+            const review = {
+                rating: numStar,
+                comment: evaluate,
+                product_id: productId,
+            };
+            await axios
+                .post(`${api}api/review`, review, { headers: headers })
+                .then((response) => {
+                    console.log(response);
+                    toast.success("レビューが正常に追加されました！");
+                })
+                .catch((error) => {
+                    toast.error("レビューの追加に失敗しました！");
+                    console.error("ERROR:: ", error.response.data);
+                });
         }
         handleClose();
     };

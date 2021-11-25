@@ -9,7 +9,7 @@ const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
 const DELETE_PRODUCT = "DELETE_PRODUCT";
 const GET_SHOP_PRODUCT = "GET_SHOP_PRODUCT";
 
-const headers = {
+export const headers = {
     "Content-type": "application/json",
     Authorization: `Bearer ${getCookie("access_token")}`,
 };

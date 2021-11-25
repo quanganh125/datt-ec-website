@@ -3,7 +3,6 @@ import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
 import Review from "./review";
 import { Grid, Button } from "@material-ui/core";
-import { apiCategory } from "../../constant";
 import { apiProduct } from "./../../redux/actions/productActions";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
@@ -25,29 +24,23 @@ class ProductDetail extends Component {
     }
 
     componentDidMount() {
-        const getProductApi = axios.get(`${apiProduct}${this.state.id}`);
-        const getCategoryApi = axios.get(apiCategory);
-        axios.all([getProductApi, getCategoryApi]).then(
-            axios.spread((...allData) => {
-                const dataProducts = allData[0].data.data;
-                const dataCategory = allData[1].data.data;
-
+        axios
+            .get(`${apiProduct}${this.state.id}`)
+            .then((res) => {
                 this.setState({
-                    name: dataProducts.name,
-                    image_link: dataProducts.image_link,
-                    price: dataProducts.price,
-                    description: dataProducts.description,
-                    recommend_mark: dataProducts.recommend_mark,
-                    reviews: dataProducts.reviews,
-                    shop: dataProducts.shop,
-                });
-                this.setState({
-                    category: dataCategory.filter(
-                        (element) => element.id === dataProducts.category_id
-                    )[0].name,
+                    name: res.data.data.name,
+                    image_link: res.data.data.image_link,
+                    price: res.data.data.price,
+                    description: res.data.data.description,
+                    recommend_mark: res.data.data.recommend_mark,
+                    reviews: res.data.data.reviews,
+                    shop: res.data.data.shop,
+                    category: res.data.data.category,
                 });
             })
-        );
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     getProductId = () => {
@@ -61,7 +54,8 @@ class ProductDetail extends Component {
         this.state.reviews.forEach((element) => {
             sum += element.rating;
         });
-        return sum / this.state.reviews.length;
+        var avg = sum / this.state.reviews.length;
+        return parseFloat(avg.toFixed(1));
     };
 
     handeOpenRatingForm = () => {
@@ -89,7 +83,7 @@ class ProductDetail extends Component {
                         <div className="image">
                             <img
                                 className="product-image"
-                                src="https://media.thieunien.vn/thumb/uploads/2021/10/31/tiktoker-reency-ngo-khong-sexy-boc-lua-nhung-thu-hut-hang-trieu-follow_43688.jpg"
+                                src={this.state.image_link}
                             />
                         </div>
                     </div>
@@ -127,19 +121,19 @@ class ProductDetail extends Component {
                                 <li>
                                     <p>
                                         <b>説明：</b>
-                                        {this.state.description}{" "}
+                                        {this.state.description}
                                     </p>
                                 </li>
                                 <li>
                                     <p>
                                         <b>カテゴリー：</b>
-                                        {this.state.category}{" "}
+                                        {this.state.category}
                                     </p>
                                 </li>
                                 <li>
                                     <p>
                                         <b>店舗：</b>
-                                        {this.state.shop}{" "}
+                                        {this.state.shop}
                                     </p>
                                 </li>
                             </ul>
@@ -167,7 +161,7 @@ class ProductDetail extends Component {
                 <RatingForm
                     isOpen={this.state.isOpenRate}
                     setIsOpen={this.setIsOpen}
-                    idProduct={this.state.id}
+                    productId={this.state.id}
                 />
             </div>
         );

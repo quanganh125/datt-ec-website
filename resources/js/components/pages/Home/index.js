@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, DatePicker, version } from "antd";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import "./home.scss";
 import ProductList from "../../layouts/ProductList";
-import imgTest1 from "../../../assets/images/google.png";
 import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 

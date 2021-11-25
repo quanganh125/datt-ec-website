@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Item from "./ProductItem";
 import "./productList.scss";
 
@@ -13,9 +13,6 @@ export default function ProductList({ dataList }) {
                     </Grid>
                 ))}
             </Grid>
-            {/* <div className="list-more-btn">
-                <Button className="more-btn">Xem thêm</Button>
-            </div> */}
         </div>
     );
 }
