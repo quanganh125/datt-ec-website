@@ -6,6 +6,8 @@ import { Grid, Button } from "@material-ui/core";
 import { apiProduct } from "./../../redux/actions/productActions";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
+import Pagination from "react-js-pagination";
+import { getCookie } from "../../utils/cookie";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +24,6 @@ class ProductDetail extends Component {
             isOpenRate: false,
         };
     }
-
     componentDidMount() {
         axios
             .get(`${apiProduct}${this.state.id}`)
@@ -59,15 +60,30 @@ class ProductDetail extends Component {
     };
 
     handeOpenRatingForm = () => {
-        this.setState({
-            isOpenRate: true,
-        });
+        if (getCookie("access_token"))
+            this.setState({
+                isOpenRate: true,
+            });
     };
 
     setIsOpen = (isOpen) => {
         this.setState({
             isOpenRate: isOpen,
         });
+    };
+
+    reloadReview = async () => {
+        console.log("anb");
+        await axios
+            .get(`${apiProduct}${this.state.id}`)
+            .then((res) => {
+                this.setState({
+                    reviews: res.data.data.reviews,
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     render() {
@@ -82,14 +98,14 @@ class ProductDetail extends Component {
                         </div>
                         <div className="image">
                             <img
-                                className="product-image"
+                                className="product-image-detail"
                                 src={this.state.image_link}
                             />
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <div className="product-price">
-                            <label className="title"> 価値 </label>
+                            <label className="title"> 価値： </label>
                             <h3>
                                 {this.state.price} 円
                                 <span className="lead">オンライン価格</span>
@@ -155,6 +171,21 @@ class ProductDetail extends Component {
                                     </Grid>
                                 ))}
                             </div>
+                            {/* <div className="paginate">
+                                <Pagination
+                                    activePage={0}
+                                    itemsCountPerPage={4}
+                                    totalItemsCount={this.state.reviews.length}
+                                    onChange={(pageNumber) => {
+                                        this.reloadReview(pageNumber);
+                                    }}
+                                    pageRangeDisplayed={8}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    firstPageText="First Page"
+                                    lastPageText="Last Lage"
+                                />
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -162,6 +193,7 @@ class ProductDetail extends Component {
                     isOpen={this.state.isOpenRate}
                     setIsOpen={this.setIsOpen}
                     productId={this.state.id}
+                    reloadReview={this.reloadReview}
                 />
             </div>
         );

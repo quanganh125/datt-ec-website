@@ -10,13 +10,18 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { api } from "../../constant/index";
 import { toast } from "react-toastify";
-import { headers } from "../../redux/actions/productActions.js"
+import { headers } from "../../redux/actions/productActions.js";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function RatingForm({ isOpen, setIsOpen, productId }) {
+export default function RatingForm({
+    isOpen,
+    setIsOpen,
+    productId,
+    reloadReview,
+}) {
     const classes = useStyles();
 
     const [evaluate, setEvaluate] = useState("");
@@ -44,6 +49,7 @@ export default function RatingForm({ isOpen, setIsOpen, productId }) {
                 .post(`${api}api/review`, review, { headers: headers })
                 .then((response) => {
                     console.log(response);
+                    reloadReview();
                     toast.success("レビューが正常に追加されました！");
                 })
                 .catch((error) => {

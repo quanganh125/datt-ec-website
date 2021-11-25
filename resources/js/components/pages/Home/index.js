@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./home.scss";
 import ProductList from "../../layouts/ProductList";
 import { fetchProductRecommend } from "./../../redux/actions/productActions";
@@ -21,7 +21,7 @@ export default function Home() {
 
     const getPageCount = async () => {
         await axios
-            .get(`http://127.0.0.1:8000/api/product/count`)
+            .get(`${api}api/product/count`)
             .then((res) => {
                 setPageCount(res.data);
                 console.log(res.data);
@@ -49,11 +49,11 @@ export default function Home() {
                     onChange={(pageNumber) => {
                         fetchProduct(pageNumber);
                     }}
-                    pageRangeDisplayed={8}
+                    pageRangeDisplayed={4}
                     itemClass="page-item"
                     linkClass="page-link"
-                    firstPageText="First Page"
-                    lastPageText="Last Lage"
+                    firstPageText="First"
+                    lastPageText="Last"
                 />
             </div>
         </div>
