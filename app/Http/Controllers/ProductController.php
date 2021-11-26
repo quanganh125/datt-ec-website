@@ -83,6 +83,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->productService->get($id);
+        $product->reviews = $product->reviews->sortByDesc('created_at');
         return (new ProductResource($product))->response();
     }
 
