@@ -13,7 +13,9 @@ class ProductService
      */
     public function get($id)
     {
-        return Product::find($id);
+        $product = Product::find($id);
+        $product->reviews = $product->reviews->sortByDesc('created_at');
+        return $product;
     }
 
     /**
