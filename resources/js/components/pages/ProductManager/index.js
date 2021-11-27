@@ -64,8 +64,6 @@ export default function Detail() {
         (state) => state.product.shop_products
     );
 
-    console.log(all_shop_product_datas);
-
     return (
         <div id="productManagerContainer">
             <div className="product-handler">

@@ -5,13 +5,12 @@ import { toast } from "react-toastify";
 import Logo from "../../../assets/images/shop.png";
 import Search from "./Search";
 import axios from "axios";
+import { apiLogout } from "../../constant";
 import {
     deleteAllCookies,
     deleteCookie,
     getCookie,
 } from "./../../utils/cookie";
-
-const apiLogout = "http://127.0.0.1:8000/api/auth/logout";
 
 export default function Navigation({ userProfile, loginState }) {
     const [click, setClick] = useState(false);

@@ -28,8 +28,6 @@ class ShowStoreProfile extends Component {
                     content: res.data.data.logo,
                     url: res.data.data.url,
                 });
-                console.log(this.state.address);
-                console.log(this.state.content);
             })
             .catch((error) => {
                 console.log(error);

@@ -48,7 +48,6 @@ export default function RatingForm({
             await axios
                 .post(`${api}api/review`, review, { headers: headers })
                 .then((response) => {
-                    console.log(response);
                     reloadReview();
                     toast.success("レビューが正常に追加されました！");
                 })

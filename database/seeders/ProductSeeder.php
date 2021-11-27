@@ -15,13 +15,17 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 25; $i++) {
+            $timestamp = rand( strtotime("Jan 01 2018"), strtotime("Nov 01 2021") );
+            $random_Date = date("Y-m-d H:i:s", $timestamp );
             DB::table('products')->insert([
                 'name' => Str::random(10),
                 'price' => rand(100, 100000),
                 'description' => Str::random(100),
                 'category_id' => random_int(1, 5),
                 'shop_id' => 1,
+                'created_at' => $random_Date,
+                'updated_at' => $random_Date,
             ]);
         }
     }
