@@ -21,6 +21,8 @@ import {
     validatePassword,
 } from "../../utils/validate";
 import { api } from "../../constant";
+import { useDispatch, useSelector } from "react-redux";
+import { setHideNav } from "../../redux/actions/userActions";
 
 const apiSignup = `${api}api/auth/register`;
 
@@ -44,6 +46,17 @@ export default function Signup() {
         }));
         console.log(e.target.value);
     };
+
+    const dispatch = useDispatch();
+    const hideNav = () => {
+        dispatch(setHideNav());
+    };
+    useEffect(() => {
+        console.log("chay");
+        hideNav();
+    }, []);
+    const isShowNav = useSelector((state) => state.user.isShowNav);
+    console.log("nav login", isShowNav);
 
     const validate = () => {
         let state = true;

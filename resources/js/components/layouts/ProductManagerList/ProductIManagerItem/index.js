@@ -53,9 +53,17 @@ export default function Item({ data }) {
         setOpen(false);
     };
 
+    const nextDetail = () => {
+        window.location.href = `/product/${data.id}/detail`;
+    };
+
     return (
         <>
-            <Grid container className="item-manager-container">
+            <Grid
+                container
+                className="item-manager-container"
+                onClick={() => nextDetail()}
+            >
                 <Grid item className="item-manager-image" xs={3}>
                     <img
                         src={data.image_link}
