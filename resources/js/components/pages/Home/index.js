@@ -24,7 +24,6 @@ export default function Home() {
             .get(`${api}api/product/count`)
             .then((res) => {
                 setPageCount(res.data);
-                console.log(res.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -35,12 +34,24 @@ export default function Home() {
         (state) => state.product.product_recommend
     );
 
+    const searchTitle = useSelector((state) => state.search.search_title);
+
+    const getSearchResult = () => {
+        if (searchTitle == "") return product_recommend_datas;
+        else
+            return product_recommend_datas.filter(function (el) {
+                return el.name
+                    .toLowerCase()
+                    .includes(searchTitle.toLowerCase());
+            });
+    };
+
     return (
         <div id="homeContainer">
             <h3>
                 <b>レコメンデーション</b>
             </h3>
-            <ProductList dataList={product_recommend_datas} />
+            <ProductList dataList={getSearchResult()} />
             <div className="paginate">
                 <Pagination
                     activePage={0}
