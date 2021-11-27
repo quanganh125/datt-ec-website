@@ -41,7 +41,6 @@ export default function App() {
     useEffect(() => {
         setLogin(loginState);
     }, [loginState]);
-    console.log("login", login);
     return (
         <Fragment>
             <Router>

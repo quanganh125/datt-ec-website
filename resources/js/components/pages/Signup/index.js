@@ -42,7 +42,6 @@ export default function Signup() {
             ...prevState,
             [e.target.name]: e.target.value,
         }));
-        console.log(e.target.value);
     };
 
     const validate = () => {
@@ -73,7 +72,6 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
         let userRegister = {
             name: user.name,
             email: user.email,
@@ -90,7 +88,6 @@ export default function Signup() {
                     history.push("/login");
                 })
                 .catch((error) => {
-                    console.log("loi loi");
                     console.error(error);
                     toast.error("サインアップに失敗しました！");
                 });

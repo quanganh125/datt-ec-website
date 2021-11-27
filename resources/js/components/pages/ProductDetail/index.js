@@ -73,7 +73,6 @@ class ProductDetail extends Component {
     };
 
     reloadReview = async () => {
-        console.log("anb");
         await axios
             .get(`${apiProduct}${this.state.id}`)
             .then((res) => {
