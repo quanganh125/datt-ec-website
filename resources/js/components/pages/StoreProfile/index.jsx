@@ -58,12 +58,9 @@ class StoreProfile extends Component {
 
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        // const {match} = this.props;
         const packets = {
             name: this.state.name,
             address: this.state.address,
-            //file: this.state.file,
-            //category_id: this.state.category,
             logo: this.state.content,
             url: this.state.url,
         };

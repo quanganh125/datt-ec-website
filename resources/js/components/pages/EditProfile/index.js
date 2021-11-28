@@ -32,7 +32,6 @@ class EditStoreProfile extends Component {
 
             .catch((error) => {
                 console.log("ERROR:: ", error.response.data);
-                console.log(" loi");
             });
     };
     handleReturnHomePage = () => {
@@ -100,7 +99,6 @@ class EditStoreProfile extends Component {
     };
 
     componentDidMount() {
-        console.log("goi api");
         const apiGetProduct = `${api}api/shop/${this.state.id}`;
         axios
             .get(apiGetProduct)

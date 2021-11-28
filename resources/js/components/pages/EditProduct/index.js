@@ -7,11 +7,9 @@ import { getCookie } from "./../../utils/cookie";
 class EditProduct extends React.Component {
     constructor(props) {
         super(props);
-        //console.log(this.props.match.params.id);
         this.state = {
             content: "",
             imageUrl: "",
-            // file: undefined,
             errormessage: "",
             successmessage: "",
             price: "",
@@ -19,26 +17,14 @@ class EditProduct extends React.Component {
             newname: "",
             url: "",
             id: this.props.match.params.id,
-            // id:"",
         };
     }
-    // state = {
-
-    // };
     handleReturnHomePage = () => {
         this.setState({
             successmessage: "",
         });
         window.location.href = `/`;
     };
-    // handleImageUrlChange = (event) => {
-    //     this.setState({
-    //         successmessage: "",
-    //     });
-    //     this.setState({
-    //         imageUrl: event.target.value,
-    //     });
-    // };
     //xu li ten cua san pham
     handleCategoryChange = (event) => {
         this.setState({
@@ -90,8 +76,6 @@ class EditProduct extends React.Component {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
-                //filereader.result
-                console.log(fileReader.result.split(",")[1]);
                 this.setState({
                     errormessage: "",
                     file: file,
@@ -103,11 +87,9 @@ class EditProduct extends React.Component {
     };
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        // const {match} = this.props;
         const packets = {
             name: this.state.newname,
             price: this.state.price,
-            //file: this.state.file,
             category_id: this.state.category,
             description: this.state.content,
             image_link: this.state.imageUrl,
@@ -131,12 +113,10 @@ class EditProduct extends React.Component {
     };
 
     componentDidMount() {
-        console.log("goi api");
         const apiGetProduct = `${api}api/product/${this.state.id}`;
         axios
             .get(apiGetProduct)
             .then((response) => {
-                console.log("data", response.data.data);
                 let dataProduct = response.data.data;
                 this.setState({
                     content: dataProduct.description,

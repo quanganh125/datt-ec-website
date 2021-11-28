@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import "./search.scss";
+import { useDispatch } from "react-redux";
+import { setSearchTittle } from "./../../../redux/actions/seachAction";
 
 export default function Search() {
     const [inputVal, setInputVal] = useState("");
     const formRef = useRef(null);
+    const dispatch = useDispatch();
 
     return (
         <div id="boxSearch" ref={formRef}>
@@ -17,7 +20,7 @@ export default function Search() {
                 onChange={(e) => {
                     const val = e.target.value;
                     setInputVal(val);
-                    console.log(inputVal);
+                    dispatch(setSearchTittle(val));
                 }}
             />
             <button type="submit" id="button">
