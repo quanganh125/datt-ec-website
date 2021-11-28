@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import Rate from "./../../Rate";
 import { useHistory } from "react-router-dom";
 import StarRatings from "react-star-ratings";
+import { pathImg } from "../../../constant";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -19,6 +20,7 @@ export default function Item({ data }) {
     const history = useHistory();
 
     useEffect(() => {
+        // setImage_link(`storage/app/public/product_img/${data.image_link}`);
         setLinkDetail(`/product/${data.id}/detail`);
     }, [linkDetail]);
 
@@ -30,7 +32,10 @@ export default function Item({ data }) {
         <div className="itemContainer" onClick={() => goToDetail()}>
             <div className="itemHeader">
                 <img
-                    src={data.image_link}
+                    src={
+                        require(`../../../../../../storage/app/public/product_img/${data.image_link}`)
+                            .default
+                    }
                     alt="productImg"
                     className="itemImg"
                 />

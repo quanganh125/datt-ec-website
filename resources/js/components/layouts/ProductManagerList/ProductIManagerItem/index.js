@@ -66,7 +66,10 @@ export default function Item({ data }) {
             >
                 <Grid item className="item-manager-image" xs={3}>
                     <img
-                        src={data.image_link}
+                        src={
+                            require(`../../../../../../storage/app/public/product_img/${data.image_link}`)
+                                .default
+                        }
                         alt="productImg"
                         className="itemImg"
                     />

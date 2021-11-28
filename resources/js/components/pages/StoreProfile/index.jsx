@@ -4,6 +4,7 @@ const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { api } from "../../constant";
+import { getCookie } from "./../../utils/cookie";
 class StoreProfile extends Component {
     state = {
         content: "",
@@ -66,8 +67,14 @@ class StoreProfile extends Component {
             logo: this.state.content,
             url: this.state.url,
         };
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
         await axios
-            .post(`${api}api/shop`, packets)
+            .post(`${api}api/shop`, packets, {
+                headers: headers,
+            })
             .then((response) => {
                 toast.success("ストアを正常に作成する!");
             })
