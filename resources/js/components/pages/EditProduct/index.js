@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { api } from "../../constant";
+import { apiProduct } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 //import { useParams } from 'react-router-dom';
 class EditProduct extends React.Component {
@@ -99,7 +99,7 @@ class EditProduct extends React.Component {
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
         await axios
-            .post(`${api}api/product/${this.state.id}/edit`, packets, {
+            .post(`${apiProduct}/${this.state.id}/edit`, packets, {
                 headers: headers,
             })
             .then((response) => {
@@ -113,7 +113,7 @@ class EditProduct extends React.Component {
     };
 
     componentDidMount() {
-        const apiGetProduct = `${api}api/product/${this.state.id}`;
+        const apiGetProduct = `${apiProduct}/${this.state.id}`;
         axios
             .get(apiGetProduct)
             .then((response) => {

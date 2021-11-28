@@ -3,7 +3,7 @@ import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
-import { api } from "../../constant";
+import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 class EditStoreProfile extends Component {
     state = {
@@ -23,7 +23,7 @@ class EditStoreProfile extends Component {
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
         await axios
-            .post(`${api}api/shop/${this.state.id}/delete`, {
+            .post(`${apiShop}/${this.state.id}/delete`, {
                 headers: headers,
             })
             .then((response) => {
@@ -88,7 +88,7 @@ class EditStoreProfile extends Component {
             url: this.state.url,
         };
         await axios
-            .post(`${api}api/shop/${this.state.id}/edit`, packets)
+            .post(`${apiShop}/${this.state.id}/edit`, packets)
             .then((response) => {
                 toast.success("店舗の更新に成功しました！");
             })
@@ -99,7 +99,7 @@ class EditStoreProfile extends Component {
     };
 
     componentDidMount() {
-        const apiGetProduct = `${api}api/shop/${this.state.id}`;
+        const apiGetProduct = `${apiShop}/${this.state.id}`;
         axios
             .get(apiGetProduct)
             .then((response) => {

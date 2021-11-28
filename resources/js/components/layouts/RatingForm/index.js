@@ -8,7 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { api } from "../../constant/index";
+import { apiReview } from "../../constant/index";
 import { toast } from "react-toastify";
 import { headers } from "../../redux/actions/productActions.js";
 
@@ -46,7 +46,7 @@ export default function RatingForm({
                 product_id: productId,
             };
             await axios
-                .post(`${api}api/review`, review, { headers: headers })
+                .post(apiReview, review, { headers: headers })
                 .then((response) => {
                     reloadReview();
                     toast.success("レビューが正常に追加されました！");
