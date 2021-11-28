@@ -22,10 +22,12 @@ class ProductDetail extends Component {
             shop: "",
             id: this.getProductId(),
             isOpenRate: false,
+            isLoading: false,
         };
     }
-    componentDidMount() {
-        axios
+
+    fetchProductDetail = async () => {
+        await axios
             .get(`${apiProduct}${this.state.id}`)
             .then((res) => {
                 this.setState({
@@ -37,11 +39,16 @@ class ProductDetail extends Component {
                     reviews: res.data.data.reviews,
                     shop: res.data.data.shop,
                     category: res.data.data.category,
+                    isLoading: true,
                 });
             })
             .catch((error) => {
                 console.log(error);
             });
+    };
+
+    componentDidMount() {
+        this.fetchProductDetail();
     }
 
     getProductId = () => {
@@ -95,11 +102,19 @@ class ProductDetail extends Component {
                                 {this.state.name}
                             </h1>
                         </div>
+
                         <div className="image">
-                            <img
-                                className="product-image-detail"
-                                src={this.state.image_link}
-                            />
+                            {console.log("Link", this.state.image_link)}
+                            {this.state.isLoading ? (
+                                <img
+                                    className="product-image-detail"
+                                    src={this.state.image_link}
+                                    src={
+                                        require(`../../../../../storage/app/public/product_img/${this.state.image_link}`)
+                                            .default
+                                    }
+                                />
+                            ) : null}
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
