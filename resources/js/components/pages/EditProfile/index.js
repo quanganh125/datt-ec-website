@@ -4,6 +4,7 @@ const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { api } from "../../constant";
+import { getCookie } from "./../../utils/cookie";
 class EditStoreProfile extends Component {
     state = {
         content: "",
@@ -17,9 +18,14 @@ class EditStoreProfile extends Component {
     handleDelete = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
-
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
         await axios
-            .post(`${api}api/shop/${this.state.id}/delete`)
+            .post(`${api}api/shop/${this.state.id}/delete`, {
+                headers: headers,
+            })
             .then((response) => {
                 console.log("thanh cong");
             })

@@ -48,7 +48,7 @@ class AuthController extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
+            'name' => 'required|string|between:4,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:4',
         ]);
@@ -116,8 +116,8 @@ class AuthController extends Controller
 
     public function changePassWord(Request $request) {
         $validator = Validator::make($request->all(), [
-            'old_password' => 'required|string|min:6',
-            'new_password' => 'required|string|confirmed|min:6',
+            'old_password' => 'required|string|min:4',
+            'new_password' => 'required|string|confirmed|min:4',
         ]);
 
         if($validator->fails()){

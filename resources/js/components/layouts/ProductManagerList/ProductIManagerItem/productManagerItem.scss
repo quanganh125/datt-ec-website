@@ -9,6 +9,9 @@
     justify-content: left;
     align-items: center;
     display: flex;
+    &:hover {
+        cursor: pointer;
+    }
 }
 .item-manager-image {
     .itemImg {
@@ -18,6 +21,9 @@
     }
 }
 .item-manager-content {
+    h6 {
+        color: red;
+    }
 }
 
 .item-manager-button {

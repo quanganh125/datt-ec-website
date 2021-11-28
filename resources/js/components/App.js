@@ -20,7 +20,7 @@ import StoreProfile from "./pages/StoreProfile";
 import ShowStoreProfile from "./pages/ShowProfile";
 import EditStoreProfile from "./pages/EditProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../components/redux/actions/userActions";
+import { fetchUser, setShowNav } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
@@ -32,11 +32,18 @@ export default function App() {
             dispatch(fetchUser(getCookie("access_token")));
         }
     };
-    const userProfile = useSelector((state) => state.user.user);
-    const loginState = useSelector((state) => state.user.loginState);
+    const showNav = () => {
+        // dispatch(setShowNav());
+    };
     useEffect(() => {
+        showNav();
         checkAuth();
     }, []);
+
+    const userProfile = useSelector((state) => state.user.user);
+    const loginState = useSelector((state) => state.user.loginState);
+    const isShowNav = useSelector((state) => state.user.isShowNav);
+    // console.log("isShowNav", isShowNav);
 
     useEffect(() => {
         setLogin(loginState);
@@ -44,7 +51,9 @@ export default function App() {
     return (
         <Fragment>
             <Router>
-                <Navigation userProfile={userProfile} loginState={login} />
+                {isShowNav ? (
+                    <Navigation userProfile={userProfile} loginState={login} />
+                ) : null}
                 <Switch>
                     <Route
                         exact

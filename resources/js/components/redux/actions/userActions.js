@@ -5,6 +5,8 @@ const apiUser = `${api}api/auth/user-profile`;
 
 const USER_PROFILE = "USER_PROFILE";
 const LOGIN_STATE = "LOGIN_STATE";
+const SHOW_NAV = "SHOW_NAV";
+const HIDE_NAV = "HIDE_NAV";
 
 export const fetchUser = (access_token) => async (dispatch) => {
     const headers = {
@@ -33,4 +35,13 @@ export const setUser = (user) => {
 
 export const setLogin = (state) => {
     return { type: LOGIN_STATE, payload: state };
+};
+
+export const setShowNav = () => {
+    return { type: SHOW_NAV };
+};
+
+export const setHideNav = () => {
+    console.log("hide hide");
+    return { type: HIDE_NAV };
 };

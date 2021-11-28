@@ -20,6 +20,8 @@ import { validateEmail, validatePassword } from "../../utils/validate";
 import { setCookie } from "./../../utils/cookie";
 import { useHistory } from "react-router-dom";
 import { api } from "../../constant";
+import { useDispatch, useSelector } from "react-redux";
+import { setHideNav } from "../../redux/actions/userActions";
 
 const apiLogin = `${api}api/auth/login`;
 
@@ -33,7 +35,6 @@ export default function Signin({ setAuth }) {
     const [errorPassword, setErrorPassword] = useState("");
     const [loginFaild, setLoginFaild] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const history = useHistory();
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
     const handleOnChange = (e) => {
@@ -42,6 +43,17 @@ export default function Signin({ setAuth }) {
             [e.target.name]: e.target.value,
         }));
     };
+
+    const dispatch = useDispatch();
+    const hideNav = () => {
+        dispatch(setHideNav());
+    };
+    useEffect(() => {
+        console.log("chay");
+        hideNav();
+    }, []);
+    const isShowNav = useSelector((state) => state.user.isShowNav);
+    console.log("nav login", isShowNav);
 
     const validate = () => {
         let state = true;

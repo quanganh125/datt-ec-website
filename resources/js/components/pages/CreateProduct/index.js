@@ -98,22 +98,23 @@ class CreateProduct extends Component {
         const packets = {
             name: this.state.name,
             price: this.state.price,
-            //file: this.state.file,
             category_id: this.state.category,
             description: this.state.content,
-            image_link: this.state.url,
-            // userLevel: this.state.userLevel,
-            // password: this.state.password
+            image_link: this.state.imageUrl,
         };
+        console.log(this.state.imageUrl);
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
+
+        console.log("packet", packets);
+
         await axios
             .post(`${api}api/product`, packets, { headers: headers })
             .then((response) => {
                 toast.success("製品が正常に作成されました！");
-                // window.location.href = `/product/manager`;
+                window.location.href = `/product/manager`;
             })
             .catch((error) => {
                 toast.error("製品の作成に失敗しました！");
@@ -165,21 +166,10 @@ class CreateProduct extends Component {
                                     backgroundRepeat: "no-repeat",
                                     backgroundSize: "cover",
                                     width: "100%",
-                                    height: "400px",
+                                    height: "300px",
                                 }}
                             ></div>
                         ) : null}
-                        {/* <div className="form-group">
-                            <h5>Image</h5>
-                            <textarea
-                                className="form-control"
-                                id="exampleFormControlTextarea1"
-                                rows="4"
-                                placeholder="Please input image link ..."
-                                value={this.state.imageUrl}
-                                onChange={this.handleImageUrlChange}
-                            ></textarea>
-                        </div> */}
                         {/* input ten cua san pham */}
                         <div className="form-group">
                             <h5>名前</h5>

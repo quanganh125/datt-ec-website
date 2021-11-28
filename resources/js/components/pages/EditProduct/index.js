@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { api } from "../../constant";
+import { getCookie } from "./../../utils/cookie";
 //import { useParams } from 'react-router-dom';
 class EditProduct extends React.Component {
     constructor(props) {
@@ -93,8 +94,14 @@ class EditProduct extends React.Component {
             description: this.state.content,
             image_link: this.state.imageUrl,
         };
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
         await axios
-            .post(`${api}api/product/${this.state.id}/edit`, packets)
+            .post(`${api}api/product/${this.state.id}/edit`, packets, {
+                headers: headers,
+            })
             .then((response) => {
                 toast.success("製品の編集に成功しました！!");
                 window.location.href = `/product/manager`;
