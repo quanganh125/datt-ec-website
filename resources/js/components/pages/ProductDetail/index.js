@@ -3,7 +3,7 @@ import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
 import Review from "./review";
 import { Grid, Button } from "@material-ui/core";
-import { apiProduct } from "./../../redux/actions/productActions";
+import { apiProduct } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
 import Pagination from "react-js-pagination";
@@ -28,7 +28,7 @@ class ProductDetail extends Component {
 
     fetchProductDetail = async () => {
         await axios
-            .get(`${apiProduct}${this.state.id}`)
+            .get(`${apiProduct}/${this.state.id}`)
             .then((res) => {
                 this.setState({
                     name: res.data.data.name,
@@ -81,7 +81,7 @@ class ProductDetail extends Component {
 
     reloadReview = async () => {
         await axios
-            .get(`${apiProduct}${this.state.id}`)
+            .get(`${apiProduct}/${this.state.id}`)
             .then((res) => {
                 this.setState({
                     reviews: res.data.data.reviews,

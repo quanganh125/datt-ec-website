@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
-import { api } from "../../constant";
-const apiUser = `${api}api/auth/user-profile`;
+import { apiAuthUserProfile } from "../../constant";
 
 const USER_PROFILE = "USER_PROFILE";
 const LOGIN_STATE = "LOGIN_STATE";
@@ -14,7 +13,7 @@ export const fetchUser = (access_token) => async (dispatch) => {
         Authorization: `Bearer ${access_token}`,
     };
     await axios
-        .get(apiUser, {
+        .get(apiAuthUserProfile, {
             headers: headers,
         })
         .then((res) => {

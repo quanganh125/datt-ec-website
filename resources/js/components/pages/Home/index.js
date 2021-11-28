@@ -4,7 +4,7 @@ import ProductList from "../../layouts/ProductList";
 import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "react-js-pagination";
-import { api, paginate_count } from "../../constant";
+import { apiProduct, paginate_count } from "../../constant";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export default function Home() {
 
     const getPageCount = async () => {
         await axios
-            .get(`${api}api/product/count`)
+            .get(`${apiProduct}/count`)
             .then((res) => {
                 setPageCount(res.data);
             })
