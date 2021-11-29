@@ -95,7 +95,7 @@ class EditStoreProfile extends Component {
                     errormessage: "住所をアップロードしてください",
                 });
             } else {
-                if (!this.state.content) {
+                if (!this.state.logo) {
                     this.setState({
                         errormessage: "ロゴをアップロードしてください",
                     });
