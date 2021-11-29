@@ -58,29 +58,55 @@ class StoreProfile extends Component {
 
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        const packets = {
-            name: this.state.name,
-            address: this.state.address,
-            logo: this.state.content,
-            url: this.state.url,
-        };
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
-        await axios
-            .post(apiShop, packets, {
-                headers: headers,
-            })
-            .then((response) => {
-                toast.success("ストアを正常に作成する!");
-                window.location.href = `/home`;
-            })
-
-            .catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-                toast.error("ストアの作成に失敗しました!");
+        if (!this.state.name) {
+            this.setState({
+                errormessage: "名前をアップロードしてください",
             });
+        } else {
+            if (!this.state.address) {
+                this.setState({
+                    errormessage: "住所をアップロードしてください",
+                });
+            } else {
+                if (!this.state.content) {
+                    this.setState({
+                        errormessage: "ロゴをアップロードしてください",
+                    });
+                } else {
+                    if (!this.state.url) {
+                        this.setState({
+                            errormessage: "URLをアップロードしてください",
+                        });
+                    } else {
+                        const packets = {
+                            name: this.state.name,
+                            address: this.state.address,
+                            logo: this.state.content,
+                            url: this.state.url,
+                        };
+                        const headers = {
+                            "Content-type": "application/json",
+                            Authorization: `Bearer ${getCookie(
+                                "access_token"
+                            )}`,
+                        };
+                        await axios
+                            .post(apiShop, packets, {
+                                headers: headers,
+                            })
+                            .then((response) => {
+                                toast.success("ストアを正常に作成する!");
+                                window.location.href = `/home`;
+                            })
+
+                            .catch((error) => {
+                                console.log("ERROR:: ", error.response.data);
+                                toast.error("ストアの作成に失敗しました!");
+                            });
+                    }
+                }
+            }
+        }
     };
     render() {
         return (
