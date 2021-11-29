@@ -24,24 +24,22 @@ const userReducer = (state = initialState, action) => {
                 user: action.payload,
             };
         case SHOW_NAV:
-            console.log("chay vao set show");
             return {
                 ...state,
                 isShowNav: true,
             };
         case HIDE_NAV:
-            console.log("chay vao set hide");
             return {
                 ...state,
                 isShowNav: false,
             };
         case SET_SHOP_ID:
-            console.log("chay vao set hide");
+            console.log("shop");
             return {
                 ...state,
                 shop_id: action.payload,
             };
-        
+
         default:
             return state;
     }

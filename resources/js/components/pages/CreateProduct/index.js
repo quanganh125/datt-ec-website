@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
-import { api } from "../../constant";
+import { apiProduct } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 class CreateProduct extends Component {
     state = {
@@ -111,10 +111,21 @@ class CreateProduct extends Component {
         console.log("packet", packets);
 
         await axios
-            .post(`${api}api/product`, packets, { headers: headers })
+            .post(apiProduct, packets, { headers: headers })
             .then((response) => {
                 toast.success("製品が正常に作成されました！");
-                window.location.href = `/product/manager`;
+                this.setState({
+                    content: "",
+                    imageUrl: "",
+                    category: "",
+                    file: undefined,
+                    errormessage: "",
+                    successmessage: "",
+                    price: "",
+                    name: "",
+                    url: "",
+                });
+                // window.location.href = `/product/manager`;
             })
             .catch((error) => {
                 toast.error("製品の作成に失敗しました！");

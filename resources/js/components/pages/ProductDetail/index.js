@@ -3,11 +3,12 @@ import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
 import Review from "./review";
 import { Grid, Button } from "@material-ui/core";
-import { apiProduct } from "./../../redux/actions/productActions";
+import { apiProduct } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
 import Pagination from "react-js-pagination";
 import { getCookie } from "../../utils/cookie";
+import { Link } from "react-router-dom";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -23,13 +24,16 @@ class ProductDetail extends Component {
             id: this.getProductId(),
             isOpenRate: false,
             isLoading: false,
+            shop_id: null,
+            linkShop: "",
         };
     }
 
     fetchProductDetail = async () => {
         await axios
-            .get(`${apiProduct}${this.state.id}`)
+            .get(`${apiProduct}/${this.state.id}`)
             .then((res) => {
+                console.log(res);
                 this.setState({
                     name: res.data.data.name,
                     image_link: res.data.data.image_link,
@@ -40,6 +44,8 @@ class ProductDetail extends Component {
                     shop: res.data.data.shop,
                     category: res.data.data.category,
                     isLoading: true,
+                    shop_id: res.data.data.shop_id,
+                    linkShop: `/store/${res.data.data.shop_id}`,
                 });
             })
             .catch((error) => {
@@ -81,7 +87,7 @@ class ProductDetail extends Component {
 
     reloadReview = async () => {
         await axios
-            .get(`${apiProduct}${this.state.id}`)
+            .get(`${apiProduct}/${this.state.id}`)
             .then((res) => {
                 this.setState({
                     reviews: res.data.data.reviews,
@@ -96,7 +102,7 @@ class ProductDetail extends Component {
         return (
             <div className="product-detail-container">
                 <div className="row">
-                    <div className="col-xs-12 col-sm-6">
+                    <div className="col-sm-12 col-md-6">
                         <div className="product-name">
                             <h1 className="title text-center">
                                 {this.state.name}
@@ -104,17 +110,20 @@ class ProductDetail extends Component {
                         </div>
 
                         <div className="image">
-                            {console.log("Link", this.state.image_link)}
                             {this.state.isLoading ? (
                                 <img
                                     className="product-image-detail"
                                     alt="productImg"
-                                    src={require(`../../../../../storage/app/public/product_img/${data.image_link}`).default}
+                                    src={
+                                        require(`../../../../../storage/app/public/product_img/${this.state.image_link}`)
+                                            .default
+                                    }
+                                    name="image"
                                 />
                             ) : null}
                         </div>
                     </div>
-                    <div className="col-xs-12 col-sm-6">
+                    <div className="col-sm-12 col-md-6">
                         <div className="product-price">
                             <label className="title"> 価値： </label>
                             <h3>
@@ -159,8 +168,10 @@ class ProductDetail extends Component {
                                 </li>
                                 <li>
                                     <p>
-                                        <b>店舗：</b>
-                                        {this.state.shop}
+                                        <Link to={this.state.linkShop}>
+                                            <b style={{ color: "black" }}>店舗：</b>
+                                            {this.state.shop}
+                                        </Link>
                                     </p>
                                 </li>
                             </ul>

@@ -20,11 +20,9 @@ import {
     validateEmail,
     validatePassword,
 } from "../../utils/validate";
-import { api } from "../../constant";
+import { apiAuthRegister } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setHideNav } from "../../redux/actions/userActions";
-
-const apiSignup = `${api}api/auth/register`;
 
 export default function Signup() {
     const classes = useStyles();
@@ -93,7 +91,7 @@ export default function Signup() {
         };
         if (validate()) {
             await axios
-                .post(`${apiSignup}`, userRegister)
+                .post(apiAuthRegister, userRegister)
                 .then((res) => {
                     const data = res.data;
                     setErrorPassword("");

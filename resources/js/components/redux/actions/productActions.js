@@ -1,8 +1,7 @@
 import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
 import { toast } from "react-toastify";
-import { api } from "../../constant";
-export const apiProduct = `${api}api/product/`;
+import { apiProduct } from "../../constant";
 
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
@@ -15,21 +14,21 @@ export const headers = {
 };
 export const deleteProduct = (id) => async (dispatch) => {
     await axios
-        .post(`${apiProduct}${id}/delete`)
+        .post(`${apiProduct}/${id}/delete`)
         .then((res) => {
-            toast.success("Xóa sản phẩm thành công!");
+            toast.success("製品を正常に削除する!");
             dispatch(fetchShopProduct());
             dispatch(fetchAllProduct());
         })
         .catch((error) => {
-            toast.error("Xóa sản phẩm không thành công!");
+            toast.error("失敗した製品の削除!");
             console.error(error);
         });
 };
 
 export const fetchAllProduct = () => async (dispatch) => {
     await axios
-        .get(`${apiProduct}`, { headers: headers })
+        .get(apiProduct, { headers: headers })
         .then((res) => {
             const get_all_product = res.data.data;
             dispatch(setAllProduct(get_all_product));
@@ -46,7 +45,7 @@ export const setAllProduct = (products) => {
 
 export const fetchShopProduct = () => async (dispatch) => {
     await axios
-        .get(`${apiProduct}shop`, { headers: headers })
+        .get(`${apiProduct}/shop`, { headers: headers })
         .then((res) => {
             const get_shop_product = res.data.data;
             dispatch(setShopProduct(get_shop_product));
@@ -63,7 +62,7 @@ export const setShopProduct = (products) => {
 
 export const fetchProductRecommend = (page) => async (dispatch) => {
     await axios
-        .get(`${apiProduct}recommend/?page=${page}`, { headers: headers })
+        .get(`${apiProduct}/recommend/?page=${page}`, { headers: headers })
         .then((res) => {
             const get_product_recommend = res.data.data;
             dispatch(setProductRecommend(get_product_recommend));

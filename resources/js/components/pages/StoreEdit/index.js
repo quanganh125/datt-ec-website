@@ -3,11 +3,16 @@ import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
-import { api } from "../../constant";
+import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
+
+const headers = {
+    "Content-type": "application/json",
+    Authorization: `Bearer ${getCookie("access_token")}`,
+};
 class EditStoreProfile extends Component {
     state = {
-        content: "",
+        logo: "",
         errormessage: "",
         successmessage: "",
         address: "",
@@ -18,12 +23,8 @@ class EditStoreProfile extends Component {
     handleDelete = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
         await axios
-            .post(`${api}api/shop/${this.state.id}/delete`, {
+            .post(`${apiShop}/${this.state.id}/delete`, { data: "mydata" }, {
                 headers: headers,
             })
             .then((response) => {
@@ -68,30 +69,27 @@ class EditStoreProfile extends Component {
             address: event.target.value,
         });
     };
-    handleContentChange = (event) => {
+    handleLogoChange = (event) => {
         this.setState({
             successmessage: "",
         });
         this.setState({
-            content: event.target.value,
+            logo: event.target.value,
         });
     };
 
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        // const {match} = this.props;
         const packets = {
             name: this.state.name,
             address: this.state.address,
-            //file: this.state.file,
-            //category_id: this.state.category,
-            logo: this.state.content,
+            logo: this.state.logo,
             url: this.state.url,
         };
         await axios
-            .post(`${api}api/shop/${this.state.id}/edit`, packets)
+            .post(`${apiShop}/${this.state.id}/edit`, packets, { headers: headers })
             .then((response) => {
-                window.location.href = `/`;
+                window.location.href = `/store/${this.state.id}`;
                 toast.success("店舗の更新に成功しました！");
             })
             .catch((error) => {
@@ -100,10 +98,10 @@ class EditStoreProfile extends Component {
             });
     };
 
-    componentDidMount() {
-        const apiGetProduct = `${api}api/shop/${this.state.id}`;
-        axios
-            .get(apiGetProduct)
+    fetchStore = async () => {
+        const apiGetStore = `${apiShop}/${this.state.id}`;
+        await axios
+            .get(apiGetStore, { headers: headers })
             .then((response) => {
                 let dataShop = response.data.data;
                 this.setState({
@@ -116,6 +114,10 @@ class EditStoreProfile extends Component {
             .catch((error) => {
                 console.error("ERROR:: ", error.response.data);
             });
+    }
+
+    componentDidMount() {
+        this.fetchStore()
     }
 
     render() {
@@ -158,8 +160,8 @@ class EditStoreProfile extends Component {
                                 id="exampleFormControlTextarea1"
                                 rows="4"
                                 placeholder="ロゴを入力してください ..."
-                                value={this.state.content}
-                                onChange={this.handleContentChange}
+                                value={this.state.logo}
+                                onChange={this.handleLogoChange}
                             ></textarea>
                         </div>
                         <div className="form-group">

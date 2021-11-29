@@ -43,6 +43,7 @@ export default function App() {
     const userProfile = useSelector((state) => state.user.user);
     const loginState = useSelector((state) => state.user.loginState);
     const isShowNav = useSelector((state) => state.user.isShowNav);
+    const shop_id = useSelector((state) => state.user.shop_id);
     // console.log("isShowNav", isShowNav);
 
     useEffect(() => {
@@ -107,13 +108,19 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/edit"
-                        component={EditStore}
+                        render={() => {
+                            return getCookie("access_token") != "" && shop_id ? (
+                                <EditStore />
+                            ) : (
+                                <Redirect to="/" />
+                            );
+                        }}
                     />
                     <Route
                         exact
                         path="/store/create"
                         render={() => {
-                            return getCookie("access_token") != "" ? (
+                            return getCookie("access_token") != "" && shop_id ? (
                                 <StoreCreate />
                             ) : (
                                 <Redirect to="/" />

@@ -88,7 +88,7 @@ class ProductController extends Controller
     {
         $product = $this->productService->get($id);
         $url_image = Storage::url($product["image_link"]);
-        dd($url_image);
+        // dd($url_image);
         return (new ProductResource($product))->response();
     }
 

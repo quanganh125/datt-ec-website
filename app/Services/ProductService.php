@@ -83,25 +83,18 @@ class ProductService
         $path = Storage::url($fileName);
         return $fileName;
 
-        // foreach($request->get('images') as $image) {
-        //     $file = explode(',', $image)[1];
-        //     $file = str_replace(' ', '+', $file);
-        //     $file = base64_decode($file);
-            
-        //     $extension = explode('/', mime_content_type($image))[1];
-            
-        //     $fileName = time() . '-' . uniqid() . '.' . $extension;
-            
-        //     Storage::disk('public')->put('/comments/' . $fileName, $file);
-            
-        //     $fileNames[] = $fileName;
-            
-        //     HtnCommentImage::create([
-        //         'htn_comment_id' => $comment->id,
-        //         'image_name' => $fileName,
-        //         'image_path' => Storage::url('/comments/' . $fileName),
-        //     ]);
-        // }
+        // $file = explode(',', $param)[1];
+        // $file = str_replace(' ', '+', $file);
+        // $file = base64_decode($file);
+        
+        // $extension = explode('/', mime_content_type($param))[1];
+        
+        // $fileName = time().'-'.uniqid().'.'.$extension;
+        
+        // Storage::disk('public')->put($folder.'/'.$fileName, $file);
+        
+        // $fileNames[] = $fileName;
+        // return Storage::url($folder.'/'.$fileName);
     }
 
 }

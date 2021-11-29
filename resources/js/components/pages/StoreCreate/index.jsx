@@ -3,7 +3,7 @@ import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
-import { api } from "../../constant";
+import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 class StoreProfile extends Component {
     state = {
@@ -69,7 +69,7 @@ class StoreProfile extends Component {
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
         await axios
-            .post(`${api}api/shop`, packets, {
+            .post(apiShop, packets, {
                 headers: headers,
             })
             .then((response) => {

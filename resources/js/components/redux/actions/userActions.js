@@ -1,8 +1,6 @@
 import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
-import { api } from "../../constant";
-const apiUser = `${api}api/auth/user-profile`;
-const apiGetShop = `${api}api/shop/user`;
+import { apiAuthUserProfile, apiGetShop } from "../../constant";
 
 const USER_PROFILE = "USER_PROFILE";
 const LOGIN_STATE = "LOGIN_STATE";
@@ -16,7 +14,7 @@ export const fetchUser = (access_token) => async (dispatch) => {
         Authorization: `Bearer ${access_token}`,
     };
     await axios
-        .get(apiUser, {
+        .get(apiAuthUserProfile, {
             headers: headers,
         })
         .then((res) => {
@@ -48,26 +46,24 @@ export const setHideNav = () => {
     return { type: HIDE_NAV };
 };
 
-export const fetchShopId = (access_token, user_id) => async (dispatch) => {
+export const fetchShopId = (user_id) => async (dispatch) => {
     const headers = {
         "Content-type": "application/json",
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${getCookie("access_token")}`,
     };
-    await axios
-        .get(`${apiGetShop}/${user_id}`, {
-            headers: headers,
-        })
-        .then((res) => {
-            const id = res.data;
-            console.log("id", id);
-            dispatch(setShopId(id));
-        })
-        .catch((error) => {
-            console.error(error);
-            dispatch(setUser(null));
-        });
+    userProfile.id &&
+        (await axios
+            .get(`${apiGetShop}/${user_id}`, {
+                headers: headers,
+            })
+            .then((res) => {
+                const id = res.data;
+                dispatch(setShopId(id));
+            })
+            .catch((error) => {
+                console.error(error);
+            }));
 };
-
 
 export const setShopId = (state) => {
     return { type: SET_SHOP_ID, payload: state };

@@ -19,11 +19,9 @@ import { toast } from "react-toastify";
 import { validateEmail, validatePassword } from "../../utils/validate";
 import { setCookie } from "./../../utils/cookie";
 import { useHistory } from "react-router-dom";
-import { api } from "../../constant";
+import { apiAuthLogin } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setHideNav } from "../../redux/actions/userActions";
-
-const apiLogin = `${api}api/auth/login`;
 
 export default function Signin({ setAuth }) {
     const classes = useStyles();
@@ -81,7 +79,7 @@ export default function Signin({ setAuth }) {
         };
         if (validate()) {
             await axios
-                .post(`${apiLogin}`, userLogin)
+                .post(apiAuthLogin, userLogin)
                 .then((res) => {
                     const data = res.data;
                     if (data.access_token) {
