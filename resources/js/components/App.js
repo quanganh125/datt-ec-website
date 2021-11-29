@@ -72,7 +72,7 @@ export default function App() {
                     />
                     <Route
                         exact
-                        path="/"
+                        path="/home"
                         render={() => {
                             return <Home />;
                         }}
@@ -84,7 +84,7 @@ export default function App() {
                             return getCookie("access_token") != "" ? (
                                 <ProductManager />
                             ) : (
-                                <Redirect to="/" />
+                                <Redirect to="/home" />
                             );
                         }}
                     />
@@ -112,7 +112,7 @@ export default function App() {
                             return getCookie("access_token") != "" && shop_id ? (
                                 <EditStore />
                             ) : (
-                                <Redirect to="/" />
+                                <Redirect to="/home" />
                             );
                         }}
                     />
@@ -123,7 +123,7 @@ export default function App() {
                             return getCookie("access_token") != "" && shop_id ? (
                                 <StoreCreate />
                             ) : (
-                                <Redirect to="/" />
+                                <Redirect to="/home" />
                             );
                         }}
                     />

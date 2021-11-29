@@ -88,7 +88,7 @@ export default function Signin({ setAuth }) {
                     }
                     setLoginFaild("");
                     setErrorPassword("");
-                    window.location.href = `/`;
+                    window.location.href = `/home`;
                 })
                 .catch((error) => {
                     toast.error("ログインに失敗しました！");
@@ -178,7 +178,7 @@ export default function Signin({ setAuth }) {
                     </Button>
                     <Grid container>
                         <Grid item xs={6}>
-                            <Link to="/" variant="body2">
+                            <Link to="/home" variant="body2">
                                 パスワードをお忘れですか？
                             </Link>
                         </Grid>

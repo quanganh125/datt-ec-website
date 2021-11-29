@@ -28,7 +28,7 @@ class EditStoreProfile extends Component {
                 headers: headers,
             })
             .then((response) => {
-                window.location.href = `/`;
+                window.location.href = `/home`;
                 console.log("thanh cong");
             })
 
@@ -40,7 +40,7 @@ class EditStoreProfile extends Component {
         this.setState({
             successmessage: "",
         });
-        window.location.href = `/`;
+        window.location.href = `/home`;
     };
     //xu li url
     handleUrlChange = (event) => {
