@@ -11,15 +11,20 @@ const headers = {
     Authorization: `Bearer ${getCookie("access_token")}`,
 };
 class EditStoreProfile extends Component {
-    state = {
-        logo: "",
-        errormessage: "",
-        successmessage: "",
-        address: "",
-        name: "",
-        url: "",
-        id: this.props.match.params.id,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            logo: "",
+            errormessage: "",
+            successmessage: "",
+            address: "",
+            name: "",
+            url: "",
+            id: this.props.match && this.props.match.params.id ? this.props.match.params.id : null,
+        };
+        console.log(this.props);
+    }
+
     handleDelete = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
@@ -117,6 +122,7 @@ class EditStoreProfile extends Component {
     }
 
     componentDidMount() {
+        // console.log("id", this.props.match.params.id);
         this.fetchStore()
     }
 

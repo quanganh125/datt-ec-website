@@ -8,7 +8,7 @@ export const validateEmail = (email) => {
         error = "*メールを空白にすることはできません!";
         state = false;
     } else if (!emailVali.test(String(email).toLowerCase())) {
-        error = "*Email sai định dạng!";
+        error = "*メールの形式が間違っている!";
         state = false;
     } else {
         error = "";
