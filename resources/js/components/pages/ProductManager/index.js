@@ -80,14 +80,6 @@ export default function Detail() {
                             新しい商品を追加
                         </Button>
                     </Link>
-                    <Button
-                        className="btn-action"
-                        variant="contained"
-                        color="secondary"
-                    >
-                        <i className="fas fa-filter icon-btn"></i>
-                        フィルター
-                    </Button>
                 </div>
             </div>
             <div className="product-list">

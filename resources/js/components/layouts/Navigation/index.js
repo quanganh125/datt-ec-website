@@ -11,10 +11,13 @@ import {
     deleteCookie,
     getCookie,
 } from "./../../utils/cookie";
+import { fetchShopId } from "./../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Navigation({ userProfile, loginState }) {
     const [click, setClick] = useState(false);
     const closeMobileMenu = () => setClick(false);
+    const dispatch = useDispatch()
 
     const logout = async () => {
         if (getCookie("access_token") != "") {
@@ -38,7 +41,17 @@ export default function Navigation({ userProfile, loginState }) {
             window.location.href = `/`;
         }
     };
+    console.log(userProfile);
+    const fetchShopId = () => {
+        // dispatch(fetchShopId(getCookie("access_token"), 3))
+    }
 
+    useEffect(() => {
+
+    }, [])
+
+    const shopId = useSelector((state) => state.user.shop_id);
+    console.log("shop id", shopId);
     return (
         <div id="nav">
             <div className="header">
@@ -69,6 +82,11 @@ export default function Navigation({ userProfile, loginState }) {
                             <li className="option">
                                 <a href="/store/create" className="underline">
                                     ストアを作成
+                                </a>
+                            </li>
+                            <li className="option">
+                                <a href="/store/show/1" className="underline">
+                                    ストアのプロフィール
                                 </a>
                             </li>
                             <li className="option">

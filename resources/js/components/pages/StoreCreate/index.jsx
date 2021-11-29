@@ -74,6 +74,7 @@ class StoreProfile extends Component {
             })
             .then((response) => {
                 toast.success("ストアを正常に作成する!");
+                window.location.href = `/`;
             })
 
             .catch((error) => {

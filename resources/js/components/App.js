@@ -16,9 +16,9 @@ toast.configure();
 import { getCookie } from "./utils/cookie";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
-import StoreProfile from "./pages/StoreProfile";
-import ShowStoreProfile from "./pages/ShowProfile";
-import EditStoreProfile from "./pages/EditProfile";
+import StoreCreate from "./pages/StoreCreate";
+import ShowStore from "./pages/StoreShow";
+import EditStore from "./pages/StoreEdit";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setShowNav } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
@@ -107,14 +107,14 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/edit"
-                        component={EditStoreProfile}
+                        component={EditStore}
                     />
                     <Route
                         exact
                         path="/store/create"
                         render={() => {
                             return getCookie("access_token") != "" ? (
-                                <StoreProfile />
+                                <StoreCreate />
                             ) : (
                                 <Redirect to="/" />
                             );
@@ -123,7 +123,7 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id"
-                        component={ShowStoreProfile}
+                        component={ShowStore}
                     />
                 </Switch>
             </Router>

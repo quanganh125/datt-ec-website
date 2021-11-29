@@ -108,11 +108,8 @@ class ProductDetail extends Component {
                             {this.state.isLoading ? (
                                 <img
                                     className="product-image-detail"
-                                    src={this.state.image_link}
-                                    src={
-                                        require(`../../../../../storage/app/public/product_img/${this.state.image_link}`)
-                                            .default
-                                    }
+                                    alt="productImg"
+                                    src={require(`../../../../../storage/app/public/product_img/${data.image_link}`).default}
                                 />
                             ) : null}
                         </div>

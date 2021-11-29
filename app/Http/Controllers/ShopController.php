@@ -133,4 +133,9 @@ class ShopController extends Controller
     {
         $shop = $this->shopService->delete($id);
     }
+
+    public function getShopOfUser($user_id){
+        // dd($this->shopService->getIdShop($user_id));
+        return $this->shopService->getIdShop($user_id);
+    }
 }

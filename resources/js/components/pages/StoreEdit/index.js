@@ -27,6 +27,7 @@ class EditStoreProfile extends Component {
                 headers: headers,
             })
             .then((response) => {
+                window.location.href = `/`;
                 console.log("thanh cong");
             })
 
@@ -90,6 +91,7 @@ class EditStoreProfile extends Component {
         await axios
             .post(`${api}api/shop/${this.state.id}/edit`, packets)
             .then((response) => {
+                window.location.href = `/`;
                 toast.success("店舗の更新に成功しました！");
             })
             .catch((error) => {

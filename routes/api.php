@@ -48,6 +48,7 @@ Route::group(['prefix' => 'category'], function ($router) {
 
 Route::group(['prefix' => 'shop'], function ($router) {
   Route::get('/', [ShopController::class, 'index']);
+  Route::get('/user/{user_id}', [ShopController::class, 'getShopOfUser']);
   Route::post('/', [ShopController::class, 'store']);
   Route::get('/{id}', [ShopController::class, 'show']);
   Route::post('/{id}/edit', [ShopController::class, 'update']);

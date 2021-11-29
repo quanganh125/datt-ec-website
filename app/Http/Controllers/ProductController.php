@@ -10,6 +10,7 @@ use App\Services\ShopService;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -86,6 +87,8 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->productService->get($id);
+        $url_image = Storage::url($product["image_link"]);
+        dd($url_image);
         return (new ProductResource($product))->response();
     }
 
