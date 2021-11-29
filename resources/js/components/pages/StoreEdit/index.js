@@ -29,7 +29,7 @@ class EditStoreProfile extends Component {
             })
             .then((response) => {
                 window.location.href = `/home`;
-                console.log("thanh cong");
+                console.log("成功");
             })
 
             .catch((error) => {
@@ -80,22 +80,47 @@ class EditStoreProfile extends Component {
 
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        const packets = {
-            name: this.state.name,
-            address: this.state.address,
-            logo: this.state.logo,
-            url: this.state.url,
-        };
-        await axios
-            .post(`${apiShop}/${this.state.id}/edit`, packets, { headers: headers })
-            .then((response) => {
-                window.location.href = `/store/${this.state.id}`;
-                toast.success("店舗の更新に成功しました！");
-            })
-            .catch((error) => {
-                toast.error("更新されたストアが失敗しました！");
-                console.error("ERROR:: ", error.response.data);
+        if (!this.state.name) {
+            this.setState({
+                errormessage: "名前をアップロードしてください",
             });
+        } else {
+            if (!this.state.address) {
+                this.setState({
+                    errormessage: "住所をアップロードしてください",
+                });
+            } else {
+                if (!this.state.content) {
+                    this.setState({
+                        errormessage: "ロゴをアップロードしてください",
+                    });
+                } else {
+                    if (!this.state.url) {
+                        this.setState({
+                            errormessage: "URLをアップロードしてください",
+                        });
+                    } else {
+                        const packets = {
+                            name: this.state.name,
+                            address: this.state.address,
+                            logo: this.state.logo,
+                            url: this.state.url,
+                        };
+                        await axios
+                            .post(`${apiShop}/${this.state.id}/edit`, packets, { headers: headers })
+                            .then((response) => {
+                                window.location.href = `/store/${this.state.id}`;
+                                toast.success("店舗の更新に成功しました！");
+                            })
+                            .catch((error) => {
+                                toast.error("更新されたストアが失敗しました！");
+                                console.error("ERROR:: ", error.response.data);
+                            });
+                    }
+                }
+            }
+        }
+        
     };
 
     fetchStore = async () => {

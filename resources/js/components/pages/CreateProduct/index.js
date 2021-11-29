@@ -72,11 +72,11 @@ class CreateProduct extends Component {
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
-                errormessage: "invalid file",
+                errormessage: "無効なファイル",
             });
         } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: "file is too large",
+                errormessage: "ファイルが大きすぎます",
             });
         } else {
             const fileReader = new FileReader();
@@ -93,44 +93,88 @@ class CreateProduct extends Component {
         }
     };
     handleFormSubmit = async (event) => {
-        // window.location.reload(false);
         event.preventDefault();
-        const packets = {
-            name: this.state.name,
-            price: this.state.price,
-            category_id: this.state.category,
-            description: this.state.content,
-            image_link: this.state.imageUrl,
-        };
-        console.log(this.state.imageUrl);
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
-
-        console.log("packet", packets);
-
-        await axios
-            .post(apiProduct, packets, { headers: headers })
-            .then((response) => {
-                toast.success("製品が正常に作成されました！");
-                this.setState({
-                    content: "",
-                    imageUrl: "",
-                    category: "",
-                    file: undefined,
-                    errormessage: "",
-                    successmessage: "",
-                    price: "",
-                    name: "",
-                    url: "",
-                });
-                // window.location.href = `/product/manager`;
-            })
-            .catch((error) => {
-                toast.error("製品の作成に失敗しました！");
-                console.error("ERROR:: ", error.response.data);
+        this.setState({
+            successmessage: "",
+        });
+        if (!this.state.name) {
+            this.setState({
+                errormessage: "名前をアップロードしてください",
             });
+        } else if (!this.state.imageUrl) {
+            this.setState({
+                errormessage: "画像をアップロードしてください",
+            });
+        } else {
+            if (!this.state.content) {
+                this.setState({
+                    errormessage: "説明をアップロードしてください",
+                });
+            } else {
+                if (!this.state.price) {
+                    this.setState({
+                        errormessage: "価格をアップロードしてください",
+                    });
+                } else {
+                    if (isNaN(this.state.price)) {
+                        this.setState({
+                            errormessage:
+                                "価格フィールドに数値を入力してください",
+                        });
+                    } else {
+                        if (!this.state.category) {
+                            this.setState({
+                                errormessage: "カテゴリを選んでください",
+                            });
+                        } else {
+                            const packets = {
+                                name: this.state.name,
+                                price: this.state.price,
+                                category_id: this.state.category,
+                                description: this.state.content,
+                                image_link: this.state.imageUrl,
+                            };
+                            console.log(this.state.imageUrl);
+                            const headers = {
+                                "Content-type": "application/json",
+                                Authorization: `Bearer ${getCookie(
+                                    "access_token"
+                                )}`,
+                            };
+
+                            console.log("packet", packets);
+
+                            await axios
+                                .post(apiProduct, packets, { headers: headers })
+                                .then((response) => {
+                                    toast.success(
+                                        "製品が正常に作成されました！"
+                                    );
+                                    this.setState({
+                                        content: "",
+                                        imageUrl: "",
+                                        category: "",
+                                        file: undefined,
+                                        errormessage: "",
+                                        successmessage: "",
+                                        price: "",
+                                        name: "",
+                                        url: "",
+                                    });
+                                    // window.location.href = `/product/manager`;
+                                })
+                                .catch((error) => {
+                                    toast.error("製品の作成に失敗しました！");
+                                    console.error(
+                                        "ERROR:: ",
+                                        error.response.data
+                                    );
+                                });
+                        }
+                    }
+                }
+            }
+        }
     };
     render() {
         return (
