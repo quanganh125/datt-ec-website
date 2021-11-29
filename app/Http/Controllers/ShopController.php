@@ -9,7 +9,7 @@ use App\Http\Resources\ShopCollection;
 use App\Services\ShopService;
 use App\Services\UserService;
 use Validator;
-
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
@@ -20,7 +20,6 @@ class ShopController extends Controller
     {
         $this->shopService = $shopService;
         $this->userService = $userService;
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
     /**
      * Display a listing of the resource.
@@ -62,8 +61,8 @@ class ShopController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
-
-        $user_id = auth()->user()->id;
+        // $user_id = auth()->user()->id;
+        $user_id = Auth::user()->id;
 
         $shop = new Shop();
         $shop->name = $request->input('name');
@@ -132,5 +131,10 @@ class ShopController extends Controller
     public function delete($id)
     {
         $shop = $this->shopService->delete($id);
+    }
+
+    public function getShopOfUser($user_id){
+        // dd($this->shopService->getIdShop($user_id));
+        return $this->shopService->getIdShop($user_id);
     }
 }

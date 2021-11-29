@@ -5,14 +5,36 @@ const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
-class StoreProfile extends Component {
+
+const headers = {
+    "Content-type": "application/json",
+    Authorization: `Bearer ${getCookie("access_token")}`,
+};
+class EditStoreProfile extends Component {
     state = {
-        content: "",
+        logo: "",
         errormessage: "",
         successmessage: "",
         address: "",
         name: "",
         url: "",
+        id: this.props.match.params.id,
+    };
+    handleDelete = async (event) => {
+        event.preventDefault();
+        // const {match} = this.props;
+        await axios
+            .post(`${apiShop}/${this.state.id}/delete`, { data: "mydata" }, {
+                headers: headers,
+            })
+            .then((response) => {
+                window.location.href = `/`;
+                console.log("thanh cong");
+            })
+
+            .catch((error) => {
+                console.log("ERROR:: ", error.response.data);
+            });
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -47,12 +69,12 @@ class StoreProfile extends Component {
             address: event.target.value,
         });
     };
-    handleContentChange = (event) => {
+    handleLogoChange = (event) => {
         this.setState({
             successmessage: "",
         });
         this.setState({
-            content: event.target.value,
+            logo: event.target.value,
         });
     };
 
@@ -61,26 +83,43 @@ class StoreProfile extends Component {
         const packets = {
             name: this.state.name,
             address: this.state.address,
-            logo: this.state.content,
+            logo: this.state.logo,
             url: this.state.url,
         };
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
         await axios
-            .post(apiShop, packets, {
-                headers: headers,
-            })
+            .post(`${apiShop}/${this.state.id}/edit`, packets, { headers: headers })
             .then((response) => {
-                toast.success("ストアを正常に作成する!");
+                window.location.href = `/store/${this.state.id}`;
+                toast.success("店舗の更新に成功しました！");
             })
-
             .catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-                toast.error("ストアの作成に失敗しました!");
+                toast.error("更新されたストアが失敗しました！");
+                console.error("ERROR:: ", error.response.data);
             });
     };
+
+    fetchStore = async () => {
+        const apiGetStore = `${apiShop}/${this.state.id}`;
+        await axios
+            .get(apiGetStore, { headers: headers })
+            .then((response) => {
+                let dataShop = response.data.data;
+                this.setState({
+                    name: dataShop.name,
+                    address: dataShop.address,
+                    logo: dataShop.logo,
+                    url: dataShop.url,
+                });
+            })
+            .catch((error) => {
+                console.error("ERROR:: ", error.response.data);
+            });
+    }
+
+    componentDidMount() {
+        this.fetchStore()
+    }
+
     render() {
         return (
             <div
@@ -92,7 +131,7 @@ class StoreProfile extends Component {
                 }}
             >
                 <div className="col-9">
-                    <h3>ストアを作成する</h3>
+                    <h3>ストアを編集する</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* input ten cua cua hang */}
                         <div className="form-group">
@@ -121,8 +160,8 @@ class StoreProfile extends Component {
                                 id="exampleFormControlTextarea1"
                                 rows="4"
                                 placeholder="ロゴを入力してください ..."
-                                value={this.state.content}
-                                onChange={this.handleContentChange}
+                                value={this.state.logo}
+                                onChange={this.handleLogoChange}
                             ></textarea>
                         </div>
                         <div className="form-group">
@@ -154,10 +193,17 @@ class StoreProfile extends Component {
                             <input
                                 type="submit"
                                 className="btn btn-primary"
-                                value="作成"
+                                value="アップデート"
                                 style={{ margin: 5 }}
                             />
-
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={this.handleDelete}
+                                style={{ margin: 5 }}
+                            >
+                                消去
+                            </button>
                             <button
                                 type="button"
                                 className="btn btn-success"
@@ -174,4 +220,4 @@ class StoreProfile extends Component {
     }
 }
 
-export default StoreProfile;
+export default EditStoreProfile;

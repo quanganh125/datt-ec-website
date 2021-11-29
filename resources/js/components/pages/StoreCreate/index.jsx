@@ -5,7 +5,7 @@ const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
-class EditStoreProfile extends Component {
+class StoreProfile extends Component {
     state = {
         content: "",
         errormessage: "",
@@ -13,26 +13,6 @@ class EditStoreProfile extends Component {
         address: "",
         name: "",
         url: "",
-        id: this.props.match.params.id,
-    };
-    handleDelete = async (event) => {
-        event.preventDefault();
-        // const {match} = this.props;
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
-        await axios
-            .post(`${apiShop}/${this.state.id}/delete`, {
-                headers: headers,
-            })
-            .then((response) => {
-                console.log("thanh cong");
-            })
-
-            .catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-            });
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -78,44 +58,30 @@ class EditStoreProfile extends Component {
 
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        // const {match} = this.props;
         const packets = {
             name: this.state.name,
             address: this.state.address,
-            //file: this.state.file,
-            //category_id: this.state.category,
             logo: this.state.content,
             url: this.state.url,
         };
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
         await axios
-            .post(`${apiShop}/${this.state.id}/edit`, packets)
-            .then((response) => {
-                toast.success("店舗の更新に成功しました！");
+            .post(apiShop, packets, {
+                headers: headers,
             })
+            .then((response) => {
+                toast.success("ストアを正常に作成する!");
+                window.location.href = `/`;
+            })
+
             .catch((error) => {
-                toast.error("更新されたストアが失敗しました！");
-                console.error("ERROR:: ", error.response.data);
+                console.log("ERROR:: ", error.response.data);
+                toast.error("ストアの作成に失敗しました!");
             });
     };
-
-    componentDidMount() {
-        const apiGetProduct = `${apiShop}/${this.state.id}`;
-        axios
-            .get(apiGetProduct)
-            .then((response) => {
-                let dataShop = response.data.data;
-                this.setState({
-                    name: dataShop.name,
-                    address: dataShop.address,
-                    logo: dataShop.logo,
-                    url: dataShop.url,
-                });
-            })
-            .catch((error) => {
-                console.error("ERROR:: ", error.response.data);
-            });
-    }
-
     render() {
         return (
             <div
@@ -127,7 +93,7 @@ class EditStoreProfile extends Component {
                 }}
             >
                 <div className="col-9">
-                    <h3>ストアを編集する</h3>
+                    <h3>ストアを作成する</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* input ten cua cua hang */}
                         <div className="form-group">
@@ -189,17 +155,10 @@ class EditStoreProfile extends Component {
                             <input
                                 type="submit"
                                 className="btn btn-primary"
-                                value="アップデート"
+                                value="作成"
                                 style={{ margin: 5 }}
                             />
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={this.handleDelete}
-                                style={{ margin: 5 }}
-                            >
-                                消去
-                            </button>
+
                             <button
                                 type="button"
                                 className="btn btn-success"
@@ -216,4 +175,4 @@ class EditStoreProfile extends Component {
     }
 }
 
-export default EditStoreProfile;
+export default StoreProfile;

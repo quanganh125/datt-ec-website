@@ -4,6 +4,7 @@ const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
+import { getCookie } from "../../utils/cookie";
 class ShowStoreProfile extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +20,10 @@ class ShowStoreProfile extends Component {
     }
 
     componentDidMount() {
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
         axios
             .get(`${apiShop}/${this.state.id}`)
             .then((res) => {
@@ -46,7 +51,7 @@ class ShowStoreProfile extends Component {
         });
         window.location.href = `/store/${this.state.id}/edit`;
     };
-    //xu li url
+
     render() {
         return (
             <div
@@ -122,7 +127,7 @@ class ShowStoreProfile extends Component {
                                 onClick={this.handleReturnHomePage}
                                 style={{ margin: 5 }}
                             >
-                                家に帰る
+                                ホームに戻る
                             </button>
                         </div>
                     </form>

@@ -11,10 +11,16 @@ import {
     deleteCookie,
     getCookie,
 } from "./../../utils/cookie";
+import { fetchShopId, setShopId } from "./../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { apiGetShop } from "./../../constant/index";
 
 export default function Navigation({ userProfile, loginState }) {
     const [click, setClick] = useState(false);
+    const [shopId, setshopId] = useState(null);
+    const [shopLink, setShopLink] = useState("");
     const closeMobileMenu = () => setClick(false);
+    const dispatch = useDispatch();
 
     const logout = async () => {
         if (getCookie("access_token") != "") {
@@ -38,6 +44,31 @@ export default function Navigation({ userProfile, loginState }) {
             window.location.href = `/`;
         }
     };
+    const fetchShopId = async () => {
+        // userProfile.id && dispatch(fetchShopId(userProfile.id))
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
+        userProfile.id &&
+            (await axios
+                .get(`${apiGetShop}/${userProfile.id}`, {
+                    headers: headers,
+                })
+                .then((res) => {
+                    const id = res.data;
+                    setshopId(id);
+                    setShopLink(`/store/${shopId}`);
+                    dispatch(setShopId(id));
+                })
+                .catch((error) => {
+                    console.error(error);
+                }));
+    };
+
+    useEffect(() => {
+        fetchShopId();
+    }, [userProfile.id, shopId]);
 
     return (
         <div id="nav">
@@ -66,19 +97,39 @@ export default function Navigation({ userProfile, loginState }) {
                                 click ? "nav-options active" : "nav-options"
                             }
                         >
-                            <li className="option">
-                                <a href="/store/create" className="underline">
-                                    ストアを作成
-                                </a>
-                            </li>
-                            <li className="option">
-                                <a
-                                    href="/product/manager"
-                                    className="underline"
-                                >
-                                    製品管理
-                                </a>
-                            </li>
+                            {userProfile.id ? (
+                                <>
+                                    {shopId ? (
+                                        <li className="option">
+                                            <a
+                                                href={shopLink}
+                                                className="underline"
+                                            >
+                                                ストアのプロフィール
+                                            </a>
+                                        </li>
+                                    ) : (
+                                        <li className="option">
+                                            <a
+                                                href="/store/create"
+                                                className="underline"
+                                            >
+                                                ストアを作成
+                                            </a>
+                                        </li>
+                                    )}
+                                </>
+                            ) : null}
+                            {userProfile.id ? (
+                                <li className="option">
+                                    <a
+                                        href="/product/manager"
+                                        className="underline"
+                                    >
+                                        製品管理
+                                    </a>
+                                </li>
+                            ) : null}
                         </ul>
                     </div>
                 </div>

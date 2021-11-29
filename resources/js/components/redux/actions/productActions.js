@@ -16,12 +16,12 @@ export const deleteProduct = (id) => async (dispatch) => {
     await axios
         .post(`${apiProduct}/${id}/delete`)
         .then((res) => {
-            toast.success("Xóa sản phẩm thành công!");
+            toast.success("製品を正常に削除する!");
             dispatch(fetchShopProduct());
             dispatch(fetchAllProduct());
         })
         .catch((error) => {
-            toast.error("Xóa sản phẩm không thành công!");
+            toast.error("失敗した製品の削除!");
             console.error(error);
         });
 };

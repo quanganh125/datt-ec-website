@@ -16,9 +16,9 @@ toast.configure();
 import { getCookie } from "./utils/cookie";
 import CreateProduct from "./pages/CreateProduct";
 import EditProduct from "./pages/EditProduct";
-import StoreProfile from "./pages/StoreProfile";
-import ShowStoreProfile from "./pages/ShowProfile";
-import EditStoreProfile from "./pages/EditProfile";
+import StoreCreate from "./pages/StoreCreate";
+import ShowStore from "./pages/StoreShow";
+import EditStore from "./pages/StoreEdit";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setShowNav } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
@@ -43,6 +43,7 @@ export default function App() {
     const userProfile = useSelector((state) => state.user.user);
     const loginState = useSelector((state) => state.user.loginState);
     const isShowNav = useSelector((state) => state.user.isShowNav);
+    const shop_id = useSelector((state) => state.user.shop_id);
     // console.log("isShowNav", isShowNav);
 
     useEffect(() => {
@@ -107,14 +108,20 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/edit"
-                        component={EditStoreProfile}
+                        render={() => {
+                            return getCookie("access_token") != "" && shop_id ? (
+                                <EditStore />
+                            ) : (
+                                <Redirect to="/" />
+                            );
+                        }}
                     />
                     <Route
                         exact
                         path="/store/create"
                         render={() => {
-                            return getCookie("access_token") != "" ? (
-                                <StoreProfile />
+                            return getCookie("access_token") != "" && shop_id ? (
+                                <StoreCreate />
                             ) : (
                                 <Redirect to="/" />
                             );
@@ -123,7 +130,7 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id"
-                        component={ShowStoreProfile}
+                        component={ShowStore}
                     />
                 </Switch>
             </Router>

@@ -114,7 +114,18 @@ class CreateProduct extends Component {
             .post(apiProduct, packets, { headers: headers })
             .then((response) => {
                 toast.success("製品が正常に作成されました！");
-                window.location.href = `/product/manager`;
+                this.setState({
+                    content: "",
+                    imageUrl: "",
+                    category: "",
+                    file: undefined,
+                    errormessage: "",
+                    successmessage: "",
+                    price: "",
+                    name: "",
+                    url: "",
+                });
+                // window.location.href = `/product/manager`;
             })
             .catch((error) => {
                 toast.error("製品の作成に失敗しました！");

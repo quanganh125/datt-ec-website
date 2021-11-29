@@ -59,12 +59,13 @@ export default function Item({ data }) {
 
     return (
         <>
-            <Grid
-                container
-                className="item-manager-container"
-                onClick={() => nextDetail()}
-            >
-                <Grid item className="item-manager-image" xs={3}>
+            <Grid container className="item-manager-container">
+                <Grid
+                    item
+                    className="item-manager-image"
+                    xs={3}
+                    onClick={() => nextDetail()}
+                >
                     <img
                         src={
                             require(`../../../../../../storage/app/public/product_img/${data.image_link}`)
@@ -74,7 +75,12 @@ export default function Item({ data }) {
                         className="itemImg"
                     />
                 </Grid>
-                <Grid item className="item-manager-content" xs={6}>
+                <Grid
+                    item
+                    className="item-manager-content"
+                    xs={6}
+                    onClick={() => nextDetail()}
+                >
                     <h6>{data.name}</h6>
                     <p>レビュー数: {reviews.length}</p>
                 </Grid>
