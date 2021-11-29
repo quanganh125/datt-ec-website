@@ -18,7 +18,7 @@ class StoreProfile extends Component {
         this.setState({
             successmessage: "",
         });
-        window.location.href = `/`;
+        window.location.href = `/home`;
     };
     //xu li url
     handleUrlChange = (event) => {
@@ -74,7 +74,7 @@ class StoreProfile extends Component {
             })
             .then((response) => {
                 toast.success("ストアを正常に作成する!");
-                window.location.href = `/`;
+                window.location.href = `/home`;
             })
 
             .catch((error) => {

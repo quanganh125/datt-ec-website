@@ -42,7 +42,7 @@ class ShowStoreProfile extends Component {
         this.setState({
             successmessage: "",
         });
-        window.location.href = `/`;
+        window.location.href = `/home`;
     };
 
     handleGoToEdit = () => {

@@ -34,14 +34,14 @@ export default function Navigation({ userProfile, loginState }) {
                     toast.success("Đăng xuất thành công!");
                     deleteCookie("access_token");
                     // deleteAllCookies();
-                    window.location.href = `/`;
+                    window.location.href = `/home`;
                 })
                 .catch((error) => {
                     toast.error("Đăng xuất không thành công!");
                     console.error(error);
                 });
         } else {
-            window.location.href = `/`;
+            window.location.href = `/home`;
         }
     };
     const fetchShopId = async () => {
@@ -76,7 +76,7 @@ export default function Navigation({ userProfile, loginState }) {
                 <div className="logo-nav">
                     <div className="logo-container">
                         <a
-                            href="/"
+                            href="/home"
                             title="Trang chu"
                             style={{
                                 padding: 0,

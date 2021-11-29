@@ -23,7 +23,7 @@ class EditProduct extends React.Component {
         this.setState({
             successmessage: "",
         });
-        window.location.href = `/`;
+        window.location.href = `/home`;
     };
     //xu li ten cua san pham
     handleCategoryChange = (event) => {
