@@ -66,11 +66,11 @@ class EditProduct extends React.Component {
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
-                errormessage: "invalid file",
+                errormessage: "無効なファイル",
             });
         } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: "file is too large",
+                errormessage: "ファイルが大きすぎます",
             });
         } else {
             const fileReader = new FileReader();
@@ -87,29 +87,75 @@ class EditProduct extends React.Component {
     };
     handleFormSubmit = async (event) => {
         event.preventDefault();
-        const packets = {
-            name: this.state.newname,
-            price: this.state.price,
-            category_id: this.state.category,
-            description: this.state.content,
-            image_link: this.state.imageUrl,
-        };
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
-        await axios
-            .post(`${apiProduct}/${this.state.id}/edit`, packets, {
-                headers: headers,
-            })
-            .then((response) => {
-                toast.success("製品の編集に成功しました！!");
-                window.location.href = `/product/manager`;
-            })
-            .catch((error) => {
-                toast.error("編集に失敗しました!");
-                console.error("ERROR:: ", error.response.data);
+        if (!this.state.newname) {
+            this.setState({
+                errormessage: "名前をアップロードしてください",
             });
+        } else if (!this.state.imageUrl) {
+            this.setState({
+                errormessage: "画像をアップロードしてください",
+            });
+        } else {
+            if (!this.state.content) {
+                this.setState({
+                    errormessage: "説明をアップロードしてください",
+                });
+            } else {
+                if (!this.state.price) {
+                    this.setState({
+                        errormessage: "価格をアップロードしてください",
+                    });
+                } else {
+                    if (isNaN(this.state.price)) {
+                        this.setState({
+                            errormessage:
+                                "価格フィールドに数値を入力してください",
+                        });
+                    } else {
+                        if (!this.state.category) {
+                            this.setState({
+                                errormessage: "カテゴリを選んでください",
+                            });
+                        } else {
+                            const packets = {
+                                name: this.state.newname,
+                                price: this.state.price,
+                                category_id: this.state.category,
+                                description: this.state.content,
+                                image_link: this.state.imageUrl,
+                            };
+                            const headers = {
+                                "Content-type": "application/json",
+                                Authorization: `Bearer ${getCookie(
+                                    "access_token"
+                                )}`,
+                            };
+                            await axios
+                                .post(
+                                    `${apiProduct}/${this.state.id}/edit`,
+                                    packets,
+                                    {
+                                        headers: headers,
+                                    }
+                                )
+                                .then((response) => {
+                                    toast.success(
+                                        "製品の編集に成功しました！!"
+                                    );
+                                    window.location.href = `/product/manager`;
+                                })
+                                .catch((error) => {
+                                    toast.error("編集に失敗しました!");
+                                    console.error(
+                                        "ERROR:: ",
+                                        error.response.data
+                                    );
+                                });
+                        }
+                    }
+                }
+            }
+        }
     };
 
     componentDidMount() {
