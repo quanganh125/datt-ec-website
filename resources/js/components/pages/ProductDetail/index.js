@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
-import Review from "./review";
-import { Grid, Button } from "@material-ui/core";
+import Pagination from "../../layouts/Pagination";
+import { Button } from "@material-ui/core";
 import { apiProduct, apiStorage } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
 import { getCookie } from "../../utils/cookie";
 import { Link } from "react-router-dom";
+import VoteList from "../../layouts/VoteList";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -182,27 +183,12 @@ class ProductDetail extends Component {
                         <div className="product-reviews">
                             <label className="title"> レビュー </label>
                             <div className="reviews">
-                                {this.state.reviews.map((data) => (
-                                    <Grid key={data.id}>
-                                        <Review data={data} />
-                                    </Grid>
-                                ))}
-                            </div>
-                            {/* <div className="paginate">
                                 <Pagination
-                                    activePage={0}
-                                    itemsCountPerPage={4}
-                                    totalItemsCount={this.state.reviews.length}
-                                    onChange={(pageNumber) => {
-                                        this.reloadReview(pageNumber);
-                                    }}
-                                    pageRangeDisplayed={8}
-                                    itemClass="page-item"
-                                    linkClass="page-link"
-                                    firstPageText="First Page"
-                                    lastPageText="Last Lage"
+                                    dataItems={this.state.reviews}
+                                    itemsPerPage={4}
+                                    type={"vote-product"}
                                 />
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
