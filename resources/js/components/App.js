@@ -101,7 +101,7 @@ export default function App() {
                         exact
                         path="/product/:id/detail"
                         render={() => {
-                            return <ProductDetail />;
+                            return <ProductDetail userProfile={userProfile} />;
                         }}
                     />
                     <Route

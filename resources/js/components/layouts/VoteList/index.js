@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import VoteItem from "./VoteItem";
 
 export default function VoteList({ currentItems }) {
-    console.log("data", currentItems);
     return (
         <>
             {currentItems &&

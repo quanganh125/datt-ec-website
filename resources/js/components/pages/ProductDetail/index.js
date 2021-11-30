@@ -3,12 +3,12 @@ import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
 import Pagination from "../../layouts/Pagination";
 import { Button } from "@material-ui/core";
-import { apiProduct, apiStorage } from "./../../constant";
+import { apiProduct, apiStorage, apiGetShop } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
 import { getCookie } from "../../utils/cookie";
 import { Link } from "react-router-dom";
-import VoteList from "../../layouts/VoteList";
+import { connect } from "react-redux";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -26,6 +26,8 @@ class ProductDetail extends Component {
             isLoading: false,
             shop_id: null,
             linkShop: "",
+            currentUserId: null,
+            shopIdUser: null,
         };
     }
 
@@ -52,8 +54,37 @@ class ProductDetail extends Component {
             });
     };
 
+    componentWillMount() {
+        this.setState({
+            currentUserId: this.props.user.id,
+        });
+    }
+
+    //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment
+    fetchUserShopId = async () => {
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
+        this.state.currentUserId &&
+            (await axios
+                .get(`${apiGetShop}/${this.state.currentUserId}`, {
+                    headers: headers,
+                })
+                .then((res) => {
+                    const currentShopId = res.data; //shop cua nguoi dung dang xem san pham
+                    this.setState({
+                        shopIdUser: currentShopId,
+                    });
+                })
+                .catch((error) => {
+                    console.error(error);
+                }));
+    };
+
     componentDidMount() {
         this.fetchProductDetail();
+        this.fetchUserShopId();
     }
 
     getProductId = () => {
@@ -72,7 +103,10 @@ class ProductDetail extends Component {
     };
 
     handeOpenRatingForm = () => {
-        if (getCookie("access_token"))
+        if (
+            getCookie("access_token") &&
+            this.state.shop_id != this.state.shopIdUser
+        )
             this.setState({
                 isOpenRate: true,
             });
@@ -203,4 +237,14 @@ class ProductDetail extends Component {
     }
 }
 
-export default ProductDetail;
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
