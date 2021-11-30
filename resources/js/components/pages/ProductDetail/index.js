@@ -3,7 +3,7 @@ import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
 import Review from "./review";
 import { Grid, Button } from "@material-ui/core";
-import { apiProduct } from "./../../constant";
+import { apiProduct, apiStorage } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
 import { getCookie } from "../../utils/cookie";
@@ -109,17 +109,12 @@ class ProductDetail extends Component {
                         </div>
 
                         <div className="image">
-                            {this.state.isLoading ? (
-                                <img
-                                    className="product-image-detail"
-                                    alt="productImg"
-                                    src={
-                                        require(`../../../../../storage/app/public/product_img/${this.state.image_link}`)
-                                            .default
-                                    }
-                                    name="image"
-                                />
-                            ) : null}
+                            <img
+                                className="product-image-detail"
+                                alt="productImg"
+                                src={`${apiStorage}/${this.state.image_link}`}
+                                name="image"
+                            />
                         </div>
                     </div>
                     <div className="col-sm-12 col-md-6">
