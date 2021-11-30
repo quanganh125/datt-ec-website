@@ -34,7 +34,6 @@ const userReducer = (state = initialState, action) => {
                 isShowNav: false,
             };
         case SET_SHOP_ID:
-            console.log("shop");
             return {
                 ...state,
                 shop_id: action.payload,

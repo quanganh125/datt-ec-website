@@ -49,11 +49,9 @@ export default function Signup() {
         dispatch(setHideNav());
     };
     useEffect(() => {
-        console.log("chay");
         hideNav();
     }, []);
     const isShowNav = useSelector((state) => state.user.isShowNav);
-    console.log("nav login", isShowNav);
 
     const validate = () => {
         let state = true;

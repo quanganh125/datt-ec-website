@@ -32,7 +32,6 @@ class ProductDetail extends Component {
         await axios
             .get(`${apiProduct}/${this.state.id}`)
             .then((res) => {
-                console.log(res);
                 this.setState({
                     name: res.data.data.name,
                     image_link: res.data.data.image_link,

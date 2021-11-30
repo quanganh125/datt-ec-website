@@ -22,7 +22,6 @@ class EditStoreProfile extends Component {
             url: "",
             id: this.props.match && this.props.match.params.id ? this.props.match.params.id : null,
         };
-        console.log(this.props);
     }
 
     handleDelete = async (event) => {
@@ -34,7 +33,6 @@ class EditStoreProfile extends Component {
             })
             .then((response) => {
                 window.location.href = `/home`;
-                console.log("成功");
             })
 
             .catch((error) => {
@@ -147,7 +145,6 @@ class EditStoreProfile extends Component {
     }
 
     componentDidMount() {
-        // console.log("id", this.props.match.params.id);
         this.fetchStore()
     }
 
