@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./productItem.scss";
 import { Button } from "@material-ui/core";
-import Rate from "./../../Rate";
 import { useHistory } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import { pathImg } from "../../../constant";
+import { apiStorage } from "../../../constant";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -32,10 +31,7 @@ export default function Item({ data }) {
         <div className="itemContainer" onClick={() => goToDetail()}>
             <div className="itemHeader">
                 <img
-                    src={
-                        require(`../../../../../../storage/app/public/product_img/${data.image_link}`)
-                            .default
-                    }
+                    src={`${apiStorage}/${data.image_link}`}
                     alt="productImg"
                     className="itemImg"
                 />

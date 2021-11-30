@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,26 +39,44 @@ Route::group(['prefix' => 'product'], function ($router) {
 });
 
 Route::group(['prefix' => 'category'], function ($router) {
-  Route::get('/', [CategoryController::class, 'index']);
-  Route::post('/', [CategoryController::class, 'store']);
-  Route::get('/{id}', [CategoryController::class, 'show']);
-  Route::post('/{id}/edit', [CategoryController::class, 'update']);
-  Route::post('/{id}/delete', [CategoryController::class, 'destroy']);
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::post('/', [CategoryController::class, 'store']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::post('/{id}/edit', [CategoryController::class, 'update']);
+    Route::post('/{id}/delete', [CategoryController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'shop'], function ($router) {
-  Route::get('/', [ShopController::class, 'index']);
-  Route::get('/user/{user_id}', [ShopController::class, 'getShopOfUser']);
-  Route::post('/', [ShopController::class, 'store']);
-  Route::get('/{id}', [ShopController::class, 'show']);
-  Route::post('/{id}/edit', [ShopController::class, 'update']);
-  Route::post('/{id}/delete', [ShopController::class, 'delete']);
+    Route::get('/', [ShopController::class, 'index']);
+    Route::get('/user/{user_id}', [ShopController::class, 'getShopOfUser']);
+    Route::post('/', [ShopController::class, 'store']);
+    Route::get('/{id}', [ShopController::class, 'show']);
+    Route::post('/{id}/edit', [ShopController::class, 'update']);
+    Route::post('/{id}/delete', [ShopController::class, 'delete']);
 });
 
-Route::group(['prefix' => 'review'], function ($router) { 
-  Route::get('/', [ReviewController::class, 'index']);
-  Route::post('/', [ReviewController::class, 'store']);
-  Route::get('/{product_id}', [ReviewController::class, 'showAllReviewForProduct']);
-  Route::put('/{id}', [ReviewController::class, 'update']);
-  Route::delete('/{id}', [ReviewController::class, 'destroy']);
+Route::group(['prefix' => 'review'], function ($router) {
+    Route::get('/', [ReviewController::class, 'index']);
+    Route::post('/', [ReviewController::class, 'store']);
+    Route::get('/{product_id}', [ReviewController::class, 'showAllReviewForProduct']);
+    Route::put('/{id}', [ReviewController::class, 'update']);
+    Route::delete('/{id}', [ReviewController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'storage'], function ($router) {
+    Route::get('/{filename}', function ($filename) {
+        $path = storage_path('app/public/product_img/' . $filename);
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
 });
