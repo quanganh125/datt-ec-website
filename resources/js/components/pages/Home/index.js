@@ -4,6 +4,7 @@ import ProductList from "../../layouts/ProductList";
 import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiProduct, paginate_count } from "../../constant";
+import Pagination from "../../layouts/Pagination";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -50,7 +51,11 @@ export default function Home() {
             <h3>
                 <b>レコメンデーション</b>
             </h3>
-            <ProductList dataList={getSearchResult()} />
+            <Pagination
+                dataItems={getSearchResult()}
+                itemsPerPage={8}
+                type={"home-product"}
+            />
         </div>
     );
 }

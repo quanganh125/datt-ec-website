@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import "./productManager.scss";
 import ProductManagerList from "../../layouts/ProductManagerList";
-import imgTest1 from "../../../assets/images/shop.png";
 import { fetchShopProduct } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Pagination from "../../layouts/Pagination";
 
 export default function Detail() {
     const dispatch = useDispatch();
@@ -40,7 +40,11 @@ export default function Detail() {
                 </div>
             </div>
             <div className="product-list">
-                <ProductManagerList dataList={all_shop_product_datas} />
+                <Pagination
+                    dataItems={all_shop_product_datas}
+                    itemsPerPage={8}
+                    type={"manager-product"}
+                />
             </div>
         </div>
     );

@@ -175,11 +175,7 @@ export default function Signin({ setAuth }) {
                         Login
                     </Button>
                     <Grid container>
-                        <Grid item xs={6}>
-                            <Link to="/home" variant="body2">
-                                パスワードをお忘れですか？
-                            </Link>
-                        </Grid>
+                        <Grid item xs={6}></Grid>
                         <Grid item xs={6}>
                             <Link to="/register">
                                 アカウントをお持ちではありませんか？
