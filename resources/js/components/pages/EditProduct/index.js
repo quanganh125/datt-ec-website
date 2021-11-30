@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiProduct } from "../../constant";
+const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
+const maxFileSize = 5000000;
 import { getCookie } from "./../../utils/cookie";
 //import { useParams } from 'react-router-dom';
 class EditProduct extends React.Component {
@@ -82,6 +84,7 @@ class EditProduct extends React.Component {
                     url: fileReader.result.split(",")[1],
                     imageUrl: fileReader.result,
                 });
+                console.log("chọn anh", fileReader.result);
             };
         }
     };
@@ -124,6 +127,7 @@ class EditProduct extends React.Component {
                                 description: this.state.content,
                                 image_link: this.state.imageUrl,
                             };
+                            console.log(packets);
                             const headers = {
                                 "Content-type": "application/json",
                                 Authorization: `Bearer ${getCookie(
@@ -142,7 +146,7 @@ class EditProduct extends React.Component {
                                     toast.success(
                                         "製品の編集に成功しました！!"
                                     );
-                                    window.location.href = `/product/manager`;
+                                    // window.location.href = `/product/manager`;
                                 })
                                 .catch((error) => {
                                     toast.error("編集に失敗しました!");

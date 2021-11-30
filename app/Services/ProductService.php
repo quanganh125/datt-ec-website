@@ -25,7 +25,7 @@ class ProductService
      */
     public function getAll()
     {
-        return Product::paginate(8);
+        return Product::all();
     }
 
     public function update($id, array $product_data)

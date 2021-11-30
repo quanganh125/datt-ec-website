@@ -31,13 +31,15 @@ export default function Navigation({ userProfile, loginState }) {
             await axios
                 .post(apiLogout, { data: "mydata" }, { headers: headers })
                 .then((res) => {
-                    toast.success("Đăng xuất thành công!");
+                    toast.success("サインアウトに成功しました!");
                     deleteCookie("access_token");
                     // deleteAllCookies();
-                    window.location.href = `/home`;
+                    setTimeout(() => {
+                        window.location.href = `/home`;
+                    }, 500);
                 })
                 .catch((error) => {
-                    toast.error("Đăng xuất không thành công!");
+                    toast.error("サインアウトに失敗しました!");
                     console.error(error);
                 });
         } else {
@@ -60,6 +62,7 @@ export default function Navigation({ userProfile, loginState }) {
                     setshopId(id);
                     setShopLink(`/store/${shopId}`);
                     dispatch(setShopId(id));
+                    console.log("shopID", id);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -120,7 +123,7 @@ export default function Navigation({ userProfile, loginState }) {
                                     )}
                                 </>
                             ) : null}
-                            {userProfile.id ? (
+                            {userProfile.id && shopId ? (
                                 <li className="option">
                                     <a
                                         href="/product/manager"

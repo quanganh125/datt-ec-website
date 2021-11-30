@@ -3,15 +3,14 @@ import "./home.scss";
 import ProductList from "../../layouts/ProductList";
 import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
-import Pagination from "react-js-pagination";
 import { apiProduct, paginate_count } from "../../constant";
 
 export default function Home() {
     const dispatch = useDispatch();
     const [pageCount, setPageCount] = useState(0);
 
-    const fetchProduct = (page = 1) => {
-        dispatch(fetchProductRecommend(page));
+    const fetchProduct = () => {
+        dispatch(fetchProductRecommend());
     };
 
     useEffect(() => {
@@ -52,21 +51,6 @@ export default function Home() {
                 <b>レコメンデーション</b>
             </h3>
             <ProductList dataList={getSearchResult()} />
-            <div className="paginate">
-                <Pagination
-                    activePage={0}
-                    itemsCountPerPage={paginate_count}
-                    totalItemsCount={pageCount}
-                    onChange={(pageNumber) => {
-                        fetchProduct(pageNumber);
-                    }}
-                    pageRangeDisplayed={4}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    firstPageText="First"
-                    lastPageText="Last"
-                />
-            </div>
         </div>
     );
 }

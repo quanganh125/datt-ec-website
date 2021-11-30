@@ -77,6 +77,10 @@ export default function App() {
                             return <Home />;
                         }}
                     />
+                    {console.log(
+                        "shopid",
+                        Boolean(getCookie("access_token") != "" && shop_id)
+                    )}
                     <Route
                         exact
                         path="/product/manager"
@@ -108,9 +112,10 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/edit"
-                        render={() => {
-                            return getCookie("access_token") != "" && shop_id ? (
-                                <EditStore />
+                        // component={EditStore}
+                        render={(props) => {
+                            return getCookie("access_token") != "" ? (
+                                <EditStore {...props} />
                             ) : (
                                 <Redirect to="/home" />
                             );
@@ -120,18 +125,15 @@ export default function App() {
                         exact
                         path="/store/create"
                         render={() => {
-                            return getCookie("access_token") != "" && shop_id ? (
+                            return getCookie("access_token") != "" &&
+                                !shop_id ? (
                                 <StoreCreate />
                             ) : (
                                 <Redirect to="/home" />
                             );
                         }}
                     />
-                    <Route
-                        exact
-                        path="/store/:id"
-                        component={ShowStore}
-                    />
+                    <Route exact path="/store/:id" component={ShowStore} />
                 </Switch>
             </Router>
         </Fragment>

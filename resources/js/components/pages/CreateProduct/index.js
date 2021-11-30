@@ -21,7 +21,7 @@ class CreateProduct extends Component {
         this.setState({
             successmessage: "",
         });
-        window.location.href = `/home`;
+        window.location.href = `/product/manager`;
     };
     //xu li ten cua san pham
     handleNameChange = (event) => {

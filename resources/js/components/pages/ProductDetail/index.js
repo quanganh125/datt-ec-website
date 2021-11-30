@@ -6,7 +6,6 @@ import { Grid, Button } from "@material-ui/core";
 import { apiProduct } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
-import Pagination from "react-js-pagination";
 import { getCookie } from "../../utils/cookie";
 import { Link } from "react-router-dom";
 class ProductDetail extends Component {
@@ -169,7 +168,9 @@ class ProductDetail extends Component {
                                 <li>
                                     <p>
                                         <Link to={this.state.linkShop}>
-                                            <b style={{ color: "black" }}>店舗：</b>
+                                            <b style={{ color: "black" }}>
+                                                店舗：
+                                            </b>
                                             {this.state.shop}
                                         </Link>
                                     </p>

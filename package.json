@@ -31,7 +31,6 @@
         "antd": "^4.16.13",
         "font-awesome": "^4.7.0",
         "react-icons": "^4.3.1",
-        "react-js-pagination": "^3.0.2",
         "react-rating": "^2.0.5",
         "react-rating-stars-component": "^2.2.0",
         "react-redux": "^7.2.5",
