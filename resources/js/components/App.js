@@ -44,7 +44,6 @@ export default function App() {
     const loginState = useSelector((state) => state.user.loginState);
     const isShowNav = useSelector((state) => state.user.isShowNav);
     const shop_id = useSelector((state) => state.user.shop_id);
-    // console.log("isShowNav", isShowNav);
 
     useEffect(() => {
         setLogin(loginState);
@@ -77,10 +76,6 @@ export default function App() {
                             return <Home />;
                         }}
                     />
-                    {console.log(
-                        "shopid",
-                        Boolean(getCookie("access_token") != "" && shop_id)
-                    )}
                     <Route
                         exact
                         path="/product/manager"

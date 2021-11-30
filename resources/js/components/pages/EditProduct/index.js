@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { apiProduct } from "../../constant";
+import { apiProduct, apiStorage } from "../../constant";
+import { getCookie } from "./../../utils/cookie";
+import "./edit.scss";
+
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 const maxFileSize = 5000000;
-import { getCookie } from "./../../utils/cookie";
-//import { useParams } from 'react-router-dom';
 class EditProduct extends React.Component {
     constructor(props) {
         super(props);
+        this.fileRef = React.createRef();
         this.state = {
             content: "",
-            imageUrl: "",
+            image_link: "",
             errormessage: "",
             successmessage: "",
             price: "",
@@ -21,6 +23,7 @@ class EditProduct extends React.Component {
             id: this.props.match.params.id,
         };
     }
+
     handleReturnHomePage = () => {
         this.setState({
             successmessage: "",
@@ -82,9 +85,8 @@ class EditProduct extends React.Component {
                     errormessage: "",
                     file: file,
                     url: fileReader.result.split(",")[1],
-                    imageUrl: fileReader.result,
+                    image_link: fileReader.result,
                 });
-                console.log("chọn anh", fileReader.result);
             };
         }
     };
@@ -94,7 +96,7 @@ class EditProduct extends React.Component {
             this.setState({
                 errormessage: "名前をアップロードしてください",
             });
-        } else if (!this.state.imageUrl) {
+        } else if (!this.state.image_link) {
             this.setState({
                 errormessage: "画像をアップロードしてください",
             });
@@ -125,9 +127,8 @@ class EditProduct extends React.Component {
                                 price: this.state.price,
                                 category_id: this.state.category,
                                 description: this.state.content,
-                                image_link: this.state.imageUrl,
+                                image_link: this.state.image_link,
                             };
-                            console.log(packets);
                             const headers = {
                                 "Content-type": "application/json",
                                 Authorization: `Bearer ${getCookie(
@@ -146,20 +147,28 @@ class EditProduct extends React.Component {
                                     toast.success(
                                         "製品の編集に成功しました！!"
                                     );
-                                    // window.location.href = `/product/manager`;
+                                    window.location.href = `/product/manager`;
                                 })
                                 .catch((error) => {
                                     toast.error("編集に失敗しました!");
-                                    console.error(
-                                        "ERROR:: ",
-                                        error.response.data
-                                    );
                                 });
                         }
                     }
                 }
             }
         }
+    };
+
+    getImageSrc() {
+        if (!this.state.image_link && !this.state.file) {
+            return this.state.image_link;
+        } else if (!this.state.file && this.state.image_link) {
+            return `${apiStorage}/${this.state.image_link}`;
+        } else return this.state.image_link;
+    }
+
+    onBtnClick = () => {
+        this.fileRef.current.click();
     };
 
     componentDidMount() {
@@ -170,7 +179,7 @@ class EditProduct extends React.Component {
                 let dataProduct = response.data.data;
                 this.setState({
                     content: dataProduct.description,
-                    imageUrl: dataProduct.image_link,
+                    image_link: dataProduct.image_link,
                     errormessage: "",
                     successmessage: "",
                     price: dataProduct.price,
@@ -196,55 +205,35 @@ class EditProduct extends React.Component {
             >
                 <div className="col-9">
                     <h3>製品の編集</h3>
-                    <form onSubmit={this.handleFormSubmit}>
-                        <div className="form-group">
-                            <div
-                                style={{
-                                    position: `relative`,
-                                    top: `30px`,
-                                    textAlign: "center",
-                                }}
+                    <form
+                        className="form-wrap"
+                        onSubmit={this.handleFormSubmit}
+                    >
+                        <div className="form-group file-input">
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={this.onBtnClick}
                             >
                                 画像を選択 ...
-                            </div>
+                            </button>
                             <input
                                 id="file"
                                 type="file"
-                                className="form-control"
+                                className="upload-input"
+                                ref={this.fileRef}
                                 accept="image/*"
-                                style={{
-                                    color: "transparent",
-                                    margin: `0 auto`,
-                                    textIndent: `-999em`,
-                                    zIndex: 10,
-                                    height: `50px`,
-                                }}
                                 onChange={this.handleFileChange}
                             />
                         </div>
-                        {this.state.imageUrl ? (
-                            <div
-                                style={{
-                                    backgroundImage: `url(${this.state.imageUrl})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundSize: "cover",
-                                    width: "100%",
-                                    height: "400px",
-                                }}
-                            ></div>
-                        ) : null}
-                        {/* <div className="form-group">
-                            <h5>Image</h5>
-                            <textarea
-                                className="form-control"
-                                id="exampleFormControlTextarea1"
-                                rows="4"
-                                placeholder="Please input image link ..."
-                                value={this.state.imageUrl}
-                                onChange={this.handleImageUrlChange}
-                            ></textarea>
-                        </div> */}
-                        {/* input ten cua san pham */}
+                        <div className="img-container">
+                            <img
+                                src={this.getImageSrc()}
+                                alt="productImg"
+                                className="itemImg"
+                            />
+                        </div>
+
                         <div className="form-group">
                             <h5>名前</h5>
                             <input
@@ -273,7 +262,6 @@ class EditProduct extends React.Component {
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                             >
-                                <option>カテゴリを選択</option>
                                 <option value="1">春</option>
                                 <option value="2">夏</option>
                                 <option value="3">秋</option>

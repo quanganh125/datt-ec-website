@@ -40,7 +40,6 @@ export default function Navigation({ userProfile, loginState }) {
                 })
                 .catch((error) => {
                     toast.error("サインアウトに失敗しました!");
-                    console.error(error);
                 });
         } else {
             window.location.href = `/home`;
@@ -62,7 +61,6 @@ export default function Navigation({ userProfile, loginState }) {
                     setshopId(id);
                     setShopLink(`/store/${shopId}`);
                     dispatch(setShopId(id));
-                    console.log("shopID", id);
                 })
                 .catch((error) => {
                     console.error(error);

@@ -42,7 +42,6 @@ export const setShowNav = () => {
 };
 
 export const setHideNav = () => {
-    console.log("hide hide");
     return { type: HIDE_NAV };
 };
 

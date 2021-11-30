@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-const maxFileSize = 5000000;
-const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { apiProduct } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
+import "./create.scss";
+
+const maxFileSize = 5000000;
+const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 class CreateProduct extends Component {
+    fileRef = React.createRef();
     state = {
         content: "",
-        imageUrl: "",
+        image_link: "",
         category: "",
         file: undefined,
         errormessage: "",
@@ -16,6 +19,10 @@ class CreateProduct extends Component {
         price: "",
         name: "",
         url: "",
+    };
+
+    onBtnClick = () => {
+        this.fileRef.current.click();
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -32,14 +39,7 @@ class CreateProduct extends Component {
             name: event.target.value,
         });
     };
-    // handleImageUrlChange = (event) => {
-    //     this.setState({
-    //         successmessage: "",
-    //     });
-    //     this.setState({
-    //         imageUrl: event.target.value,
-    //     });
-    // };
+
     handleCategoryChange = (event) => {
         this.setState({
             successmessage: "",
@@ -87,7 +87,7 @@ class CreateProduct extends Component {
                     errormessage: "",
                     file: file,
                     url: fileReader.result.split(",")[1],
-                    imageUrl: fileReader.result,
+                    image_link: fileReader.result,
                 });
             };
         }
@@ -101,7 +101,7 @@ class CreateProduct extends Component {
             this.setState({
                 errormessage: "名前をアップロードしてください",
             });
-        } else if (!this.state.imageUrl) {
+        } else if (!this.state.image_link) {
             this.setState({
                 errormessage: "画像をアップロードしてください",
             });
@@ -132,17 +132,14 @@ class CreateProduct extends Component {
                                 price: this.state.price,
                                 category_id: this.state.category,
                                 description: this.state.content,
-                                image_link: this.state.imageUrl,
+                                image_link: this.state.image_link,
                             };
-                            console.log(this.state.imageUrl);
                             const headers = {
                                 "Content-type": "application/json",
                                 Authorization: `Bearer ${getCookie(
                                     "access_token"
                                 )}`,
                             };
-
-                            console.log("packet", packets);
 
                             await axios
                                 .post(apiProduct, packets, { headers: headers })
@@ -152,7 +149,7 @@ class CreateProduct extends Component {
                                     );
                                     this.setState({
                                         content: "",
-                                        imageUrl: "",
+                                        image_link: "",
                                         category: "",
                                         file: undefined,
                                         errormessage: "",
@@ -161,14 +158,10 @@ class CreateProduct extends Component {
                                         name: "",
                                         url: "",
                                     });
-                                    // window.location.href = `/product/manager`;
+                                    window.location.href = `/product/manager`;
                                 })
                                 .catch((error) => {
                                     toast.error("製品の作成に失敗しました！");
-                                    console.error(
-                                        "ERROR:: ",
-                                        error.response.data
-                                    );
                                 });
                         }
                     }
@@ -188,44 +181,36 @@ class CreateProduct extends Component {
             >
                 <div className="col-9">
                     <h3>新製品を作成</h3>
-                    <form onSubmit={this.handleFormSubmit}>
-                        <div className="form-group">
-                            <div
-                                style={{
-                                    position: `relative`,
-                                    top: `30px`,
-                                    textAlign: "center",
-                                }}
+                    <form
+                        className="form-wrap"
+                        onSubmit={this.handleFormSubmit}
+                    >
+                        <div className="form-group file-input">
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={this.onBtnClick}
                             >
                                 画像を選択 ...
-                            </div>
+                            </button>
                             <input
                                 id="file"
                                 type="file"
-                                className="form-control"
+                                className="upload-input"
+                                ref={this.fileRef}
                                 accept="image/*"
-                                style={{
-                                    color: "transparent",
-                                    margin: `0 auto`,
-                                    textIndent: `-999em`,
-                                    zIndex: 10,
-                                    height: `50px`,
-                                }}
                                 onChange={this.handleFileChange}
                             />
                         </div>
-                        {this.state.imageUrl ? (
-                            <div
-                                style={{
-                                    backgroundImage: `url(${this.state.imageUrl})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundSize: "cover",
-                                    width: "100%",
-                                    height: "300px",
-                                }}
-                            ></div>
+                        {this.state.image_link ? (
+                            <div className="img-container">
+                                <img
+                                    src={`${this.state.image_link}`}
+                                    alt="productImg"
+                                    className="itemImg"
+                                />
+                            </div>
                         ) : null}
-                        {/* input ten cua san pham */}
                         <div className="form-group">
                             <h5>名前</h5>
                             <input
@@ -246,15 +231,7 @@ class CreateProduct extends Component {
                                 onChange={this.handleContentChange}
                             ></textarea>
                         </div>
-                        {/* <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Please input category."
-                                value={this.state.category}
-                                onChange={this.handleCategoryChange}
-                            />
-                            
-                        </div> */}
+
                         <div className="form-group">
                             <h5>カテゴリー</h5>
                             <select
@@ -270,7 +247,6 @@ class CreateProduct extends Component {
                                 <option value="4">冬</option>
                                 <option value="5">なんでもいい</option>
                             </select>
-                            {/* input gia cua san pham */}
                         </div>
                         <div className="form-group">
                             <h5>価格</h5>
