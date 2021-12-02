@@ -1,0 +1,40 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/common";
+
+#footer {
+    width: 100%;
+    min-height: 280px;
+    background-color: $nav-bottom-color;
+    @include deleteSpace();
+}
+
+.support {
+    display: flex;
+    justify-content: center;
+    span {
+        color: white;
+        ul {
+            @include deleteSpace();
+            list-style: none;
+            li {
+                padding: 2px;
+                a {
+                    color: white;
+                    text-decoration: none;
+                    &:hover {
+                        color: aquamarine;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#nocopyright {
+    height: 40px;
+    @include makeCenter();
+}
+
+.footer-title {
+    color: white;
+}

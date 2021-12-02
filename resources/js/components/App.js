@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Navigation from "./layouts/Navigation";
+import Footer from "./layouts/Footer";
 import ProductManager from "./pages/ProductManager";
 toast.configure();
 import { getCookie } from "./utils/cookie";
@@ -78,6 +79,13 @@ export default function App() {
                     />
                     <Route
                         exact
+                        path="/"
+                        render={() => {
+                            return <Redirect to="/home" />;
+                        }}
+                    />
+                    <Route
+                        exact
                         path="/product/manager"
                         render={() => {
                             return getCookie("access_token") != "" ? (
@@ -130,6 +138,7 @@ export default function App() {
                     />
                     <Route exact path="/store/:id" component={ShowStore} />
                 </Switch>
+                {isShowNav ? <Footer /> : null}
             </Router>
         </Fragment>
     );
