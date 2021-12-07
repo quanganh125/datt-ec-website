@@ -2,19 +2,18 @@ import { event } from "jquery";
 import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
-import { toast } from "react-toastify";
-import { apiShop } from "../../constant";
+import { apiShop, apiStorage } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "../../utils/cookie";
 class ShowStoreProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            content: "",
             errormessage: "",
             successmessage: "",
-            address: "",
             name: "",
+            address: "",
+            logo: "",
             url: "",
             id: this.props.match.params.id,
             isLoading: false,
@@ -32,7 +31,7 @@ class ShowStoreProfile extends Component {
                 this.setState({
                     name: res.data.data.name,
                     address: res.data.data.address,
-                    content: res.data.data.logo,
+                    logo: res.data.data.logo,
                     url: res.data.data.url,
                     isLoading: true,
                 });
@@ -64,7 +63,7 @@ class ShowStoreProfile extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     minHeight: "100vh",
-                    marginTop: 80,
+                    marginTop: 150,
                 }}
             >
                 {this.state.isLoading ? (
@@ -89,11 +88,12 @@ class ShowStoreProfile extends Component {
                                 </label>
                             </div>
                             <h5>ロゴ</h5>
-                            <div className="form-group">
-                                <label className="form-control">
-                                    {" "}
-                                    {this.state.content}
-                                </label>
+                            <div className="img-container">
+                                <img
+                                    src={`${apiStorage}/${this.state.logo}`}
+                                    alt="productImg"
+                                    className="itemImg"
+                                />
                             </div>
                             <h5>ストアのURL</h5>
                             <div className="form-group">

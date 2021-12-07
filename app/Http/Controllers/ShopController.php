@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Shop;
-use App\Http\Resources\ShopResource;
 use App\Http\Resources\ShopCollection;
+use App\Http\Resources\ShopResource;
+use App\Models\Shop;
+use App\Services\ProductService;
 use App\Services\ShopService;
 use App\Services\UserService;
-use App\Services\ProductService;
-use Validator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class ShopController extends Controller
 {
@@ -33,7 +33,6 @@ class ShopController extends Controller
     {
         $shops = $this->shopService->getAll();
         return (new ShopCollection($shops))->response();
-
     }
 
     /**
@@ -43,7 +42,6 @@ class ShopController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -61,12 +59,11 @@ class ShopController extends Controller
             'url' => 'bail|required|string',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
-        // $user_id = auth()->user()->id;
         $user_id = Auth::user()->id;
-        $logo_storage = $this->productService->saveImgBase64($request->input('url'), 'product_img');
+        $logo_storage = $this->productService->saveImgBase64($request->input('logo'), 'product_img');
 
         $shop = new Shop();
         $shop->name = $request->input('name');
@@ -98,7 +95,6 @@ class ShopController extends Controller
      */
     public function edit($id)
     {
-        
     }
 
     /**
@@ -117,12 +113,12 @@ class ShopController extends Controller
             'url' => 'bail|required|string',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
         }
 
         $input = $request->all();
-        $logo_storage = $this->productService->saveImgBase64($input('logo'), 'product_img');
+        $logo_storage = $this->productService->saveImgBase64($request->input('logo'), 'product_img');
         $input["logo"] = $logo_storage;
         $shop = $this->shopService->update($id, $input);
         return (new ShopResource($shop))->response();
@@ -139,8 +135,8 @@ class ShopController extends Controller
         $shop = $this->shopService->delete($id);
     }
 
-    public function getShopOfUser($user_id){
-        // dd($this->shopService->getIdShop($user_id));
+    public function getShopOfUser($user_id)
+    {
         return $this->shopService->getIdShop($user_id);
     }
 }

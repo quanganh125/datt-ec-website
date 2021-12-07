@@ -23,7 +23,7 @@ export default function Pagination({ dataItems, itemsPerPage, type }) {
 
     function Items({ type }) {
         if (type == "home-product") {
-            return <ProductList currentItems={currentItems} />;
+            return <ProductList currentItems={currentItems} type={"home"} />;
         } else if (type == "manager-product") {
             return <ProductManagerList currentItems={currentItems} />;
         } else if (type == "vote-product") {

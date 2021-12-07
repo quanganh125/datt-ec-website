@@ -82,7 +82,35 @@ export const getProductRecommendDetail = (id) => async (dispatch) => {
     await axios
         .get(`${apiProduct}/recommend`, { headers: headers })
         .then((res) => {
-            const get_product_recommend_detail = res.data.data;
+            const get_product_recommend = res.data.data;
+            var get_product_recommend_detail = [];
+            get_product_recommend.map((item, index) => {
+                if (item.id == id && index == 0) {
+                    get_product_recommend_detail.push(
+                        get_product_recommend[index + 1]
+                    );
+                    get_product_recommend_detail.push(
+                        get_product_recommend[index + 2]
+                    );
+                } else if (
+                    item.id == id &&
+                    index == get_product_recommend.length - 1
+                ) {
+                    get_product_recommend_detail.push(
+                        get_product_recommend[index - 1]
+                    );
+                    get_product_recommend_detail.push(
+                        get_product_recommend[index - 2]
+                    );
+                } else {
+                    get_product_recommend_detail.push(
+                        get_product_recommend[index - 1]
+                    );
+                    get_product_recommend_detail.push(
+                        get_product_recommend[index + 1]
+                    );
+                }
+            });
             dispatch({
                 type: GET_PRODUCT_RECOMMEND_DETAIL,
                 payload: get_product_recommend_detail,

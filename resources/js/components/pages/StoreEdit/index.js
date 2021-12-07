@@ -3,7 +3,7 @@ import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
-import { apiShop } from "../../constant";
+import { apiShop, apiStorage } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "./../../utils/cookie";
 
@@ -14,8 +14,12 @@ const headers = {
 class EditStoreProfile extends Component {
     constructor(props) {
         super(props);
+        this.fileRef = React.createRef();
         this.state = {
             logo: "",
+            new_logo: "",
+            new_logo_url: "",
+            file: "",
             errormessage: "",
             successmessage: "",
             address: "",
@@ -28,7 +32,40 @@ class EditStoreProfile extends Component {
             isLoading: false,
         };
     }
-
+    onBtnClick = () => {
+        this.fileRef.current.click();
+    };
+    getImageSrc() {
+        return this.state.new_logo
+            ? this.state.new_logo
+            : `${apiStorage}/${this.state.logo}`;
+    }
+    handleFileChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        const file = event.target.files[0];
+        if (!imageFileRegex.test(file.name)) {
+            this.setState({
+                errormessage: "無効なファイル",
+            });
+        } else if (file.size > maxFileSize) {
+            this.setState({
+                errormessage: "ファイルが大きすぎます",
+            });
+        } else {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                this.setState({
+                    errormessage: "",
+                    file: file,
+                    new_logo_url: fileReader.result.split(",")[1],
+                    new_logo: fileReader.result,
+                });
+            };
+        }
+    };
     handleDelete = async (event) => {
         event.preventDefault();
         // const {match} = this.props;
@@ -102,7 +139,7 @@ class EditStoreProfile extends Component {
                     errormessage: "住所をアップロードしてください",
                 });
             } else {
-                if (!this.state.logo) {
+                if (!this.state.logo && !this.state.new_logo) {
                     this.setState({
                         errormessage: "ロゴをアップロードしてください",
                     });
@@ -115,7 +152,9 @@ class EditStoreProfile extends Component {
                         const packets = {
                             name: this.state.name,
                             address: this.state.address,
-                            logo: this.state.logo,
+                            logo: this.state.new_logo
+                                ? this.state.new_logo
+                                : this.state.logo,
                             url: this.state.url,
                         };
                         await axios
@@ -168,7 +207,7 @@ class EditStoreProfile extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     minHeight: "100vh",
-                    marginTop: 110,
+                    marginTop: 150,
                 }}
             >
                 {this.state.isLoading ? (
@@ -195,16 +234,29 @@ class EditStoreProfile extends Component {
                                     onChange={this.handleaddressChange}
                                 />
                             </div>
-                            <div className="form-group">
-                                <h5>ロゴ</h5>
-                                <textarea
-                                    className="form-control"
-                                    id="exampleFormControlTextarea1"
-                                    rows="4"
-                                    placeholder="ロゴを入力してください ..."
-                                    value={this.state.logo}
-                                    onChange={this.handleLogoChange}
-                                ></textarea>
+                            <div className="form-group file-input">
+                                <button
+                                    type="button"
+                                    className="btn btn-success"
+                                    onClick={this.onBtnClick}
+                                >
+                                    ロゴを選択 ...
+                                </button>
+                                <input
+                                    id="file"
+                                    type="file"
+                                    className="upload-input"
+                                    ref={this.fileRef}
+                                    accept="image/*"
+                                    onChange={this.handleFileChange}
+                                />
+                            </div>
+                            <div className="img-container">
+                                <img
+                                    src={this.getImageSrc()}
+                                    alt="productImg"
+                                    className="itemImg"
+                                />
                             </div>
                             <div className="form-group">
                                 <h5>ストアのURL</h5>

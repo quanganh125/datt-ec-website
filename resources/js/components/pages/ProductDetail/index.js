@@ -69,11 +69,11 @@ class ProductDetail extends Component {
     componentDidUpdate(prevProps) {
         console.log("b");
         if (this.props.productRecommend !== prevProps.productRecommend) {
-            console.log(this.props.productRecommend.slice(0, 2));
-            if (this.state.productRecommend.length)
+            if (!this.state.productRecommend.length) {
                 this.setState({
                     productRecommend: this.props.productRecommend.slice(0, 2),
                 });
+            }
         }
     }
 
@@ -103,7 +103,7 @@ class ProductDetail extends Component {
         console.log("a");
         this.fetchProductDetail();
         this.fetchUserShopId();
-        this.props.getRecommendDetail();
+        this.props.getRecommendDetail(this.getProductId());
     }
 
     getProductId = () => {
@@ -171,10 +171,14 @@ class ProductDetail extends Component {
                                     />
                                 </div>
                                 <div className="product-recommend">
+                                    <h4>
+                                        <b>関連製品</b>
+                                    </h4>
                                     <ProductList
                                         currentItems={
                                             this.state.productRecommend
                                         }
+                                        type={"detail"}
                                     />
                                 </div>
                             </div>
