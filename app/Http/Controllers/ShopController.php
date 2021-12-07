@@ -60,13 +60,13 @@ class ShopController extends Controller
             'logo' => 'bail|required|string',
             'url' => 'bail|required|string',
         ]);
-
+        
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
-        // $user_id = auth()->user()->id;
+
         $user_id = Auth::user()->id;
-        $logo_storage = $this->productService->saveImgBase64($request->input('url'), 'product_img');
+        $logo_storage = $this->productService->saveImgBase64($request->input('logo'), 'product_img');
 
         $shop = new Shop();
         $shop->name = $request->input('name');
@@ -122,7 +122,7 @@ class ShopController extends Controller
         }
 
         $input = $request->all();
-        $logo_storage = $this->productService->saveImgBase64($input('logo'), 'product_img');
+        $logo_storage = $this->productService->saveImgBase64($request->input('logo'), 'product_img');
         $input["logo"] = $logo_storage;
         $shop = $this->shopService->update($id, $input);
         return (new ShopResource($shop))->response();
@@ -140,7 +140,6 @@ class ShopController extends Controller
     }
 
     public function getShopOfUser($user_id){
-        // dd($this->shopService->getIdShop($user_id));
         return $this->shopService->getIdShop($user_id);
     }
 }

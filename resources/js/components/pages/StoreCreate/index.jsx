@@ -5,7 +5,9 @@ const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
+
 class StoreProfile extends Component {
+    fileRef = React.createRef();
     state = {
         content: "",
         errormessage: "",
@@ -13,6 +15,38 @@ class StoreProfile extends Component {
         address: "",
         name: "",
         url: "",
+        file: "",
+        logo: "",
+        logo_url: ""
+    };
+    handleFileChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        const file = event.target.files[0];
+        if (!imageFileRegex.test(file.name)) {
+            this.setState({
+                errormessage: "無効なファイル",
+            });
+        } else if (file.size > maxFileSize) {
+            this.setState({
+                errormessage: "ファイルが大きすぎます",
+            });
+        } else {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                this.setState({
+                    errormessage: "",
+                    file: file,
+                    logo_url: fileReader.result.split(",")[1],
+                    logo: fileReader.result,
+                });
+            };
+        }
+    };
+    onBtnClick = () => {
+        this.fileRef.current.click();
     };
     handleReturnHomePage = () => {
         this.setState({
@@ -68,7 +102,7 @@ class StoreProfile extends Component {
                     errormessage: "住所をアップロードしてください",
                 });
             } else {
-                if (!this.state.content) {
+                if (!this.state.logo) {
                     this.setState({
                         errormessage: "ロゴをアップロードしてください",
                     });
@@ -81,7 +115,7 @@ class StoreProfile extends Component {
                         const packets = {
                             name: this.state.name,
                             address: this.state.address,
-                            logo: this.state.content,
+                            logo: this.state.logo,
                             url: this.state.url,
                         };
                         const headers = {
@@ -100,6 +134,7 @@ class StoreProfile extends Component {
                             })
 
                             .catch((error) => {
+                                console.log(error);
                                 toast.error("ストアの作成に失敗しました!");
                             });
                     }
@@ -142,17 +177,32 @@ class StoreProfile extends Component {
                                 onChange={this.handleaddressChange}
                             />
                         </div>
-                        <div className="form-group">
-                            <h5>ロゴ</h5>
-                            <textarea
-                                className="form-control"
-                                id="exampleFormControlTextarea1"
-                                rows="4"
-                                placeholder="ロゴを入力してください ..."
-                                value={this.state.content}
-                                onChange={this.handleContentChange}
-                            ></textarea>
+                        <div className="form-group file-input">
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={this.onBtnClick}
+                            >
+                                ロゴを選択 ...
+                            </button>
+                            <input
+                                id="file"
+                                type="file"
+                                className="upload-input"
+                                ref={this.fileRef}
+                                accept="image/*"
+                                onChange={this.handleFileChange}
+                            />
                         </div>
+                        {this.state.logo ? (
+                            <div className="img-container">
+                                <img
+                                    src={`${this.state.logo}`}
+                                    alt="productImg"
+                                    className="itemImg"
+                                />
+                            </div>
+                        ) : null}
                         <div className="form-group">
                             <h5>ストアのURL</h5>
                             <input
