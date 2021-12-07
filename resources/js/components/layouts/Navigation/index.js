@@ -15,12 +15,34 @@ import { fetchShopId, setShopId } from "./../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiGetShop } from "./../../constant/index";
 
+var lastScrollTop = 0;
+
 export default function Navigation({ userProfile, loginState }) {
     const [click, setClick] = useState(false);
     const [shopId, setshopId] = useState(null);
     const [shopLink, setShopLink] = useState("");
     const closeMobileMenu = () => setClick(false);
     const dispatch = useDispatch();
+    const [isScroll, setIsScroll] = useState({
+        onTop: false,
+    });
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.onscroll = () => {
+                let currentScrollPos = window.pageYOffset;
+                if (
+                    currentScrollPos > lastScrollTop &&
+                    currentScrollPos > 130
+                ) {
+                    setIsScroll({ onTop: true });
+                } else {
+                    setIsScroll({ onTop: false });
+                }
+                lastScrollTop = currentScrollPos <= 0 ? 0 : currentScrollPos;
+            };
+        }
+    }, [isScroll]);
 
     const logout = async () => {
         if (getCookie("access_token") != "") {
@@ -72,7 +94,13 @@ export default function Navigation({ userProfile, loginState }) {
     }, [userProfile.id, shopId]);
 
     return (
-        <div id="nav">
+        <div
+            id="nav"
+            style={{
+                height: 130,
+                top: isScroll.onTop ? -140 : 0,
+            }}
+        >
             <div className="header">
                 <div className="logo-nav">
                     <div className="logo-container">

@@ -1,0 +1,49 @@
+@import "../../../../sass/common";
+@import "../../../../sass/variables";
+
+.loadingContainer {
+    // position: relative;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.outer,
+.middle,
+.inner {
+    position: fixed;
+    border: 5px solid transparent;
+    border-top-color: $base-color-1;
+    border-right-color: #3cefff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+}
+
+.outer {
+    width: 50px;
+    height: 50px;
+    animation: spinner 1.65s infinite linear;
+    margin-left: -25px;
+    margin-top: -25px;
+}
+
+.middle {
+    width: 35px;
+    height: 35px;
+    animation: spinner 1.04s infinite reverse linear;
+    margin-left: -17.5px;
+    margin-top: -17.5px;
+}
+
+.inner {
+    width: 20px;
+    height: 20px;
+    animation: spinner 0.71s infinite linear;
+    margin-left: -10px;
+    margin-top: -10px;
+}

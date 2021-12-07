@@ -172,11 +172,13 @@ class CreateProduct extends Component {
     render() {
         return (
             <div
-                className="row mt-5"
+                className="row"
                 style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    minHeight: "100vh",
+                    marginTop: 150,
                 }}
             >
                 <div className="col-9">

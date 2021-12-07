@@ -6,9 +6,11 @@ import { fetchShopProduct } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Pagination from "../../layouts/Pagination";
+import Loading from "../../layouts/Loading";
 
 export default function Detail() {
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const fetchShopProducts = () => {
         dispatch(fetchShopProduct());
     };
@@ -21,31 +23,43 @@ export default function Detail() {
         (state) => state.product.shop_products
     );
 
+    useEffect(() => {
+        if (all_shop_product_datas) {
+            setIsLoading(true);
+        }
+    }, [isLoading, all_shop_product_datas]);
+
     return (
         <div id="productManagerContainer">
-            <div className="product-handler">
-                <h3>エクスポート↓</h3>
-                <div>
-                    <Link to="/product/create">
-                        <Button
-                            className="btn-action"
-                            variant="contained"
-                            color="primary"
-                            style={{ marginRight: 30 }}
-                        >
-                            <i className="fas fa-plus-circle icon-btn"></i>
-                            新しい商品を追加
-                        </Button>
-                    </Link>
-                </div>
-            </div>
-            <div className="product-list">
-                <Pagination
-                    dataItems={all_shop_product_datas}
-                    itemsPerPage={8}
-                    type={"manager-product"}
-                />
-            </div>
+            {isLoading ? (
+                <>
+                    <div className="product-handler">
+                        <h3>エクスポート↓</h3>
+                        <div>
+                            <Link to="/product/create">
+                                <Button
+                                    className="btn-action"
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ marginRight: 30 }}
+                                >
+                                    <i className="fas fa-plus-circle icon-btn"></i>
+                                    新しい商品を追加
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="product-list">
+                        <Pagination
+                            dataItems={all_shop_product_datas}
+                            itemsPerPage={8}
+                            type={"manager-product"}
+                        />
+                    </div>
+                </>
+            ) : (
+                <Loading />
+            )}
         </div>
     );
 }

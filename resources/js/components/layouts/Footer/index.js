@@ -8,7 +8,7 @@ import "./footer.scss";
 function Footer() {
     return (
         <Grid container id="footer">
-            <hr style={{ width: "100%" }} />
+            <hr style={{ width: "100%" }} className="line-footer" />
             <Grid item xs={12} sm={4} className="support">
                 <span>
                     <h3 className="footer-title">顧客サポート</h3>
@@ -68,7 +68,7 @@ function Footer() {
                     </ul>
                 </span>
             </Grid>
-            <hr style={{ width: "80%" }} />
+            <hr style={{ width: "80%" }} className="line-footer" />
             <Grid item xs={12} id="nocopyright">
                 <p style={{ color: "white" }}>
                     @2021 - ZeroTwo. All Right Reserved. Designed and Developed
