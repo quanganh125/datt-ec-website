@@ -13,7 +13,7 @@ class EditProduct extends React.Component {
         super(props);
         this.fileRef = React.createRef();
         this.state = {
-            content: "",
+            description: "",
             image_link: "",
             errormessage: "",
             successmessage: "",
@@ -63,7 +63,7 @@ class EditProduct extends React.Component {
             successmessage: "",
         });
         this.setState({
-            content: event.target.value,
+            description: event.target.value,
         });
     };
     handleFileChange = (event) => {
@@ -103,7 +103,7 @@ class EditProduct extends React.Component {
                 errormessage: "画像をアップロードしてください",
             });
         } else {
-            if (!this.state.content) {
+            if (!this.state.description) {
                 this.setState({
                     errormessage: "説明をアップロードしてください",
                 });
@@ -128,7 +128,7 @@ class EditProduct extends React.Component {
                                 name: this.state.newname,
                                 price: this.state.price,
                                 category_id: this.state.category,
-                                description: this.state.content,
+                                description: this.state.description,
                                 image_link: this.state.image_link,
                             };
                             const headers = {
@@ -180,7 +180,7 @@ class EditProduct extends React.Component {
             .then((response) => {
                 let dataProduct = response.data.data;
                 this.setState({
-                    content: dataProduct.description,
+                    description: dataProduct.description,
                     image_link: dataProduct.image_link,
                     errormessage: "",
                     successmessage: "",
@@ -256,7 +256,7 @@ class EditProduct extends React.Component {
                                     id="exampleFormControlTextarea1"
                                     rows="4"
                                     placeholder="説明を入力してください ..."
-                                    value={this.state.content}
+                                    value={this.state.description}
                                     onChange={this.handleContentChange}
                                 ></textarea>
                             </div>
