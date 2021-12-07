@@ -10,6 +10,8 @@ import { getCookie } from "../../utils/cookie";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Loading from "../../layouts/Loading";
+import { getProductRecommendDetail } from "../../redux/actions/productActions";
+import ProductList from "../../layouts/ProductList";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +32,7 @@ class ProductDetail extends Component {
             currentUserId: null,
             shopIdUser: null,
             isLoading: false,
+            productRecommend: [],
         };
     }
 
@@ -63,6 +66,16 @@ class ProductDetail extends Component {
         });
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.productRecommend !== prevProps.productRecommend) {
+            if (!this.state.productRecommend.length) {
+                this.setState({
+                    productRecommend: this.props.productRecommend.slice(0, 2),
+                });
+            }
+        }
+    }
+
     //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment
     fetchUserShopId = async () => {
         const headers = {
@@ -88,6 +101,7 @@ class ProductDetail extends Component {
     componentDidMount() {
         this.fetchProductDetail();
         this.fetchUserShopId();
+        this.props.getRecommendDetail(this.getProductId());
     }
 
     getProductId = () => {
@@ -146,13 +160,23 @@ class ProductDetail extends Component {
                                         {this.state.name}
                                     </h1>
                                 </div>
-
                                 <div className="image">
                                     <img
                                         className="product-image-detail"
                                         alt="productImg"
                                         src={`${apiStorage}/${this.state.image_link}`}
                                         name="image"
+                                    />
+                                </div>
+                                <div className="product-recommend">
+                                    <h4>
+                                        <b>関連製品</b>
+                                    </h4>
+                                    <ProductList
+                                        currentItems={
+                                            this.state.productRecommend
+                                        }
+                                        type={"detail"}
                                     />
                                 </div>
                             </div>
@@ -257,11 +281,14 @@ class ProductDetail extends Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user.user,
+        productRecommend: state.product.product_recommend_detail,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        getRecommendDetail: (id) => dispatch(getProductRecommendDetail(id)),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
