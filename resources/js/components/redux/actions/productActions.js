@@ -7,6 +7,7 @@ const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
 const DELETE_PRODUCT = "DELETE_PRODUCT";
 const GET_SHOP_PRODUCT = "GET_SHOP_PRODUCT";
+const GET_PRODUCT_RECOMMEND_DETAIL = "GET_PRODUCT_RECOMMEND_DETAIL";
 
 export const headers = {
     "Content-type": "application/json",
@@ -75,4 +76,23 @@ export const fetchProductRecommend = () => async (dispatch) => {
 
 export const setProductRecommend = (products) => {
     return { type: GET_PRODUCT_RECOMMEND, payload: products };
+};
+
+export const getProductRecommendDetail = (id) => async (dispatch) => {
+    await axios
+        .get(`${apiProduct}/recommend`, { headers: headers })
+        .then((res) => {
+            const get_product_recommend_detail = res.data.data;
+            dispatch({
+                type: GET_PRODUCT_RECOMMEND_DETAIL,
+                payload: get_product_recommend_detail,
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            dispatch({
+                type: GET_PRODUCT_RECOMMEND_DETAIL,
+                payload: [],
+            });
+        });
 };
