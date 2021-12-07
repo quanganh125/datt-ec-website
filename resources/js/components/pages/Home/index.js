@@ -5,34 +5,28 @@ import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiProduct, paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
+import Loading from "../../layouts/Loading";
 
 export default function Home() {
     const dispatch = useDispatch();
-    const [pageCount, setPageCount] = useState(0);
-
+    const [isLoading, setIsLoading] = useState(false);
     const fetchProduct = () => {
         dispatch(fetchProductRecommend());
     };
 
     useEffect(() => {
         fetchProduct();
-        getPageCount();
     }, []);
-
-    const getPageCount = async () => {
-        await axios
-            .get(`${apiProduct}/count`)
-            .then((res) => {
-                setPageCount(res.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
 
     const product_recommend_datas = useSelector(
         (state) => state.product.product_recommend
     );
+
+    useEffect(() => {
+        if (product_recommend_datas) {
+            setIsLoading(true);
+        }
+    }, [isLoading, product_recommend_datas]);
 
     const searchTitle = useSelector((state) => state.search.search_title);
 
@@ -48,14 +42,20 @@ export default function Home() {
 
     return (
         <div id="homeContainer">
-            <h3>
-                <b>レコメンデーション</b>
-            </h3>
-            <Pagination
-                dataItems={getSearchResult()}
-                itemsPerPage={8}
-                type={"home-product"}
-            />
+            {isLoading ? (
+                <>
+                    <h3>
+                        <b>レコメンデーション</b>
+                    </h3>
+                    <Pagination
+                        dataItems={getSearchResult()}
+                        itemsPerPage={8}
+                        type={"home-product"}
+                    />
+                </>
+            ) : (
+                <Loading />
+            )}
         </div>
     );
 }

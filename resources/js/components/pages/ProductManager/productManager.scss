@@ -3,7 +3,7 @@
 
 #productManagerContainer {
     @include width-container();
-    margin-top: 20px;
+    @include page-frame();
     margin-bottom: 20px;
 }
 

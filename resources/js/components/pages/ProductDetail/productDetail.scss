@@ -2,9 +2,9 @@
 @import "../../../../sass/variables";
 
 .product-detail-container {
-    margin-top: 30px;
     margin-bottom: 20px;
     @include width-container();
+    @include page-frame();
 }
 
 .product-detail {

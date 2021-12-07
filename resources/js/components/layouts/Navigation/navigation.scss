@@ -1,13 +1,12 @@
 @import "../../../../sass/variables";
 @import "../../../../sass/common";
 
-.nav {
+#nav {
     width: 100%;
     transition: top 0.3s ease-in-out;
     z-index: 10;
-    box-shadow: 0 10px 10px 3px rgba(0, 0, 0, 0.3);
-    position: -webkit-sticky;
-    position: sticky;
+    // box-shadow: 0 10px 10px 3px rgba(0, 0, 0, 0.3);
+    position: fixed;
     top: 0;
 }
 

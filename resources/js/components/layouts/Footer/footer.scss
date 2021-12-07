@@ -8,10 +8,16 @@
     @include deleteSpace();
 }
 
+.line-footer {
+    border: 1px solid $base-color-2;
+    border-radius: 100%;
+}
+
 .support {
     display: flex;
     justify-content: center;
     span {
+        margin-bottom: 20px;
         color: white;
         ul {
             @include deleteSpace();

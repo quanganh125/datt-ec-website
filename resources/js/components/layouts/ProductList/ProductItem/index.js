@@ -45,6 +45,9 @@ export default function Item({ data }) {
                     starSpacing="0"
                     starRatedColor="#fcec00"
                 />
+                <p className="item-review">
+                    レビュー数: {data.reviews.length}回
+                </p>
                 <div className="item-create-location">
                     <span className="item-location">{data.location}</span>
                 </div>

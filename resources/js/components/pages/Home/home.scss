@@ -2,9 +2,9 @@
 @import "../../../../sass/variables";
 
 #homeContainer {
-    margin-top: 30px;
     margin-bottom: 20px;
     @include width-container();
+    @include page-frame();
 }
 
 .paginate {
