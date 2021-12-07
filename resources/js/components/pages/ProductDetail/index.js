@@ -67,7 +67,6 @@ class ProductDetail extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("b");
         if (this.props.productRecommend !== prevProps.productRecommend) {
             if (!this.state.productRecommend.length) {
                 this.setState({
@@ -100,7 +99,6 @@ class ProductDetail extends Component {
     };
 
     componentDidMount() {
-        console.log("a");
         this.fetchProductDetail();
         this.fetchUserShopId();
         this.props.getRecommendDetail(this.getProductId());

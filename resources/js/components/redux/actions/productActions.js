@@ -84,33 +84,42 @@ export const getProductRecommendDetail = (id) => async (dispatch) => {
         .then((res) => {
             const get_product_recommend = res.data.data;
             var get_product_recommend_detail = [];
-            get_product_recommend.map((item, index) => {
-                if (item.id == id && index == 0) {
+            for (let i = 0; i < get_product_recommend.length; i++) {
+                if (get_product_recommend[i].id == id && i == 0) {
                     get_product_recommend_detail.push(
-                        get_product_recommend[index + 1]
+                        get_product_recommend[i + 1]
                     );
                     get_product_recommend_detail.push(
-                        get_product_recommend[index + 2]
+                        get_product_recommend[i + 2]
                     );
-                } else if (
-                    item.id == id &&
-                    index == get_product_recommend.length - 1
+                    break;
+                }
+                if (
+                    get_product_recommend[i].id == id &&
+                    i == get_product_recommend.length - 1
                 ) {
                     get_product_recommend_detail.push(
-                        get_product_recommend[index - 1]
+                        get_product_recommend[i - 1]
                     );
                     get_product_recommend_detail.push(
-                        get_product_recommend[index - 2]
+                        get_product_recommend[i - 2]
                     );
-                } else {
-                    get_product_recommend_detail.push(
-                        get_product_recommend[index - 1]
-                    );
-                    get_product_recommend_detail.push(
-                        get_product_recommend[index + 1]
-                    );
+                    break;
                 }
-            });
+                if (
+                    get_product_recommend[i].id == id &&
+                    i < get_product_recommend.length - 1 &&
+                    i > 0
+                ) {
+                    get_product_recommend_detail.push(
+                        get_product_recommend[i - 1]
+                    );
+                    get_product_recommend_detail.push(
+                        get_product_recommend[i + 1]
+                    );
+                    break;
+                }
+            }
             dispatch({
                 type: GET_PRODUCT_RECOMMEND_DETAIL,
                 payload: get_product_recommend_detail,
