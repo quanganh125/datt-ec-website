@@ -70,7 +70,7 @@ class ProductDetail extends Component {
         if (this.props.productRecommend !== prevProps.productRecommend) {
             if (!this.state.productRecommend.length) {
                 this.setState({
-                    productRecommend: this.props.productRecommend.slice(0, 2),
+                    productRecommend: this.props.productRecommend,
                 });
             }
         }

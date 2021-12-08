@@ -92,7 +92,6 @@ export const getProductRecommendDetail = (id) => async (dispatch) => {
                     get_product_recommend_detail.push(
                         get_product_recommend[i + 2]
                     );
-                    break;
                 }
                 if (
                     get_product_recommend[i].id == id &&
@@ -104,7 +103,6 @@ export const getProductRecommendDetail = (id) => async (dispatch) => {
                     get_product_recommend_detail.push(
                         get_product_recommend[i - 2]
                     );
-                    break;
                 }
                 if (
                     get_product_recommend[i].id == id &&
@@ -117,7 +115,6 @@ export const getProductRecommendDetail = (id) => async (dispatch) => {
                     get_product_recommend_detail.push(
                         get_product_recommend[i + 1]
                     );
-                    break;
                 }
             }
             dispatch({
