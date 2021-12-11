@@ -54,7 +54,6 @@ class ProductDetail extends Component {
                     linkShop: `/store/${res.data.data.shop_id}`,
                     isLoading: true,
                 });
-                console.log(res.data.data.reviews);
             })
             .catch((error) => {
                 console.log(error);
@@ -62,9 +61,9 @@ class ProductDetail extends Component {
     };
 
     componentWillMount() {
-        this.setState({
-            currentUserId: this.props.user.id,
-        });
+        // this.setState({
+        //     currentUserId: this.props.user.id,
+        // });
     }
 
     componentDidUpdate(prevProps) {
@@ -72,6 +71,13 @@ class ProductDetail extends Component {
             if (!this.state.productRecommend.length) {
                 this.setState({
                     productRecommend: this.props.productRecommend,
+                });
+            }
+        }
+        if (this.props.user !== prevProps.user) {
+            if (!this.state.currentUserId) {
+                this.setState({
+                    currentUserId: this.props.user.id,
                 });
             }
         }
@@ -105,17 +111,16 @@ class ProductDetail extends Component {
         this.props.getRecommendDetail(this.getProductId());
     }
 
-    // checkReviewed = () => {
-    //     console.log(this.state.currentUserId);
-    //     let isExsist = true;
-    //     for (let i = 0; i < this.state.reviews.length; i++) {
-    //         if (this.state.reviews[i].user_id == this.state.currentUserId) {
-    //             isExsist = false;
-    //             break;
-    //         }
-    //     }
-    //     return isExsist;
-    // };
+    checkReviewed = () => {
+        let isExsist = true;
+        for (let i = 0; i < this.state.reviews.length; i++) {
+            if (this.state.reviews[i].user_id == this.state.currentUserId) {
+                isExsist = false;
+                break;
+            }
+        }
+        return isExsist;
+    };
 
     getProductId = () => {
         let slice_arr = window.location.href.split("/");
@@ -133,10 +138,10 @@ class ProductDetail extends Component {
     };
 
     handeOpenRatingForm = () => {
-        console.log("check", this.checkReviewed());
         if (
             getCookie("access_token") &&
-            this.state.shop_id != this.state.shopIdUser
+            this.state.shop_id != this.state.shopIdUser &&
+            this.checkReviewed()
         )
             this.setState({
                 isOpenRate: true,
