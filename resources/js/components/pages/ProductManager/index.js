@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 
-export default function Detail() {
+export default function ProductManager() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const fetchShopProducts = () => {

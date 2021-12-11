@@ -15,7 +15,7 @@ class StoreProfile extends Component {
         url: "",
         file: "",
         logo: "",
-        logo_url: ""
+        logo_url: "",
     };
     handleFileChange = (event) => {
         this.setState({
@@ -45,7 +45,7 @@ class StoreProfile extends Component {
     };
     onBtnClick = () => {
         this.fileRef.current.click();
-    }
+    };
     handleReturnHomePage = () => {
         this.setState({
             successmessage: "",
@@ -148,7 +148,7 @@ class StoreProfile extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     minHeight: "100vh",
-                    marginTop: 150,
+                    marginTop: 80,
                 }}
             >
                 <div className="col-9">

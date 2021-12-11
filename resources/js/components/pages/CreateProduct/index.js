@@ -178,7 +178,7 @@ class CreateProduct extends Component {
                     alignItems: "center",
                     justifyContent: "center",
                     minHeight: "100vh",
-                    marginTop: 150,
+                    marginTop: 80,
                 }}
             >
                 <div className="col-9">

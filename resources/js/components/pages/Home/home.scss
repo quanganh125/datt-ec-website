@@ -5,6 +5,7 @@
     margin-bottom: 20px;
     @include width-container();
     @include page-frame();
+    margin-top: 140px;
 }
 
 .paginate {

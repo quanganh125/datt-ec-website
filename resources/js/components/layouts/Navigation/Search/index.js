@@ -9,6 +9,11 @@ export default function Search() {
     const formRef = useRef(null);
     const dispatch = useDispatch();
 
+    const onClickSearch = () => {
+        dispatch(setSearchTittle(inputVal));
+        window.location.href = "/home";
+    };
+
     return (
         <div id="boxSearch" ref={formRef}>
             <input
@@ -23,7 +28,7 @@ export default function Search() {
                     dispatch(setSearchTittle(val));
                 }}
             />
-            <button type="submit" id="button">
+            <button type="submit" id="button" onClick={() => onClickSearch()}>
                 <SearchIcon id="iconSearch" />
             </button>
         </div>

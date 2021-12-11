@@ -24,7 +24,7 @@ export default function Item({ data }) {
     }, [linkDetail]);
 
     const goToDetail = () => {
-        history.push(linkDetail);
+        window.location.href = linkDetail;
     };
 
     return (

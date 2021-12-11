@@ -61,9 +61,9 @@ class ProductDetail extends Component {
     };
 
     componentWillMount() {
-        this.setState({
-            currentUserId: this.props.user.id,
-        });
+        // this.setState({
+        //     currentUserId: this.props.user.id,
+        // });
     }
 
     componentDidUpdate(prevProps) {
@@ -71,6 +71,13 @@ class ProductDetail extends Component {
             if (!this.state.productRecommend.length) {
                 this.setState({
                     productRecommend: this.props.productRecommend,
+                });
+            }
+        }
+        if (this.props.user !== prevProps.user) {
+            if (!this.state.currentUserId) {
+                this.setState({
+                    currentUserId: this.props.user.id,
                 });
             }
         }
@@ -104,6 +111,17 @@ class ProductDetail extends Component {
         this.props.getRecommendDetail(this.getProductId());
     }
 
+    checkReviewed = () => {
+        let isExsist = true;
+        for (let i = 0; i < this.state.reviews.length; i++) {
+            if (this.state.reviews[i].user_id == this.state.currentUserId) {
+                isExsist = false;
+                break;
+            }
+        }
+        return isExsist;
+    };
+
     getProductId = () => {
         let slice_arr = window.location.href.split("/");
         return slice_arr[slice_arr.length - 2];
@@ -122,7 +140,8 @@ class ProductDetail extends Component {
     handeOpenRatingForm = () => {
         if (
             getCookie("access_token") &&
-            this.state.shop_id != this.state.shopIdUser
+            this.state.shop_id != this.state.shopIdUser &&
+            this.checkReviewed()
         )
             this.setState({
                 isOpenRate: true,
