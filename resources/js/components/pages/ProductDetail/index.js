@@ -54,6 +54,7 @@ class ProductDetail extends Component {
                     linkShop: `/store/${res.data.data.shop_id}`,
                     isLoading: true,
                 });
+                console.log(res.data.data.reviews);
             })
             .catch((error) => {
                 console.log(error);
@@ -104,6 +105,18 @@ class ProductDetail extends Component {
         this.props.getRecommendDetail(this.getProductId());
     }
 
+    // checkReviewed = () => {
+    //     console.log(this.state.currentUserId);
+    //     let isExsist = true;
+    //     for (let i = 0; i < this.state.reviews.length; i++) {
+    //         if (this.state.reviews[i].user_id == this.state.currentUserId) {
+    //             isExsist = false;
+    //             break;
+    //         }
+    //     }
+    //     return isExsist;
+    // };
+
     getProductId = () => {
         let slice_arr = window.location.href.split("/");
         return slice_arr[slice_arr.length - 2];
@@ -120,6 +133,7 @@ class ProductDetail extends Component {
     };
 
     handeOpenRatingForm = () => {
+        console.log("check", this.checkReviewed());
         if (
             getCookie("access_token") &&
             this.state.shop_id != this.state.shopIdUser

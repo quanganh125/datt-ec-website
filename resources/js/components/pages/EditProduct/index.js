@@ -205,7 +205,7 @@ class EditProduct extends React.Component {
                     alignItems: "center",
                     justifyContent: "center",
                     minHeight: "100vh",
-                    marginTop: 150,
+                    marginTop: 80,
                 }}
             >
                 {this.state.isLoading ? (

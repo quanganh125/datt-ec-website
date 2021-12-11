@@ -17,7 +17,7 @@ import { apiGetShop } from "./../../constant/index";
 
 var lastScrollTop = 0;
 
-export default function Navigation({ userProfile, loginState }) {
+export default function Navigation({ userProfile, loginState, isShowSearch }) {
     const [click, setClick] = useState(false);
     const [shopId, setshopId] = useState(null);
     const [shopLink, setShopLink] = useState("");
@@ -182,13 +182,15 @@ export default function Navigation({ userProfile, loginState }) {
                     </ul>
                 )}
             </div>
-            <div className="bottomNav">
-                <Grid container>
-                    <Grid item xs={12} className="searchContainer">
-                        <Search />
+            {isShowSearch ? (
+                <div className="bottomNav">
+                    <Grid container>
+                        <Grid item xs={12} className="searchContainer">
+                            <Search />
+                        </Grid>
                     </Grid>
-                </Grid>
-            </div>
+                </div>
+            ) : null}
         </div>
     );
 }

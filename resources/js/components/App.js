@@ -27,6 +27,7 @@ import ProductDetail from "./pages/ProductDetail";
 export default function App() {
     const dispatch = useDispatch();
     const [login, setLogin] = useState(false);
+    const [isShowSearch, setIsShowSearch] = useState(true);
 
     const checkAuth = () => {
         if (getCookie("access_token") != "") {
@@ -36,7 +37,13 @@ export default function App() {
     const showNav = () => {
         // dispatch(setShowNav());
     };
+
+    const setShowSearch = () => {
+        setIsShowSearch(window.location.pathname == "/home");
+    };
+
     useEffect(() => {
+        setShowSearch();
         showNav();
         checkAuth();
     }, []);
@@ -45,7 +52,6 @@ export default function App() {
     const loginState = useSelector((state) => state.user.loginState);
     const isShowNav = useSelector((state) => state.user.isShowNav);
     const shop_id = useSelector((state) => state.user.shop_id);
-
     useEffect(() => {
         setLogin(loginState);
     }, [loginState]);
@@ -53,7 +59,11 @@ export default function App() {
         <Fragment>
             <Router>
                 {isShowNav ? (
-                    <Navigation userProfile={userProfile} loginState={login} />
+                    <Navigation
+                        userProfile={userProfile}
+                        loginState={login}
+                        isShowSearch={isShowSearch}
+                    />
                 ) : null}
                 <Switch>
                     <Route
