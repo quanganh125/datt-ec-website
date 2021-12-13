@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { apiStorage } from "../../../constant";
+import storage from "../../../services/firebaseConfig";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -16,25 +17,36 @@ export default function Item({ data }) {
         return parseFloat(avg.toFixed(1));
     };
     const [linkDetail, setLinkDetail] = useState("");
+    const [image_url, setImage_url] = useState("");
     const history = useHistory();
 
     useEffect(() => {
-        // setImage_link(`storage/app/public/product_img/${data.image_link}`);
+        getLinkImage(data.image_link);
         setLinkDetail(`/product/${data.id}/detail`);
+        return () => {
+            setLinkDetail("");
+            setImage_url("");
+        };
     }, [linkDetail]);
 
     const goToDetail = () => {
         window.location.href = linkDetail;
     };
 
+    const getLinkImage = (name) => {
+        storage
+            .ref("product_img")
+            .child(name)
+            .getDownloadURL()
+            .then((url) => {
+                setImage_url(url);
+            });
+    };
+
     return (
         <div className="itemContainer" onClick={() => goToDetail()}>
             <div className="itemHeader">
-                <img
-                    src={`${apiStorage}/${data.image_link}`}
-                    alt="productImg"
-                    className="itemImg"
-                />
+                <img src={image_url} alt="productImg" className="itemImg" />
             </div>
             <div className="itemContent">
                 <h6>{data.name}</h6>

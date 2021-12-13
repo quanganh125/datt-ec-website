@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { apiShop, apiStorage } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "./../../utils/cookie";
+import storage from "../../services/firebaseConfig";
 
 const headers = {
     "Content-type": "application/json",
@@ -17,8 +18,9 @@ class EditStoreProfile extends Component {
         this.fileRef = React.createRef();
         this.state = {
             logo: "",
+            logo_url: "",
             new_logo: "",
-            new_logo_url: "",
+            new_logo_file: {},
             file: "",
             errormessage: "",
             successmessage: "",
@@ -35,11 +37,42 @@ class EditStoreProfile extends Component {
     onBtnClick = () => {
         this.fileRef.current.click();
     };
-    getImageSrc() {
-        return this.state.new_logo
-            ? this.state.new_logo
-            : `${apiStorage}/${this.state.logo}`;
+
+    componentWillUnmount() {
+        this.setState({
+            logo: "",
+            logo_url: "",
+            new_logo: "",
+            new_logo_file: {},
+            file: "",
+            errormessage: "",
+            successmessage: "",
+            address: "",
+            name: "",
+            url: "",
+            id: null,
+            isLoading: false,
+        });
     }
+
+    getImageSrc() {
+        return storage
+            .ref("store_logo")
+            .child(this.state.logo)
+            .getDownloadURL()
+            .then((url) => {
+                if (
+                    this.state.logo_url == "" &&
+                    this.state.isLoading == false
+                ) {
+                    this.setState({
+                        logo_url: url,
+                        isLoading: true,
+                    });
+                }
+            });
+    }
+
     handleFileChange = (event) => {
         this.setState({
             successmessage: "",
@@ -60,8 +93,8 @@ class EditStoreProfile extends Component {
                 this.setState({
                     errormessage: "",
                     file: file,
-                    new_logo_url: fileReader.result.split(",")[1],
                     new_logo: fileReader.result,
+                    new_logo_file: file,
                 });
             };
         }
@@ -126,7 +159,6 @@ class EditStoreProfile extends Component {
             logo: event.target.value,
         });
     };
-
     handleFormSubmit = async (event) => {
         event.preventDefault();
         if (!this.state.name) {
@@ -149,11 +181,18 @@ class EditStoreProfile extends Component {
                             errormessage: "URLをアップロードしてください",
                         });
                     } else {
+                        if (this.state.new_logo) {
+                            storage
+                                .ref(
+                                    `/store_logo/${this.state.new_logo_file.name}`
+                                )
+                                .put(this.state.new_logo_file);
+                        }
                         const packets = {
                             name: this.state.name,
                             address: this.state.address,
                             logo: this.state.new_logo
-                                ? this.state.new_logo
+                                ? this.state.new_logo_file.name
                                 : this.state.logo,
                             url: this.state.url,
                         };
@@ -186,8 +225,8 @@ class EditStoreProfile extends Component {
                     address: dataShop.address,
                     logo: dataShop.logo,
                     url: dataShop.url,
-                    isLoading: true,
                 });
+                this.getImageSrc();
             })
             .catch((error) => {
                 console.error("ERROR:: ", error.response.data);
@@ -253,7 +292,11 @@ class EditStoreProfile extends Component {
                             </div>
                             <div className="img-container">
                                 <img
-                                    src={this.getImageSrc()}
+                                    src={
+                                        this.state.new_logo
+                                            ? this.state.new_logo
+                                            : this.state.logo_url
+                                    }
                                     alt="productImg"
                                     className="itemImg"
                                 />

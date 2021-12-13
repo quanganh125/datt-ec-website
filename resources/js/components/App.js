@@ -23,6 +23,7 @@ import EditStore from "./pages/StoreEdit";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setShowNav } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
+import Error from "./pages/Error";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -147,6 +148,13 @@ export default function App() {
                         }}
                     />
                     <Route exact path="/store/:id" component={ShowStore} />
+                    <Route
+                        exact
+                        path="/:nothing"
+                        render={() => {
+                            return <Error />;
+                        }}
+                    />
                 </Switch>
                 {isShowNav ? <Footer /> : null}
             </Router>

@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import Loading from "../../layouts/Loading";
 import { getProductRecommendDetail } from "../../redux/actions/productActions";
 import ProductList from "../../layouts/ProductList";
+import storage from "../../services/firebaseConfig";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -31,9 +32,29 @@ class ProductDetail extends Component {
             linkShop: "",
             currentUserId: null,
             shopIdUser: null,
-            isLoading: false,
             productRecommend: [],
         };
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            name: "",
+            image_link: "",
+            price: "",
+            description: "",
+            recommend_mark: "",
+            reviews: [],
+            category: "",
+            shop: "",
+            id: null,
+            isOpenRate: false,
+            isLoading: false,
+            shop_id: null,
+            linkShop: "",
+            currentUserId: null,
+            shopIdUser: null,
+            productRecommend: [],
+        });
     }
 
     fetchProductDetail = async () => {
@@ -42,21 +63,33 @@ class ProductDetail extends Component {
             .then((res) => {
                 this.setState({
                     name: res.data.data.name,
-                    image_link: res.data.data.image_link,
+                    image_name: res.data.data.image_link,
                     price: res.data.data.price,
                     description: res.data.data.description,
                     recommend_mark: res.data.data.recommend_mark,
                     reviews: res.data.data.reviews,
                     shop: res.data.data.shop,
                     category: res.data.data.category,
-                    isLoading: true,
                     shop_id: res.data.data.shop_id,
                     linkShop: `/store/${res.data.data.shop_id}`,
-                    isLoading: true,
                 });
+                this.getLinkImage(this.state.image_name);
             })
             .catch((error) => {
                 console.log(error);
+            });
+    };
+
+    getLinkImage = (name) => {
+        storage
+            .ref("product_img")
+            .child(name)
+            .getDownloadURL()
+            .then((url) => {
+                this.setState({
+                    image_link: url,
+                    isLoading: true,
+                });
             });
     };
 
@@ -183,7 +216,7 @@ class ProductDetail extends Component {
                                     <img
                                         className="product-image-detail"
                                         alt="productImg"
-                                        src={`${apiStorage}/${this.state.image_link}`}
+                                        src={this.state.image_link}
                                         name="image"
                                     />
                                 </div>

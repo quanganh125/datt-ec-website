@@ -5,6 +5,7 @@ const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
+import storage from "../../services/firebaseConfig";
 class StoreProfile extends Component {
     fileRef = React.createRef();
     state = {
@@ -13,36 +14,11 @@ class StoreProfile extends Component {
         address: "",
         name: "",
         url: "",
-        file: "",
         logo: "",
-        logo_url: "",
+        logo_url: {},
+        isLoadLinkImage: false,
     };
-    handleFileChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        const file = event.target.files[0];
-        if (!imageFileRegex.test(file.name)) {
-            this.setState({
-                errormessage: "無効なファイル",
-            });
-        } else if (file.size > maxFileSize) {
-            this.setState({
-                errormessage: "ファイルが大きすぎます",
-            });
-        } else {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-                this.setState({
-                    errormessage: "",
-                    file: file,
-                    logo_url: fileReader.result.split(",")[1],
-                    logo: fileReader.result,
-                });
-            };
-        }
-    };
+
     onBtnClick = () => {
         this.fileRef.current.click();
     };
@@ -79,14 +55,44 @@ class StoreProfile extends Component {
             address: event.target.value,
         });
     };
-    handleContentChange = (event) => {
+    handleFileChange = (event) => {
         this.setState({
             successmessage: "",
         });
-        this.setState({
-            logo: event.target.value,
-        });
+        const file = event.target.files[0];
+        if (!imageFileRegex.test(file.name)) {
+            this.setState({
+                errormessage: "無効なファイル",
+            });
+        } else if (file.size > maxFileSize) {
+            this.setState({
+                errormessage: "ファイルが大きすぎます",
+            });
+        } else {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                this.setState({
+                    errormessage: "",
+                    logo_url: file,
+                    logo: fileReader.result,
+                });
+            };
+        }
     };
+
+    componentWillUnmount() {
+        this.setState({
+            errormessage: "",
+            successmessage: "",
+            address: "",
+            name: "",
+            url: "",
+            logo: "",
+            logo_url: {},
+            isLoadLinkImage: false,
+        });
+    }
 
     handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -110,10 +116,35 @@ class StoreProfile extends Component {
                             errormessage: "URLをアップロードしてください",
                         });
                     } else {
+                        storage
+                            .ref(`/store_logo/${this.state.logo_url.name}`)
+                            .put(this.state.logo_url);
+                        // .on(
+                        //     "state_changed",
+                        //     (snapShot) => {
+                        //         // console.log(snapShot);
+                        //     },
+                        //     (err) => {
+                        //         console.log(err);
+                        //     },
+                        //     () => {
+                        //         storage
+                        //             .ref("store_logo")
+                        //             .child(this.state.logo_url.name)
+                        //             .getDownloadURL()
+                        //             .then((url) => {
+                        //                 this.setState({
+                        //                     logo: url,
+                        //                     isLoadLinkImage: true,
+                        //                 });
+                        //                 packets.logo = url;
+                        //             });
+                        //     }
+                        // );
                         const packets = {
                             name: this.state.name,
                             address: this.state.address,
-                            logo: this.state.logo,
+                            logo: this.state.logo_url.name,
                             url: this.state.url,
                         };
                         const headers = {
@@ -128,6 +159,15 @@ class StoreProfile extends Component {
                             })
                             .then((response) => {
                                 toast.success("ストアを正常に作成する!");
+                                this.setState({
+                                    errormessage: "",
+                                    successmessage: "",
+                                    address: "",
+                                    name: "",
+                                    url: "",
+                                    logo: "",
+                                    logo_url: {},
+                                });
                                 window.location.href = `/home`;
                             })
 
@@ -232,7 +272,6 @@ class StoreProfile extends Component {
                                 value="作成"
                                 style={{ margin: 5 }}
                             />
-
                             <button
                                 type="button"
                                 className="btn btn-success"

@@ -26,6 +26,9 @@ export default function Home() {
         if (product_recommend_datas) {
             setIsLoading(true);
         }
+        return () => {
+            setIsLoading(null);
+        };
     }, [isLoading, product_recommend_datas]);
 
     const searchTitle = useSelector((state) => state.search.search_title);
