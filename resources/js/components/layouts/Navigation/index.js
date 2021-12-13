@@ -17,7 +17,7 @@ import { apiGetShop } from "./../../constant/index";
 
 var lastScrollTop = 0;
 
-export default function Navigation({ userProfile, loginState, isShowSearch }) {
+function Navigation({ userProfile, loginState, isShowSearch }) {
     const [click, setClick] = useState(false);
     const [shopId, setshopId] = useState(null);
     const [shopLink, setShopLink] = useState("");
@@ -194,3 +194,5 @@ export default function Navigation({ userProfile, loginState, isShowSearch }) {
         </div>
     );
 }
+
+export default React.memo(Navigation);

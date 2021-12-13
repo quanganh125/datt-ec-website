@@ -5,7 +5,7 @@ import { apiProduct, apiStorage } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import "./edit.scss";
 import Loading from "../../layouts/Loading";
-
+import storage from "../../services/firebaseConfig";
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 const maxFileSize = 5000000;
 class EditProduct extends React.Component {
@@ -14,7 +14,10 @@ class EditProduct extends React.Component {
         this.fileRef = React.createRef();
         this.state = {
             description: "",
+            image_name: "",
             image_link: "",
+            new_image: "",
+            new_image_file: {},
             errormessage: "",
             successmessage: "",
             price: "",
@@ -24,6 +27,24 @@ class EditProduct extends React.Component {
             id: this.props.match.params.id,
             isLoading: false,
         };
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            description: "",
+            image_name: "",
+            image_link: "",
+            new_image: "",
+            new_image_file: {},
+            errormessage: "",
+            successmessage: "",
+            price: "",
+            category: "",
+            newname: "",
+            url: "",
+            id: null,
+            isLoading: false,
+        });
     }
 
     handleReturnHomePage = () => {
@@ -87,7 +108,8 @@ class EditProduct extends React.Component {
                     errormessage: "",
                     file: file,
                     url: fileReader.result.split(",")[1],
-                    image_link: fileReader.result,
+                    new_image: fileReader.result,
+                    new_image_file: file,
                 });
             };
         }
@@ -124,12 +146,21 @@ class EditProduct extends React.Component {
                                 errormessage: "カテゴリを選んでください",
                             });
                         } else {
+                            if (this.state.new_image) {
+                                storage
+                                    .ref(
+                                        `/product_img/${this.state.new_image_file.name}`
+                                    )
+                                    .put(this.state.new_image_file);
+                            }
                             const packets = {
                                 name: this.state.newname,
                                 price: this.state.price,
                                 category_id: this.state.category,
                                 description: this.state.description,
-                                image_link: this.state.image_link,
+                                image_link: this.state.new_image
+                                    ? this.state.new_image_file.name
+                                    : this.state.image_name,
                             };
                             const headers = {
                                 "Content-type": "application/json",
@@ -162,11 +193,26 @@ class EditProduct extends React.Component {
     };
 
     getImageSrc() {
-        if (!this.state.image_link && !this.state.file) {
-            return this.state.image_link;
-        } else if (!this.state.file && this.state.image_link) {
-            return `${apiStorage}/${this.state.image_link}`;
-        } else return this.state.image_link;
+        // if (!this.state.image_link && !this.state.file) {
+        //     return this.state.image_link;
+        // } else if (!this.state.file && this.state.image_link) {
+        //     return `${apiStorage}/${this.state.image_link}`;
+        // } else return this.state.image_link;
+        return storage
+            .ref("product_img")
+            .child(this.state.image_name)
+            .getDownloadURL()
+            .then((url) => {
+                if (
+                    this.state.new_image == "" &&
+                    this.state.isLoading == false
+                ) {
+                    this.setState({
+                        image_link: url,
+                        isLoading: true,
+                    });
+                }
+            });
     }
 
     onBtnClick = () => {
@@ -181,15 +227,15 @@ class EditProduct extends React.Component {
                 let dataProduct = response.data.data;
                 this.setState({
                     description: dataProduct.description,
-                    image_link: dataProduct.image_link,
+                    image_name: dataProduct.image_link,
                     errormessage: "",
                     successmessage: "",
                     price: dataProduct.price,
                     category: dataProduct.category_id,
                     newname: dataProduct.name,
                     id: this.props.match.params.id,
-                    isLoading: true,
                 });
+                this.getImageSrc();
             })
             .catch((error) => {
                 console.error("ERROR:: ", error.response.data);
@@ -234,7 +280,11 @@ class EditProduct extends React.Component {
                             </div>
                             <div className="img-container">
                                 <img
-                                    src={this.getImageSrc()}
+                                    src={
+                                        this.state.new_image
+                                            ? this.state.new_image
+                                            : this.state.image_link
+                                    }
                                     alt="productImg"
                                     className="itemImg"
                                 />

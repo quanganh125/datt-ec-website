@@ -12,6 +12,7 @@ import Slide from "@material-ui/core/Slide";
 import { deleteProduct } from "./../../../redux/actions/productActions";
 import { useDispatch } from "react-redux";
 import { apiStorage } from "../../../constant";
+import storage from "../../../services/firebaseConfig";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -21,10 +22,16 @@ export default function Item({ data }) {
     const [linkDetail, setLinkDetail] = useState("");
     const [reviews, setReviews] = useState([]);
     const history = useHistory();
+    const [image_url, setImage_url] = useState("");
     const dispatch = useDispatch();
 
     useEffect(() => {
+        getLinkImage(data.image_link);
         setLinkDetail(`/product/${data.id}/edit`);
+        return () => {
+            setLinkDetail("");
+            setImage_url("");
+        };
     }, [linkDetail]);
 
     const goToDetail = () => {
@@ -39,6 +46,16 @@ export default function Item({ data }) {
     useEffect(() => {
         setReviews(data.reviews);
     }, []);
+
+    const getLinkImage = (name) => {
+        storage
+            .ref("product_img")
+            .child(name)
+            .getDownloadURL()
+            .then((url) => {
+                setImage_url(url);
+            });
+    };
 
     //popup confirm delete
     const [open, setOpen] = React.useState(false);
@@ -62,11 +79,7 @@ export default function Item({ data }) {
                     xs={3}
                     onClick={() => nextDetail()}
                 >
-                    <img
-                        src={`${apiStorage}/${data.image_link}`}
-                        alt="productImg"
-                        className="itemImg"
-                    />
+                    <img src={image_url} alt="productImg" className="itemImg" />
                 </Grid>
                 <Grid
                     item

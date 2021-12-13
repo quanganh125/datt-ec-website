@@ -63,13 +63,13 @@ class ProductController extends Controller
         $user_id = Auth::user()->id;
         $shop_id = $this->shopService->getIdShop($user_id);
         //endcode base64 image
-        $image_link_endcode = $this->productService->saveImgBase64($request->input('image_link'), 'product_img');
-        // dd($image_link_endcode);
+        // $image_link_endcode = $this->productService->saveImgBase64($request->input('image_link'), 'product_img');
+        // dd($request);
 
         $product = new Product();
         $product->name = $request->input('name');
         $product->category_id = $request->input('category_id');
-        $product->image_link = $image_link_endcode;
+        $product->image_link = $request->input('image_link');
         $product->price = $request->input('price');
         $product->description = $request->input('description');
         $product->shop_id = $shop_id;
@@ -123,10 +123,9 @@ class ProductController extends Controller
             return response()->json($validator->errors());
         }
 
-
         $input = $request->all();
-        $image_link_endcode = $this->productService->saveImgBase64($input["image_link"], 'product_img');
-        $input["image_link"] = $image_link_endcode;
+        // $image_link_endcode = $this->productService->saveImgBase64($input["image_link"], 'product_img');
+        // $input["image_link"] = $image_link_endcode;
         $product = $this->productService->update($id, $input);
         return (new ProductResource($product))->response();
     }

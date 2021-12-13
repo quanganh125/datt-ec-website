@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
-import "./error.scss";
+import { useState } from "react";
+import storage from "../../services/firebaseConfig";
 
-export default function Error({ setHome }) {
+export default function Error() {
     return (
-        <div>
-            <p>Day la noi dung</p>
+        <div
+            className="error"
+            style={{
+                minHeight: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
+        >
+            <h3>Page not found</h3>
         </div>
     );
 }

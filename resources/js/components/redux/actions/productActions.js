@@ -84,37 +84,50 @@ export const getProductRecommendDetail = (id) => async (dispatch) => {
         .then((res) => {
             const get_product_recommend = res.data.data;
             var get_product_recommend_detail = [];
-            for (let i = 0; i < get_product_recommend.length; i++) {
-                if (get_product_recommend[i].id == id && i == 0) {
-                    get_product_recommend_detail.push(
-                        get_product_recommend[i + 1]
-                    );
-                    get_product_recommend_detail.push(
-                        get_product_recommend[i + 2]
-                    );
+            if (get_product_recommend.length > 2) {
+                for (let i = 0; i < get_product_recommend.length; i++) {
+                    if (get_product_recommend[i].id == id && i == 0) {
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i + 1]
+                        );
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i + 2]
+                        );
+                    }
+                    if (
+                        get_product_recommend[i].id == id &&
+                        i == get_product_recommend.length - 1
+                    ) {
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i - 1]
+                        );
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i - 2]
+                        );
+                    }
+                    if (
+                        get_product_recommend[i].id == id &&
+                        i < get_product_recommend.length - 1 &&
+                        i > 0
+                    ) {
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i - 1]
+                        );
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i + 1]
+                        );
+                    }
                 }
-                if (
-                    get_product_recommend[i].id == id &&
-                    i == get_product_recommend.length - 1
-                ) {
-                    get_product_recommend_detail.push(
-                        get_product_recommend[i - 1]
-                    );
-                    get_product_recommend_detail.push(
-                        get_product_recommend[i - 2]
-                    );
-                }
-                if (
-                    get_product_recommend[i].id == id &&
-                    i < get_product_recommend.length - 1 &&
-                    i > 0
-                ) {
-                    get_product_recommend_detail.push(
-                        get_product_recommend[i - 1]
-                    );
-                    get_product_recommend_detail.push(
-                        get_product_recommend[i + 1]
-                    );
+            } else if (
+                get_product_recommend.length > 1 &&
+                get_product_recommend.length <= 2
+            ) {
+                for (let i = 0; i < get_product_recommend.length; i++) {
+                    if (get_product_recommend[i].id != id) {
+                        get_product_recommend_detail.push(
+                            get_product_recommend[i]
+                        );
+                    }
                 }
             }
             dispatch({

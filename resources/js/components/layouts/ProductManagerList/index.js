@@ -3,7 +3,7 @@ import { Grid, Button } from "@material-ui/core";
 import Item from "./ProductIManagerItem";
 import "./productManagerList.scss";
 
-export default function ProductList({ currentItems }) {
+function ProductList({ currentItems }) {
     return (
         <div className="listContainer">
             <Grid container alignItems="stretch" spacing={1}>
@@ -17,3 +17,5 @@ export default function ProductList({ currentItems }) {
         </div>
     );
 }
+
+export default React.memo(ProductList);

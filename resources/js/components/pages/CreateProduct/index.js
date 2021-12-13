@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { apiProduct } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
+import storage from "../../services/firebaseConfig";
 import "./create.scss";
 
 const maxFileSize = 5000000;
@@ -19,7 +20,23 @@ class CreateProduct extends Component {
         price: "",
         name: "",
         url: "",
+        image: {},
     };
+
+    componentWillUnmount() {
+        this.setState({
+            content: "",
+            image_link: "",
+            category: "",
+            file: undefined,
+            errormessage: "",
+            successmessage: "",
+            price: "",
+            name: "",
+            url: "",
+            image: {},
+        });
+    }
 
     onBtnClick = () => {
         this.fileRef.current.click();
@@ -82,12 +99,12 @@ class CreateProduct extends Component {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(file);
             fileReader.onload = () => {
-                //filereader.result
                 this.setState({
                     errormessage: "",
                     file: file,
                     url: fileReader.result.split(",")[1],
                     image_link: fileReader.result,
+                    image: file,
                 });
             };
         }
@@ -132,7 +149,7 @@ class CreateProduct extends Component {
                                 price: this.state.price,
                                 category_id: this.state.category,
                                 description: this.state.content,
-                                image_link: this.state.image_link,
+                                image_link: this.state.image.name,
                             };
                             const headers = {
                                 "Content-type": "application/json",
@@ -147,6 +164,11 @@ class CreateProduct extends Component {
                                     toast.success(
                                         "製品が正常に作成されました！"
                                     );
+                                    storage
+                                        .ref(
+                                            `/product_img/${this.state.image.name}`
+                                        )
+                                        .put(this.state.image);
                                     this.setState({
                                         content: "",
                                         image_link: "",
@@ -157,6 +179,7 @@ class CreateProduct extends Component {
                                         price: "",
                                         name: "",
                                         url: "",
+                                        image: {},
                                     });
                                     window.location.href = `/product/manager`;
                                 })

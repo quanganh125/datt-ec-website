@@ -5,6 +5,7 @@ const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { apiShop, apiStorage } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "../../utils/cookie";
+import storage from "../../services/firebaseConfig";
 class ShowStoreProfile extends Component {
     constructor(props) {
         super(props);
@@ -15,16 +16,13 @@ class ShowStoreProfile extends Component {
             address: "",
             logo: "",
             url: "",
+            logo_url: "",
             id: this.props.match.params.id,
             isLoading: false,
         };
     }
 
     componentDidMount() {
-        const headers = {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${getCookie("access_token")}`,
-        };
         axios
             .get(`${apiShop}/${this.state.id}`)
             .then((res) => {
@@ -33,13 +31,40 @@ class ShowStoreProfile extends Component {
                     address: res.data.data.address,
                     logo: res.data.data.logo,
                     url: res.data.data.url,
-                    isLoading: true,
                 });
+                this.getLinkImage(this.state.logo);
             })
             .catch((error) => {
                 console.log(error);
             });
     }
+
+    componentWillUnmount() {
+        this.setState({
+            errormessage: "",
+            successmessage: "",
+            name: "",
+            address: "",
+            logo: "",
+            url: "",
+            logo_url: "",
+            id: null,
+            isLoading: false,
+        });
+    }
+
+    getLinkImage = (name) => {
+        storage
+            .ref("store_logo")
+            .child(name)
+            .getDownloadURL()
+            .then((url) => {
+                this.setState({
+                    logo_url: url,
+                    isLoading: true,
+                });
+            });
+    };
     handleReturnHomePage = () => {
         this.setState({
             successmessage: "",
@@ -90,7 +115,7 @@ class ShowStoreProfile extends Component {
                             <h5>ロゴ</h5>
                             <div className="img-container">
                                 <img
-                                    src={`${apiStorage}/${this.state.logo}`}
+                                    src={this.state.logo_url}
                                     alt="productImg"
                                     className="itemImg"
                                 />
