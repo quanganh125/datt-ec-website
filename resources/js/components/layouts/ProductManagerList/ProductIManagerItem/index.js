@@ -54,6 +54,9 @@ export default function Item({ data }) {
             .getDownloadURL()
             .then((url) => {
                 setImage_url(url);
+            })
+            .catch((error) => {
+                console.error(error);
             });
     };
 

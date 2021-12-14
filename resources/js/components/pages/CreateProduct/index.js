@@ -6,7 +6,7 @@ import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
 import "./create.scss";
 
-const maxFileSize = 5000000;
+const maxFileSize = 1024 * 1024;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 class CreateProduct extends Component {
     fileRef = React.createRef();
@@ -93,7 +93,7 @@ class CreateProduct extends Component {
             });
         } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: "ファイルが大きすぎます",
+                errormessage: "1MB未満の写真のみをアップロードできます",
             });
         } else {
             const fileReader = new FileReader();
@@ -144,6 +144,9 @@ class CreateProduct extends Component {
                                 errormessage: "カテゴリを選んでください",
                             });
                         } else {
+                            storage
+                                .ref(`/product_img/${this.state.image.name}`)
+                                .put(this.state.image);
                             const packets = {
                                 name: this.state.name,
                                 price: this.state.price,
@@ -164,11 +167,6 @@ class CreateProduct extends Component {
                                     toast.success(
                                         "製品が正常に作成されました！"
                                     );
-                                    storage
-                                        .ref(
-                                            `/product_img/${this.state.image.name}`
-                                        )
-                                        .put(this.state.image);
                                     this.setState({
                                         content: "",
                                         image_link: "",
@@ -181,10 +179,12 @@ class CreateProduct extends Component {
                                         url: "",
                                         image: {},
                                     });
-                                    window.location.href = `/product/manager`;
+                                    setTimeout(() => {
+                                        window.location.href = `/product/manager`;
+                                    }, 1000);
                                 })
                                 .catch((error) => {
-                                    toast.error("製品の作成に失敗しました！");
+                                    toast.error("製品の作成に失敗しました!");
                                 });
                         }
                     }

@@ -13,6 +13,7 @@ import Loading from "../../layouts/Loading";
 import { getProductRecommendDetail } from "../../redux/actions/productActions";
 import ProductList from "../../layouts/ProductList";
 import storage from "../../services/firebaseConfig";
+
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
