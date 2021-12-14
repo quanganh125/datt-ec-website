@@ -7,7 +7,7 @@ import "./edit.scss";
 import Loading from "../../layouts/Loading";
 import storage from "../../services/firebaseConfig";
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
-const maxFileSize = 5000000;
+const maxFileSize = 1024 * 1024;
 class EditProduct extends React.Component {
     constructor(props) {
         super(props);
@@ -98,7 +98,7 @@ class EditProduct extends React.Component {
             });
         } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: "ファイルが大きすぎます",
+                errormessage: "1MB未満の写真のみをアップロードできます",
             });
         } else {
             const fileReader = new FileReader();

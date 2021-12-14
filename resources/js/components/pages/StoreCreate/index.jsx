@@ -1,6 +1,6 @@
 import { event } from "jquery";
 import React, { Component } from "react";
-const maxFileSize = 5000000;
+const maxFileSize = 1024 * 1024;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
@@ -66,7 +66,7 @@ class StoreProfile extends Component {
             });
         } else if (file.size > maxFileSize) {
             this.setState({
-                errormessage: "ファイルが大きすぎます",
+                errormessage: "1MB未満の写真のみをアップロードできます",
             });
         } else {
             const fileReader = new FileReader();
