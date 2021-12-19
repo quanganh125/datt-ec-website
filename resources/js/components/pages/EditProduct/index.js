@@ -372,7 +372,7 @@ class EditProduct extends React.Component {
                                 <h5>株式</h5>
                                 <input
                                     className="form-control"
-                                    placeholder="価格を入力してください..."
+                                    placeholder="株式を入力してください..."
                                     value={this.state.stock}
                                     onChange={this.handleStockChange}
                                 />
@@ -381,7 +381,7 @@ class EditProduct extends React.Component {
                                 <h5>割引</h5>
                                 <input
                                     className="form-control"
-                                    placeholder="価格を入力してください..."
+                                    placeholder="割引を入力してください..."
                                     value={this.state.discount}
                                     onChange={this.handleDiscountChange}
                                 />

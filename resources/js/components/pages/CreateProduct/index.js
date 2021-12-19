@@ -21,8 +21,8 @@ class CreateProduct extends Component {
         name: "",
         url: "",
         image: {},
-        stock: "",
-        discount: "",
+        stock: 1,
+        discount: 0,
     };
 
     componentWillUnmount() {
@@ -41,12 +41,7 @@ class CreateProduct extends Component {
             discount: "",
         });
     }
-    componentDidMount(){
-        this.setState({
-            stock:1,
-            discount:0,
-        })
-    }
+    
     onBtnClick = () => {
         this.fileRef.current.click();
     };
@@ -331,7 +326,7 @@ class CreateProduct extends Component {
                             <h5>株式</h5>
                             <input
                                 className="form-control"
-                                placeholder="価格を入力してください..."
+                                placeholder="株式を入力してください..."
                                 value={this.state.stock}
                                 onChange={this.handleStockChange}
                             />
@@ -340,7 +335,7 @@ class CreateProduct extends Component {
                             <h5>割引</h5>
                             <input
                                 className="form-control"
-                                placeholder="価格を入力してください..."
+                                placeholder="割引を入力してください..."
                                 value={this.state.discount}
                                 onChange={this.handleDiscountChange}
                             />
