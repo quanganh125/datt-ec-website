@@ -24,6 +24,12 @@ class Shop extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function invoices()
+    {
+        return $this->hasManyThrough('App\Invoice', 'App\Product');
+
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
