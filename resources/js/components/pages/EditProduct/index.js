@@ -26,6 +26,8 @@ class EditProduct extends React.Component {
             url: "",
             id: this.props.match.params.id,
             isLoading: false,
+            stock: "",
+            discount:"",
         };
     }
 
@@ -44,6 +46,8 @@ class EditProduct extends React.Component {
             url: "",
             id: null,
             isLoading: false,
+            stock:"",
+            discount:"",
         });
     }
 
@@ -86,6 +90,32 @@ class EditProduct extends React.Component {
         this.setState({
             description: event.target.value,
         });
+    };
+    handleStockChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        this.setState({
+            stock: event.target.value,
+        })
+        if(this.state.stock<1){
+            this.setState({
+                errormessage: "在庫には少なくとも1つの製品が必要です。",
+            });
+        }
+    };
+    handleDiscountChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        this.setState({
+            discount: event.target.value,
+        })
+        if(this.state.discount<0 || this.state.discount>100){
+            this.setState({
+                errormessage: "割引率は0％より大きく100％より小さい必要があります。",
+            });
+        }
     };
     handleFileChange = (event) => {
         this.setState({
@@ -161,6 +191,8 @@ class EditProduct extends React.Component {
                                 image_link: this.state.new_image
                                     ? this.state.new_image_file.name
                                     : this.state.image_name,
+                                stock: this.state.stock,
+                                discount: this.state.discount,
                             };
                             const headers = {
                                 "Content-type": "application/json",
@@ -234,6 +266,8 @@ class EditProduct extends React.Component {
                     category: dataProduct.category_id,
                     newname: dataProduct.name,
                     id: this.props.match.params.id,
+                    stock: dataProduct.stock,
+                    discount: dataProduct.discount,
                 });
                 this.getImageSrc();
             })
@@ -332,6 +366,24 @@ class EditProduct extends React.Component {
                                     placeholder="価格を入力してください..."
                                     value={this.state.price}
                                     onChange={this.handlePriceChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <h5>株式</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="価格を入力してください..."
+                                    value={this.state.stock}
+                                    onChange={this.handleStockChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <h5>割引</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="価格を入力してください..."
+                                    value={this.state.discount}
+                                    onChange={this.handleDiscountChange}
                                 />
                             </div>
                             <div className="form-group"></div>

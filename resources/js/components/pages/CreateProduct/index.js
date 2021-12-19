@@ -21,6 +21,8 @@ class CreateProduct extends Component {
         name: "",
         url: "",
         image: {},
+        stock: "",
+        discount: "",
     };
 
     componentWillUnmount() {
@@ -35,6 +37,8 @@ class CreateProduct extends Component {
             name: "",
             url: "",
             image: {},
+            stock: 1,
+            discount: 0,
         });
     }
 
@@ -81,6 +85,32 @@ class CreateProduct extends Component {
         this.setState({
             content: event.target.value,
         });
+    };
+    handleStockChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        this.setState({
+            stock: event.target.value,
+        })
+        if(this.state.stock<1){
+            this.setState({
+                errormessage: "在庫には少なくとも1つの製品が必要です。",
+            });
+        }
+    };
+    handleDiscountChange = (event) => {
+        this.setState({
+            successmessage: "",
+        });
+        this.setState({
+            discount: event.target.value,
+        })
+        if(this.state.discount<0 || this.state.discount>100){
+            this.setState({
+                errormessage: "割引率は0％より大きく100％より小さい必要があります。",
+            });
+        }
     };
     handleFileChange = (event) => {
         this.setState({
@@ -153,6 +183,9 @@ class CreateProduct extends Component {
                                 category_id: this.state.category,
                                 description: this.state.content,
                                 image_link: this.state.image.name,
+                                stock: this.state.stock,
+                                discount: this.state.discount,
+                                //price_sale
                             };
                             const headers = {
                                 "Content-type": "application/json",
@@ -178,6 +211,8 @@ class CreateProduct extends Component {
                                         name: "",
                                         url: "",
                                         image: {},
+                                        stock: 1,
+                                        discount: 0,
                                     });
                                     setTimeout(() => {
                                         window.location.href = `/product/manager`;
@@ -282,7 +317,24 @@ class CreateProduct extends Component {
                                 onChange={this.handlePriceChange}
                             />
                         </div>
-
+                        <div className="form-group">
+                            <h5>株式</h5>
+                            <input
+                                className="form-control"
+                                placeholder="価格を入力してください..."
+                                value={this.state.stock}
+                                onChange={this.handleStockChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <h5>割引</h5>
+                            <input
+                                className="form-control"
+                                placeholder="価格を入力してください..."
+                                value={this.state.discount}
+                                onChange={this.handleDiscountChange}
+                            />
+                        </div>
                         <div className="form-group"></div>
                         {this.state.errormessage ? (
                             <div className="alert alert-danger" role="alert">
