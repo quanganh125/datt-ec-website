@@ -37,11 +37,16 @@ class CreateProduct extends Component {
             name: "",
             url: "",
             image: {},
-            stock: 1,
-            discount: 0,
+            stock: "",
+            discount: "",
         });
     }
-
+    componentDidMount(){
+        this.setState({
+            stock:1,
+            discount:0,
+        })
+    }
     onBtnClick = () => {
         this.fileRef.current.click();
     };
@@ -106,7 +111,12 @@ class CreateProduct extends Component {
         this.setState({
             discount: event.target.value,
         })
-        if(this.state.discount<0 || this.state.discount>100){
+        if(this.state.discount<0){
+            this.setState({
+                errormessage: "割引率は0％より大きく100％より小さい必要があります。",
+            });
+        }
+        if(this.state.discount>100){
             this.setState({
                 errormessage: "割引率は0％より大きく100％より小さい必要があります。",
             });
