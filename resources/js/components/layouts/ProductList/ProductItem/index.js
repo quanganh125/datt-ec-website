@@ -18,6 +18,7 @@ export default function Item({ data }) {
     };
     const [linkDetail, setLinkDetail] = useState("");
     const [image_url, setImage_url] = useState("");
+    const [favorite, setFavorite] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -46,26 +47,47 @@ export default function Item({ data }) {
             });
     };
 
+    const toggleFavorite = () => {
+        setFavorite(!favorite);
+    };
+
+    useEffect(() => {
+        return () => {};
+    }, [favorite]);
+
     return (
-        <div className="itemContainer" onClick={() => goToDetail()}>
+        <div className="itemContainer">
             <div className="itemHeader">
                 <img src={image_url} alt="productImg" className="itemImg" />
+                <i
+                    className="fas fa-heart favorite-heart"
+                    onClick={() => toggleFavorite()}
+                    style={{ color: favorite ? "grey" : "red" }}
+                ></i>
             </div>
-            <div className="itemContent">
+            <div className="itemContent" onClick={() => goToDetail()}>
                 <h6>{data.name}</h6>
-                <p className="item-value">価格: {data.price}円</p>
+                <p className="item-value">
+                    <span>1000円</span>
+                </p>
+                <p>
+                    <span
+                        style={{
+                            textDecoration: "line-through",
+                            color: "grey",
+                        }}
+                    >
+                        {data.price}円
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style={{}}>-30%</span>
+                </p>
                 <StarRatings
                     rating={caculatorAvgRate(data.reviews)}
                     starDimension="20px"
                     starSpacing="0"
                     starRatedColor="#fcec00"
                 />
-                <p className="item-review">
-                    レビュー数: {data.reviews.length}回
-                </p>
-                <div className="item-create-location">
-                    <span className="item-location">{data.location}</span>
-                </div>
             </div>
             <div className="itemDrop-btn">
                 <Button

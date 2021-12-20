@@ -13,6 +13,7 @@ import Loading from "../../layouts/Loading";
 import { getProductRecommendDetail } from "../../redux/actions/productActions";
 import ProductList from "../../layouts/ProductList";
 import storage from "../../services/firebaseConfig";
+import FormBuy from "../../layouts/FormBuy";
 
 class ProductDetail extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class ProductDetail extends Component {
             currentUserId: null,
             shopIdUser: null,
             productRecommend: [],
+            isOpenBuy: false,
         };
     }
 
@@ -55,6 +57,7 @@ class ProductDetail extends Component {
             currentUserId: null,
             shopIdUser: null,
             productRecommend: [],
+            isOpenBuy: false,
         });
     }
 
@@ -201,6 +204,20 @@ class ProductDetail extends Component {
             });
     };
 
+    setIsOpenBuy = (isOpen) => {
+        this.setState({
+            isOpenBuy: isOpen,
+        });
+    };
+
+    onClickBuy = () => {
+        this.setState({
+            isOpenBuy: true,
+        });
+    };
+
+    handleBuy = () => {};
+
     render() {
         return (
             <div className="product-detail-container">
@@ -294,14 +311,13 @@ class ProductDetail extends Component {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="review-btn">
+                                <div className="buy-product">
                                     <Button
-                                        onClick={() =>
-                                            this.handeOpenRatingForm()
-                                        }
-                                        className="item-btn-care"
+                                        onClick={() => this.onClickBuy()}
+                                        className="buy-product-btn"
+                                        fullWidth
                                     >
-                                        レビュー
+                                        購入
                                     </Button>
                                 </div>
                                 <div className="product-reviews">
@@ -314,6 +330,16 @@ class ProductDetail extends Component {
                                         />
                                     </div>
                                 </div>
+                                <div className="review-btn">
+                                    <Button
+                                        onClick={() =>
+                                            this.handeOpenRatingForm()
+                                        }
+                                        className="item-btn-care"
+                                    >
+                                        レビュー
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                         <RatingForm
@@ -321,6 +347,16 @@ class ProductDetail extends Component {
                             setIsOpen={this.setIsOpen}
                             productId={this.state.id}
                             reloadReview={this.reloadReview}
+                        />
+                        <FormBuy
+                            isOpen={this.state.isOpenBuy}
+                            setIsOpenBuy={this.setIsOpenBuy}
+                            product_id={this.state.id}
+                            image_link={this.state.image_link}
+                            name={this.state.name}
+                            description={this.state.description}
+                            price={this.state.price}
+                            handleBuy={this.handleBuy}
                         />
                     </>
                 ) : (
