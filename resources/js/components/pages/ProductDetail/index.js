@@ -36,6 +36,8 @@ class ProductDetail extends Component {
             shopIdUser: null,
             productRecommend: [],
             isOpenBuy: false,
+            stock: null,
+            discount: null,
         };
     }
 
@@ -58,6 +60,8 @@ class ProductDetail extends Component {
             shopIdUser: null,
             productRecommend: [],
             isOpenBuy: false,
+            stock: null,
+            discount: null,
         });
     }
 
@@ -76,6 +80,8 @@ class ProductDetail extends Component {
                     category: res.data.data.category,
                     shop_id: res.data.data.shop_id,
                     linkShop: `/store/${res.data.data.shop_id}`,
+                    stock: res.data.data.stock,
+                    discount: res.data.data.discount,
                 });
                 this.getLinkImage(this.state.image_name);
             })
@@ -183,6 +189,9 @@ class ProductDetail extends Component {
             this.setState({
                 isOpenRate: true,
             });
+        else {
+            alert("この機能を使用するには、ログインする必要があります");
+        }
     };
 
     setIsOpen = (isOpen) => {
@@ -211,12 +220,22 @@ class ProductDetail extends Component {
     };
 
     onClickBuy = () => {
-        this.setState({
-            isOpenBuy: true,
-        });
+        if (
+            getCookie("access_token") &&
+            this.state.shop_id != this.state.shopIdUser &&
+            this.checkReviewed()
+        )
+            this.setState({
+                isOpenBuy: true,
+            });
+        else {
+            alert("この機能を使用するには、ログインする必要があります");
+        }
     };
 
-    handleBuy = () => {};
+    getPriceSale = (price, discount) => {
+        return Math.round(discount ? price - (price * discount) / 100 : price);
+    };
 
     render() {
         return (
@@ -254,7 +273,20 @@ class ProductDetail extends Component {
                                 <div className="product-price">
                                     <label className="title"> 価値： </label>
                                     <h3>
-                                        {this.state.price} 円
+                                        {this.getPriceSale(
+                                            this.state.price,
+                                            this.state.discount
+                                        )}
+                                        円&nbsp;&nbsp;&nbsp;
+                                        <span
+                                            style={{
+                                                textDecoration: "line-through",
+                                                color: "grey",
+                                                fontSize: 20,
+                                            }}
+                                        >
+                                            {this.state.price} 円
+                                        </span>
                                         <span className="lead">
                                             オンライン価格
                                         </span>
@@ -309,6 +341,18 @@ class ProductDetail extends Component {
                                                 </Link>
                                             </p>
                                         </li>
+                                        <li>
+                                            <p>
+                                                <b
+                                                    style={{
+                                                        color: "black",
+                                                    }}
+                                                >
+                                                    数量：
+                                                </b>
+                                                {this.state.stock}
+                                            </p>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div className="buy-product">
@@ -355,8 +399,11 @@ class ProductDetail extends Component {
                             image_link={this.state.image_link}
                             name={this.state.name}
                             description={this.state.description}
-                            price={this.state.price}
-                            handleBuy={this.handleBuy}
+                            price={this.getPriceSale(
+                                this.state.price,
+                                this.state.discount
+                            )}
+                            stock={this.state.stock}
                         />
                     </>
                 ) : (

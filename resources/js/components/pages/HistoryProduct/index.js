@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./home.scss";
+import "./history.scss";
 import ProductList from "../../layouts/ProductList";
 import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,53 +9,21 @@ import Loading from "../../layouts/Loading";
 
 export default function Home() {
     const dispatch = useDispatch();
-    const [isLoading, setIsLoading] = useState(false);
-    const fetchProduct = () => {
-        dispatch(fetchProductRecommend());
-    };
-
-    useEffect(() => {
-        fetchProduct();
-    }, []);
-
-    const product_recommend_datas = useSelector(
-        (state) => state.product.product_recommend
-    );
-
-    useEffect(() => {
-        if (product_recommend_datas) {
-            setIsLoading(true);
-        }
-        return () => {
-            setIsLoading(null);
-        };
-    }, [isLoading, product_recommend_datas]);
-
-    const searchTitle = useSelector((state) => state.search.search_title);
-
-    const getSearchResult = () => {
-        if (searchTitle == "") return product_recommend_datas;
-        else
-            return product_recommend_datas.filter(function (el) {
-                return el.name
-                    .toLowerCase()
-                    .includes(searchTitle.toLowerCase());
-            });
-    };
+    const [isLoading, setIsLoading] = useState(true);
 
     return (
         <div id="homeContainer">
             {isLoading ? (
                 <>
                     <h3>
-                        <b>レコメンデーション</b>
+                        <b>購入履歴</b>
                     </h3>
                     <Pagination
-                        dataItems={getSearchResult()}
+                        dataItems={null}
                         itemsPerPage={8}
-                        type={"home-product"}
+                        type={"history-product"}
                     />
-                    {!product_recommend_datas.length && (
+                    {isLoading && (
                         <div className="nonProduct">
                             <img
                                 src="https://www.polonomicho.com/images/no-product.png"

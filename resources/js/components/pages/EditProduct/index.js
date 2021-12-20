@@ -27,7 +27,7 @@ class EditProduct extends React.Component {
             id: this.props.match.params.id,
             isLoading: false,
             stock: "",
-            discount:"",
+            discount: "",
         };
     }
 
@@ -46,8 +46,8 @@ class EditProduct extends React.Component {
             url: "",
             id: null,
             isLoading: false,
-            stock:"",
-            discount:"",
+            stock: "",
+            discount: "",
         });
     }
 
@@ -97,8 +97,8 @@ class EditProduct extends React.Component {
         });
         this.setState({
             stock: event.target.value,
-        })
-        if(this.state.stock<1){
+        });
+        if (this.state.stock < 1) {
             this.setState({
                 errormessage: "在庫には少なくとも1つの製品が必要です。",
             });
@@ -110,10 +110,11 @@ class EditProduct extends React.Component {
         });
         this.setState({
             discount: event.target.value,
-        })
-        if(this.state.discount<0 || this.state.discount>100){
+        });
+        if (this.state.discount < 0 && this.state.discount > 100) {
             this.setState({
-                errormessage: "割引率は0％より大きく100％より小さい必要があります。",
+                errormessage:
+                    "割引率は0％より大きく100％より小さい必要があります。",
             });
         }
     };
@@ -225,11 +226,6 @@ class EditProduct extends React.Component {
     };
 
     getImageSrc() {
-        // if (!this.state.image_link && !this.state.file) {
-        //     return this.state.image_link;
-        // } else if (!this.state.file && this.state.image_link) {
-        //     return `${apiStorage}/${this.state.image_link}`;
-        // } else return this.state.image_link;
         return storage
             .ref("product_img")
             .child(this.state.image_name)
@@ -286,6 +282,7 @@ class EditProduct extends React.Component {
                     justifyContent: "center",
                     minHeight: "100vh",
                     marginTop: 80,
+                    minWidth: 600,
                 }}
             >
                 {this.state.isLoading ? (

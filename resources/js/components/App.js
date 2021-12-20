@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import React, { useState, useEffect, Fragment } from "react";
 import Home from "./pages/Home";
+import FavoriteProduct from "./pages/FavoriteProduct";
+import HistoryProduct from "./pages/HistoryProduct";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import "react-toastify/dist/ReactToastify.css";
@@ -109,12 +111,20 @@ export default function App() {
                     <Route
                         exact
                         path="/product/create"
-                        render={() => <CreateProduct />}
+                        render={() => {
+                            return getCookie("access_token") != "" ? (
+                                <CreateProduct />
+                            ) : (
+                                <Redirect to="/home" />
+                            );
+                        }}
                     />
                     <Route
                         exact
                         path="/product/:id/edit"
-                        component={EditProduct}
+                        component={
+                            getCookie("access_token") != "" ? EditProduct : Home
+                        }
                     />
                     <Route
                         exact
@@ -126,7 +136,6 @@ export default function App() {
                     <Route
                         exact
                         path="/store/:id/edit"
-                        // component={EditStore}
                         render={(props) => {
                             return getCookie("access_token") != "" ? (
                                 <EditStore {...props} />
@@ -142,6 +151,29 @@ export default function App() {
                             return getCookie("access_token") != "" &&
                                 !shop_id ? (
                                 <StoreCreate />
+                            ) : (
+                                <Redirect to="/home" />
+                            );
+                        }}
+                    />
+                    <Route
+                        exact
+                        path="/favorite"
+                        render={(props) => {
+                            return getCookie("access_token") != "" ? (
+                                <FavoriteProduct />
+                            ) : (
+                                <Redirect to="/home" />
+                            );
+                        }}
+                    />
+                    <Route
+                        exact
+                        path="/history"
+                        render={() => {
+                            return getCookie("access_token") != "" &&
+                                !shop_id ? (
+                                <HistoryProduct />
                             ) : (
                                 <Redirect to="/home" />
                             );

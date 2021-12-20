@@ -15,12 +15,13 @@ export default function FormBuy({
     price,
     description,
     setIsOpenBuy,
-    handleBuy,
+    stock,
 }) {
     const [open, setOpen] = useState(false);
     const [total, setTotal] = useState(price);
-    const [quality, setQuality] = useState(1);
-
+    const [quantily, setQuantily] = useState(1);
+    const [buyEnable, setBuyEnable] = useState(true);
+    const [validateNofi, setValidateNofi] = useState("");
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -30,21 +31,45 @@ export default function FormBuy({
         setOpen(false);
     };
     const handleCheckout = () => {
+        var buyProduct = {
+            user_id: 1,
+            product_id: product_id,
+        };
+
+        //call api add history
         handleClose();
         toast.success("購入に成功しました！");
     };
 
     useEffect(() => {
         setOpen(isOpen);
+        return () => {
+            setTotal(price);
+            setQuantily(1);
+            setBuyEnable(true);
+            setValidateNofi("");
+        };
     }, [isOpen]);
 
-    const onChangeQuality = (event) => {
-        let nquality = event.target.value;
-        if (nquality == "" || nquality == 0) {
-            setQuality(1);
+    const onChangeQuantity = (event) => {
+        let nquantily = event.target.value;
+        if (nquantily == "" || nquantily <= 0) {
+            setValidateNofi("数値は0より大きくなければなりません");
+            setBuyEnable(false);
+            setTotal(0);
+        } else if (nquantily > stock) {
+            setValidateNofi(
+                `在庫が残っている商品は${stock}のみです。これ以上購入することはできません`
+            );
+            setBuyEnable(false);
+            setTotal(0);
+        } else {
+            setBuyEnable(true);
+            setValidateNofi("");
+            let sum = nquantily * price;
+            setQuantily(nquantily);
+            setTotal(sum);
         }
-        let sum = nquality * price;
-        nquality > 0 ? setTotal(sum) : null;
     };
 
     return (
@@ -95,16 +120,22 @@ export default function FormBuy({
                             <div className="product-quantity-cart">
                                 <input
                                     type="number"
-                                    defaultValue={quality}
+                                    defaultValue={1}
                                     min="1"
-                                    onChange={(event) => onChangeQuality(event)}
+                                    onChange={(event) =>
+                                        onChangeQuantity(event)
+                                    }
                                 />
                             </div>
                             <div className="product-line-price-cart">
                                 {total}
                             </div>
                         </div>
-
+                        <div>
+                            <span style={{ color: "red", float: "right" }}>
+                                {validateNofi}
+                            </span>
+                        </div>
                         <div className="totals-cart">
                             <div className="totals-item-cart totals-item-total-cart">
                                 <label>合計</label>
@@ -130,6 +161,7 @@ export default function FormBuy({
                         onClick={(e) => handleCheckout()}
                         color="primary"
                         variant="contained"
+                        disabled={!buyEnable}
                     >
                         チェックアウト
                     </Button>

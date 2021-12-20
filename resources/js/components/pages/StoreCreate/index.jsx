@@ -189,6 +189,7 @@ class StoreProfile extends Component {
                     justifyContent: "center",
                     minHeight: "100vh",
                     marginTop: 80,
+                    minWidth: 600,
                 }}
             >
                 <div className="col-9">

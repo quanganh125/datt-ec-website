@@ -126,6 +126,16 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                                 click ? "nav-options active" : "nav-options"
                             }
                         >
+                            {userProfile.id && shopId ? (
+                                <li className="option">
+                                    <a
+                                        href="/product/manager"
+                                        className="underline"
+                                    >
+                                        製品管理
+                                    </a>
+                                </li>
+                            ) : null}
                             {userProfile.id ? (
                                 <>
                                     {shopId ? (
@@ -147,17 +157,23 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                                             </a>
                                         </li>
                                     )}
+                                    <li className="option">
+                                        <a
+                                            href="/favorite"
+                                            className="underline"
+                                        >
+                                            購入履歴
+                                        </a>
+                                    </li>
+                                    <li className="option">
+                                        <a
+                                            href="/favorite"
+                                            className="underline"
+                                        >
+                                            ウィッシュリスト
+                                        </a>
+                                    </li>
                                 </>
-                            ) : null}
-                            {userProfile.id && shopId ? (
-                                <li className="option">
-                                    <a
-                                        href="/product/manager"
-                                        className="underline"
-                                    >
-                                        製品管理
-                                    </a>
-                                </li>
                             ) : null}
                         </ul>
                     </div>

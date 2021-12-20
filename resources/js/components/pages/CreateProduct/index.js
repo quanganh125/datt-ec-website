@@ -10,20 +10,24 @@ const maxFileSize = 1024 * 1024;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 class CreateProduct extends Component {
     fileRef = React.createRef();
-    state = {
-        content: "",
-        image_link: "",
-        category: "",
-        file: undefined,
-        errormessage: "",
-        successmessage: "",
-        price: "",
-        name: "",
-        url: "",
-        image: {},
-        stock: 1,
-        discount: 0,
-    };
+    constructor(props) {
+        super(props);
+        this.fileRef = React.createRef();
+        this.state = {
+            content: "",
+            image_link: "",
+            category: "",
+            file: undefined,
+            errormessage: "",
+            successmessage: "",
+            price: "",
+            name: "",
+            url: "",
+            image: {},
+            stock: 1,
+            discount: 0,
+        };
+    }
 
     componentWillUnmount() {
         this.setState({
@@ -37,11 +41,11 @@ class CreateProduct extends Component {
             name: "",
             url: "",
             image: {},
-            stock: "",
-            discount: "",
+            stock: null,
+            discount: null,
         });
     }
-    
+
     onBtnClick = () => {
         this.fileRef.current.click();
     };
@@ -92,12 +96,7 @@ class CreateProduct extends Component {
         });
         this.setState({
             stock: event.target.value,
-        })
-        if(this.state.stock<1){
-            this.setState({
-                errormessage: "在庫には少なくとも1つの製品が必要です。",
-            });
-        }
+        });
     };
     handleDiscountChange = (event) => {
         this.setState({
@@ -105,18 +104,9 @@ class CreateProduct extends Component {
         });
         this.setState({
             discount: event.target.value,
-        })
-        if(this.state.discount<0){
-            this.setState({
-                errormessage: "割引率は0％より大きく100％より小さい必要があります。",
-            });
-        }
-        if(this.state.discount>100){
-            this.setState({
-                errormessage: "割引率は0％より大きく100％より小さい必要があります。",
-            });
-        }
+        });
     };
+
     handleFileChange = (event) => {
         this.setState({
             successmessage: "",
@@ -179,53 +169,79 @@ class CreateProduct extends Component {
                                 errormessage: "カテゴリを選んでください",
                             });
                         } else {
-                            storage
-                                .ref(`/product_img/${this.state.image.name}`)
-                                .put(this.state.image);
-                            const packets = {
-                                name: this.state.name,
-                                price: this.state.price,
-                                category_id: this.state.category,
-                                description: this.state.content,
-                                image_link: this.state.image.name,
-                                stock: this.state.stock,
-                                discount: this.state.discount,
-                                //price_sale
-                            };
-                            const headers = {
-                                "Content-type": "application/json",
-                                Authorization: `Bearer ${getCookie(
-                                    "access_token"
-                                )}`,
-                            };
-
-                            await axios
-                                .post(apiProduct, packets, { headers: headers })
-                                .then((response) => {
-                                    toast.success(
-                                        "製品が正常に作成されました！"
-                                    );
-                                    this.setState({
-                                        content: "",
-                                        image_link: "",
-                                        category: "",
-                                        file: undefined,
-                                        errormessage: "",
-                                        successmessage: "",
-                                        price: "",
-                                        name: "",
-                                        url: "",
-                                        image: {},
-                                        stock: 1,
-                                        discount: 0,
-                                    });
-                                    setTimeout(() => {
-                                        window.location.href = `/product/manager`;
-                                    }, 1000);
-                                })
-                                .catch((error) => {
-                                    toast.error("製品の作成に失敗しました!");
+                            if (!this.state.stock && this.state.stock < 1) {
+                                this.setState({
+                                    errormessage:
+                                        "在庫には少なくとも1つの製品が必要です",
                                 });
+                            } else {
+                                if (
+                                    this.state.discount === "" ||
+                                    this.state.discount < 0 ||
+                                    this.state.discount > 100
+                                ) {
+                                    this.setState({
+                                        errormessage:
+                                            "割引率は0％より大きく100％より小さい必要があります",
+                                    });
+                                } else {
+                                    this.setState({
+                                        errormessage: "",
+                                    });
+                                    storage
+                                        .ref(
+                                            `/product_img/${this.state.image.name}`
+                                        )
+                                        .put(this.state.image);
+                                    const packets = {
+                                        name: this.state.name,
+                                        price: this.state.price,
+                                        category_id: this.state.category,
+                                        description: this.state.content,
+                                        image_link: this.state.image.name,
+                                        stock: this.state.stock,
+                                        discount: this.state.discount,
+                                    };
+                                    console.log(packets);
+                                    const headers = {
+                                        "Content-type": "application/json",
+                                        Authorization: `Bearer ${getCookie(
+                                            "access_token"
+                                        )}`,
+                                    };
+                                    await axios
+                                        .post(apiProduct, packets, {
+                                            headers: headers,
+                                        })
+                                        .then((response) => {
+                                            toast.success(
+                                                "製品が正常に作成されました！"
+                                            );
+                                            this.setState({
+                                                content: "",
+                                                image_link: "",
+                                                category: "",
+                                                file: undefined,
+                                                errormessage: "",
+                                                successmessage: "",
+                                                price: "",
+                                                name: "",
+                                                url: "",
+                                                image: {},
+                                                stock: 1,
+                                                discount: 0,
+                                            });
+                                            setTimeout(() => {
+                                                window.location.href = `/product/manager`;
+                                            }, 1000);
+                                        })
+                                        .catch((error) => {
+                                            toast.error(
+                                                "製品の作成に失敗しました!"
+                                            );
+                                        });
+                                }
+                            }
                         }
                     }
                 }
@@ -242,6 +258,7 @@ class CreateProduct extends Component {
                     justifyContent: "center",
                     minHeight: "100vh",
                     marginTop: 80,
+                    minWidth: 600,
                 }}
             >
                 <div className="col-9">
@@ -323,10 +340,12 @@ class CreateProduct extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <h5>株式</h5>
+                            <h5>数量</h5>
                             <input
                                 className="form-control"
-                                placeholder="株式を入力してください..."
+                                placeholder="数量を入力してください..."
+                                type="number"
+                                min={1}
                                 value={this.state.stock}
                                 onChange={this.handleStockChange}
                             />
@@ -337,7 +356,9 @@ class CreateProduct extends Component {
                                 className="form-control"
                                 placeholder="割引を入力してください..."
                                 value={this.state.discount}
-                                onChange={this.handleDiscountChange}
+                                type="number"
+                                min={0}
+                                onChange={this.handleDiscountChange.bind(this)}
                             />
                         </div>
                         <div className="form-group"></div>

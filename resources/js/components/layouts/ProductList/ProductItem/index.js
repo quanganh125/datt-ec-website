@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { apiStorage } from "../../../constant";
 import storage from "../../../services/firebaseConfig";
+import { toast } from "react-toastify";
+import saleIcon from "../../../../assets/images/sale.png";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -49,11 +51,18 @@ export default function Item({ data }) {
 
     const toggleFavorite = () => {
         setFavorite(!favorite);
+        !favorite
+            ? toast.success("ウィッシュリストに追加されました")
+            : toast.error("ウィッシュリストから削除されました");
     };
 
     useEffect(() => {
         return () => {};
     }, [favorite]);
+
+    const getPriceSale = (price, discount) => {
+        return Math.round(discount ? price - (price * discount) / 100 : price);
+    };
 
     return (
         <div className="itemContainer">
@@ -62,26 +71,34 @@ export default function Item({ data }) {
                 <i
                     className="fas fa-heart favorite-heart"
                     onClick={() => toggleFavorite()}
-                    style={{ color: favorite ? "grey" : "red" }}
+                    style={{ color: favorite ? "red" : "grey" }}
                 ></i>
+                {data.discount && (
+                    <img src={saleIcon} alt="sale-icon" className="sale-icon" />
+                )}
             </div>
             <div className="itemContent" onClick={() => goToDetail()}>
                 <h6>{data.name}</h6>
                 <p className="item-value">
-                    <span>1000円</span>
+                    <span>{getPriceSale(data.price, data.discount)}円</span>
                 </p>
-                <p>
-                    <span
-                        style={{
-                            textDecoration: "line-through",
-                            color: "grey",
-                        }}
-                    >
-                        {data.price}円
-                    </span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span style={{}}>-30%</span>
-                </p>
+                {data.discount ? (
+                    <p>
+                        <span
+                            style={{
+                                textDecoration: "line-through",
+                                color: "grey",
+                            }}
+                        >
+                            {data.price}円
+                        </span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>
+                            <i className="fas fa-arrow-down"></i>
+                            {data.discount}%
+                        </span>
+                    </p>
+                ) : null}
                 <StarRatings
                     rating={caculatorAvgRate(data.reviews)}
                     starDimension="20px"
