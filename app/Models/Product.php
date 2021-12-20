@@ -13,6 +13,8 @@ class Product extends Model
         'name',
         'image_link',
         'price',
+        'stock',
+        'discount',
         'description',
         'category_id',
         'shop_id',
@@ -35,6 +37,16 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 
     public function getRecommendMarkAttribute()
