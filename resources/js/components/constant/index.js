@@ -9,4 +9,5 @@ export const apiAuthUserProfile = `${api}/api/auth/user-profile`;
 export const apiShop = `${api}/api/shop`;
 export const apiStorage = `${api}/api/storage`;
 export const apiGetShop = `${api}/api/shop/user`;
+export const apiFavorite = `${api}/api/favorite`;
 export const paginate_count = 8;

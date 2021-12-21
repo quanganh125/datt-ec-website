@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Services\HistoryService;
+use App\Models\Invoice;
+use App\Http\Resources\HistoryCollection;
+use App\Http\Resources\HistoryResource;
+use Illuminate\Support\Facades\Auth;
 class HistoryController extends Controller
 {
+
+    protected $historyService;
+
+    public function __construct(HistoryService $historyService)
+    {
+        $this->historyService = $historyService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,8 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        //
+        $histories = $this->historyService->getAll();
+        return (new HistoryCollection($histories))->response();
     }
 
     /**
@@ -34,7 +46,14 @@ class HistoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = Auth::user()->id;
+        $history = new Invoice();
+        $history->user_id = $user_id;
+        $history->product_id = $request->input('product_id');
+        $history->quantity = $request->input('quantity');
+        $history->price_at_purchase_time = $request->input('price_at_purchase_time');
+        $history->save();
+        return (new HistoryResource($history))->response();
     }
 
     /**
@@ -79,6 +98,6 @@ class HistoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->historyService->delete($id);
     }
 }

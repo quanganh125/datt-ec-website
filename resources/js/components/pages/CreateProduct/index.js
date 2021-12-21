@@ -202,7 +202,6 @@ class CreateProduct extends Component {
                                         stock: this.state.stock,
                                         discount: this.state.discount,
                                     };
-                                    console.log(packets);
                                     const headers = {
                                         "Content-type": "application/json",
                                         Authorization: `Bearer ${getCookie(
@@ -351,7 +350,7 @@ class CreateProduct extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <h5>割引</h5>
+                            <h5>割引（％）</h5>
                             <input
                                 className="form-control"
                                 placeholder="割引を入力してください..."

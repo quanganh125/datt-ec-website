@@ -5,6 +5,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HistoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,6 +63,18 @@ Route::group(['prefix' => 'review'], function ($router) {
     Route::get('/{product_id}', [ReviewController::class, 'showAllReviewForProduct']);
     Route::put('/{id}', [ReviewController::class, 'update']);
     Route::delete('/{id}', [ReviewController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'favorite'], function ($router) {
+    Route::get('/', [FavoriteController::class, 'index']);
+    Route::post('/', [FavoriteController::class, 'store']);
+    Route::delete('/{id}', [FavoriteController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'history'], function ($router) {
+    Route::get('/', [HistoryController::class, 'index']);
+    Route::post('/', [HistoryController::class, 'store']);
+    Route::delete('/{id}', [HistoryController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'storage'], function ($router) {

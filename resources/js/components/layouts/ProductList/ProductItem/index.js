@@ -7,6 +7,10 @@ import { apiStorage } from "../../../constant";
 import storage from "../../../services/firebaseConfig";
 import { toast } from "react-toastify";
 import saleIcon from "../../../../assets/images/sale.png";
+import { format } from "../../../utils/common";
+import { apiFavorite } from "../../../constant";
+import axios from "axios";
+import { headers } from "./../../../redux/actions/productActions";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -49,14 +53,43 @@ export default function Item({ data }) {
             });
     };
 
-    const toggleFavorite = () => {
+    const toggleFavorite = async (event) => {
+        event.preventDefault();
+        const dataFavorite = {
+            product_id: data.id,
+        };
+        if (favorite) {
+            try {
+                await axios
+                    .delete(`${apiFavorite}/${data.id}`, dataFavorite, {
+                        headers: headers,
+                    })
+                    .then((response) => {
+                        toast.success("ウィッシュリストから削除されました");
+                    });
+            } catch (error) {
+                return { statusCode: 500, body: error.toString() };
+            }
+        } else {
+            try {
+                await axios
+                    .post(apiFavorite, dataFavorite, {
+                        headers: headers,
+                    })
+                    .then((response) => {
+                        toast.success("ウィッシュリストに追加されました");
+                    });
+            } catch (error) {
+                return { statusCode: 500, body: error.toString() };
+            }
+        }
         setFavorite(!favorite);
-        !favorite
-            ? toast.success("ウィッシュリストに追加されました")
-            : toast.error("ウィッシュリストから削除されました");
     };
 
+    const checkFavorite = () => {};
+
     useEffect(() => {
+        checkFavorite();
         return () => {};
     }, [favorite]);
 
@@ -70,7 +103,7 @@ export default function Item({ data }) {
                 <img src={image_url} alt="productImg" className="itemImg" />
                 <i
                     className="fas fa-heart favorite-heart"
-                    onClick={() => toggleFavorite()}
+                    onClick={(event) => toggleFavorite(event)}
                     style={{ color: favorite ? "red" : "grey" }}
                 ></i>
                 {data.discount && (
@@ -80,7 +113,13 @@ export default function Item({ data }) {
             <div className="itemContent" onClick={() => goToDetail()}>
                 <h6>{data.name}</h6>
                 <p className="item-value">
-                    <span>{getPriceSale(data.price, data.discount)}円</span>
+                    <span>
+                        {getPriceSale(data.price, data.discount) > 0
+                            ? `${format(
+                                  getPriceSale(data.price, data.discount)
+                              )}円`
+                            : "無料"}
+                    </span>
                 </p>
                 {data.discount ? (
                     <p>
@@ -90,12 +129,14 @@ export default function Item({ data }) {
                                 color: "grey",
                             }}
                         >
-                            {data.price}円
+                            <b>{format(data.price)}円</b>
                         </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>
-                            <i className="fas fa-arrow-down"></i>
-                            {data.discount}%
+                            <b>
+                                <i className="fas fa-arrow-down"></i>
+                                {data.discount}%
+                            </b>
                         </span>
                     </p>
                 ) : null}

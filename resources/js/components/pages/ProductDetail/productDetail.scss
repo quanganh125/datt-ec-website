@@ -72,6 +72,7 @@
         margin-left: 5px;
         font-weight: normal;
         font-size: 0.75rem;
+        color: grey;
     }
 }
 
@@ -216,6 +217,11 @@
     button:hover {
         background: #f05d40;
     }
+}
+
+.socialMediaButton {
+    margin-right: 10px;
+    margin-bottom: 20px;
 }
 
 .buy-product {

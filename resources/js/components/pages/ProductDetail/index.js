@@ -14,7 +14,13 @@ import { getProductRecommendDetail } from "../../redux/actions/productActions";
 import ProductList from "../../layouts/ProductList";
 import storage from "../../services/firebaseConfig";
 import FormBuy from "../../layouts/FormBuy";
-
+import { format } from "./../../utils/common";
+import {
+    FacebookShareButton,
+    FacebookIcon,
+    EmailIcon,
+    EmailShareButton,
+} from "react-share";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -222,8 +228,7 @@ class ProductDetail extends Component {
     onClickBuy = () => {
         if (
             getCookie("access_token") &&
-            this.state.shop_id != this.state.shopIdUser &&
-            this.checkReviewed()
+            this.state.shop_id != this.state.shopIdUser
         )
             this.setState({
                 isOpenBuy: true,
@@ -272,12 +277,19 @@ class ProductDetail extends Component {
                             <div className="col-sm-12 col-md-6">
                                 <div className="product-price">
                                     <label className="title"> 価値： </label>
-                                    <h3>
+                                    <h3 style={{ color: "red" }}>
                                         {this.getPriceSale(
                                             this.state.price,
                                             this.state.discount
-                                        )}
-                                        円&nbsp;&nbsp;&nbsp;
+                                        ) > 0
+                                            ? `${format(
+                                                  this.getPriceSale(
+                                                      this.state.price,
+                                                      this.state.discount
+                                                  )
+                                              )}円`
+                                            : "無料"}
+                                        &nbsp;&nbsp;&nbsp;
                                         <span
                                             style={{
                                                 textDecoration: "line-through",
@@ -285,7 +297,7 @@ class ProductDetail extends Component {
                                                 fontSize: 20,
                                             }}
                                         >
-                                            {this.state.price} 円
+                                            {format(this.state.price)} 円
                                         </span>
                                         <span className="lead">
                                             オンライン価格
@@ -355,15 +367,41 @@ class ProductDetail extends Component {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="buy-product">
-                                    <Button
-                                        onClick={() => this.onClickBuy()}
-                                        className="buy-product-btn"
-                                        fullWidth
+                                <div>
+                                    <FacebookShareButton
+                                        url={window.location.href}
+                                        quote={document.title}
+                                        hashtag="#itss2"
+                                        className="socialMediaButton"
                                     >
-                                        購入
-                                    </Button>
+                                        <FacebookIcon size={40} round={true} />
+                                    </FacebookShareButton>
+                                    <EmailShareButton
+                                        url={window.location.href}
+                                        quote={document.title}
+                                        hashtag="#itss2"
+                                        className="socialMediaButton"
+                                    >
+                                        <EmailIcon size={40} round={true} />
+                                    </EmailShareButton>
                                 </div>
+                                {console.log(
+                                    this.state.shop_id != this.state.shopIdUser,
+                                    this.state.shop_id,
+                                    this.state.shopIdUser
+                                )}
+                                {getCookie("access_token") &&
+                                this.state.shop_id != this.state.shopIdUser ? (
+                                    <div className="buy-product">
+                                        <Button
+                                            onClick={() => this.onClickBuy()}
+                                            className="buy-product-btn"
+                                            fullWidth
+                                        >
+                                            購入
+                                        </Button>
+                                    </div>
+                                ) : null}
                                 <div className="product-reviews">
                                     <label className="title"> レビュー </label>
                                     <div className="reviews">
@@ -374,16 +412,20 @@ class ProductDetail extends Component {
                                         />
                                     </div>
                                 </div>
-                                <div className="review-btn">
-                                    <Button
-                                        onClick={() =>
-                                            this.handeOpenRatingForm()
-                                        }
-                                        className="item-btn-care"
-                                    >
-                                        レビュー
-                                    </Button>
-                                </div>
+                                {getCookie("access_token") &&
+                                this.state.shop_id != this.state.shopIdUser &&
+                                this.checkReviewed() ? (
+                                    <div className="review-btn">
+                                        <Button
+                                            onClick={() =>
+                                                this.handeOpenRatingForm()
+                                            }
+                                            className="item-btn-care"
+                                        >
+                                            レビュー
+                                        </Button>
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
                         <RatingForm

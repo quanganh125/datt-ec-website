@@ -98,11 +98,6 @@ class EditProduct extends React.Component {
         this.setState({
             stock: event.target.value,
         });
-        if (this.state.stock < 1) {
-            this.setState({
-                errormessage: "在庫には少なくとも1つの製品が必要です。",
-            });
-        }
     };
     handleDiscountChange = (event) => {
         this.setState({
@@ -111,12 +106,6 @@ class EditProduct extends React.Component {
         this.setState({
             discount: event.target.value,
         });
-        if (this.state.discount < 0 && this.state.discount > 100) {
-            this.setState({
-                errormessage:
-                    "割引率は0％より大きく100％より小さい必要があります。",
-            });
-        }
     };
     handleFileChange = (event) => {
         this.setState({
@@ -177,47 +166,65 @@ class EditProduct extends React.Component {
                                 errormessage: "カテゴリを選んでください",
                             });
                         } else {
-                            if (this.state.new_image) {
-                                storage
-                                    .ref(
-                                        `/product_img/${this.state.new_image_file.name}`
-                                    )
-                                    .put(this.state.new_image_file);
-                            }
-                            const packets = {
-                                name: this.state.newname,
-                                price: this.state.price,
-                                category_id: this.state.category,
-                                description: this.state.description,
-                                image_link: this.state.new_image
-                                    ? this.state.new_image_file.name
-                                    : this.state.image_name,
-                                stock: this.state.stock,
-                                discount: this.state.discount,
-                            };
-                            const headers = {
-                                "Content-type": "application/json",
-                                Authorization: `Bearer ${getCookie(
-                                    "access_token"
-                                )}`,
-                            };
-                            await axios
-                                .post(
-                                    `${apiProduct}/${this.state.id}/edit`,
-                                    packets,
-                                    {
-                                        headers: headers,
-                                    }
-                                )
-                                .then((response) => {
-                                    toast.success(
-                                        "製品の編集に成功しました！!"
-                                    );
-                                    window.location.href = `/product/manager`;
-                                })
-                                .catch((error) => {
-                                    toast.error("編集に失敗しました!");
+                            if (!this.state.stock && this.state.stock < 1) {
+                                this.setState({
+                                    errormessage:
+                                        "在庫には少なくとも1つの製品が必要です",
                                 });
+                            } else {
+                                if (
+                                    this.state.discount === "" ||
+                                    this.state.discount < 0 ||
+                                    this.state.discount > 100
+                                ) {
+                                    this.setState({
+                                        errormessage:
+                                            "割引率は0％より大きく100％より小さい必要があります",
+                                    });
+                                } else {
+                                    if (this.state.new_image) {
+                                        storage
+                                            .ref(
+                                                `/product_img/${this.state.new_image_file.name}`
+                                            )
+                                            .put(this.state.new_image_file);
+                                    }
+                                    const packets = {
+                                        name: this.state.newname,
+                                        price: this.state.price,
+                                        category_id: this.state.category,
+                                        description: this.state.description,
+                                        image_link: this.state.new_image
+                                            ? this.state.new_image_file.name
+                                            : this.state.image_name,
+                                        stock: this.state.stock,
+                                        discount: this.state.discount,
+                                    };
+                                    const headers = {
+                                        "Content-type": "application/json",
+                                        Authorization: `Bearer ${getCookie(
+                                            "access_token"
+                                        )}`,
+                                    };
+                                    await axios
+                                        .post(
+                                            `${apiProduct}/${this.state.id}/edit`,
+                                            packets,
+                                            {
+                                                headers: headers,
+                                            }
+                                        )
+                                        .then((response) => {
+                                            toast.success(
+                                                "製品の編集に成功しました！!"
+                                            );
+                                            window.location.href = `/product/manager`;
+                                        })
+                                        .catch((error) => {
+                                            toast.error("編集に失敗しました!");
+                                        });
+                                }
+                            }
                         }
                     }
                 }
@@ -366,19 +373,23 @@ class EditProduct extends React.Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <h5>株式</h5>
+                                <h5>数量</h5>
                                 <input
                                     className="form-control"
                                     placeholder="株式を入力してください..."
+                                    type="number"
+                                    min={1}
                                     value={this.state.stock}
                                     onChange={this.handleStockChange}
                                 />
                             </div>
                             <div className="form-group">
-                                <h5>割引</h5>
+                                <h5>割引（％）</h5>
                                 <input
                                     className="form-control"
                                     placeholder="割引を入力してください..."
+                                    type="number"
+                                    min={0}
                                     value={this.state.discount}
                                     onChange={this.handleDiscountChange}
                                 />

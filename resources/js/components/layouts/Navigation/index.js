@@ -50,25 +50,26 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                 "Content-type": "application/json",
                 Authorization: `Bearer ${getCookie("access_token")}`,
             };
-            await axios
-                .post(apiLogout, { data: "mydata" }, { headers: headers })
-                .then((res) => {
-                    toast.success("サインアウトに成功しました!");
-                    deleteCookie("access_token");
-                    // deleteAllCookies();
-                    setTimeout(() => {
-                        window.location.href = `/home`;
-                    }, 500);
-                })
-                .catch((error) => {
-                    toast.error("サインアウトに失敗しました!");
-                });
+            try {
+                await axios
+                    .post(apiLogout, { data: "mydata" }, { headers: headers })
+                    .then((res) => {
+                        toast.success("サインアウトに成功しました!");
+                        deleteCookie("access_token");
+                        // deleteAllCookies();
+                        setTimeout(() => {
+                            window.location.href = `/home`;
+                        }, 500);
+                    });
+            } catch (error) {
+                deleteCookie("access_token");
+                return { statusCode: 500, body: error.toString() };
+            }
         } else {
             window.location.href = `/home`;
         }
     };
     const fetchShopId = async () => {
-        // userProfile.id && dispatch(fetchShopId(userProfile.id))
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
@@ -91,7 +92,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
 
     useEffect(() => {
         fetchShopId();
-    }, [userProfile.id, shopId]);
+    }, [userProfile, shopId]);
 
     return (
         <div
@@ -126,27 +127,27 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                                 click ? "nav-options active" : "nav-options"
                             }
                         >
-                            {userProfile.id && shopId ? (
-                                <li className="option">
-                                    <a
-                                        href="/product/manager"
-                                        className="underline"
-                                    >
-                                        製品管理
-                                    </a>
-                                </li>
-                            ) : null}
-                            {userProfile.id ? (
+                            {loginState ? (
                                 <>
                                     {shopId ? (
-                                        <li className="option">
-                                            <a
-                                                href={shopLink}
-                                                className="underline"
-                                            >
-                                                ストアのプロフィール
-                                            </a>
-                                        </li>
+                                        <>
+                                            <li className="option">
+                                                <a
+                                                    href={shopLink}
+                                                    className="underline"
+                                                >
+                                                    ストアのプロフィール
+                                                </a>
+                                            </li>
+                                            <li className="option">
+                                                <a
+                                                    href="/product/manager"
+                                                    className="underline"
+                                                >
+                                                    製品管理
+                                                </a>
+                                            </li>
+                                        </>
                                     ) : (
                                         <li className="option">
                                             <a
