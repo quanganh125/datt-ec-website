@@ -50,7 +50,7 @@ Route::group(['prefix' => 'category'], function ($router) {
 
 Route::group(['prefix' => 'shop'], function ($router) {
     Route::get('/', [ShopController::class, 'index']);
-    Route::get('/user/{user_id}', [ShopController::class, 'getShopOfUser']);
+    Route::get('/user', [ShopController::class, 'getShopOfUser']);
     Route::post('/', [ShopController::class, 'store']);
     Route::get('/{id}', [ShopController::class, 'show']);
     Route::post('/{id}/edit', [ShopController::class, 'update']);
@@ -67,12 +67,14 @@ Route::group(['prefix' => 'review'], function ($router) {
 
 Route::group(['prefix' => 'favorite'], function ($router) {
     Route::get('/', [FavoriteController::class, 'index']);
+    Route::get('/user', [FavoriteController::class, 'favoriteOfUser']);
     Route::post('/', [FavoriteController::class, 'store']);
     Route::delete('/{id}', [FavoriteController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'history'], function ($router) {
     Route::get('/', [HistoryController::class, 'index']);
+    Route::get('/user', [HistoryController::class, 'historyOfUser']);
     Route::post('/', [HistoryController::class, 'store']);
     Route::delete('/{id}', [HistoryController::class, 'destroy']);
 });

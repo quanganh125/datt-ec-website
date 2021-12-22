@@ -32,8 +32,9 @@ class ProductDetail extends Component {
             recommend_mark: "",
             reviews: [],
             category: "",
+            category_id: null,
             shop: "",
-            id: this.getProductId(),
+            id: Number(this.getProductId()),
             isOpenRate: false,
             isLoading: false,
             shop_id: null,
@@ -56,6 +57,7 @@ class ProductDetail extends Component {
             recommend_mark: "",
             reviews: [],
             category: "",
+            category_id: null,
             shop: "",
             id: null,
             isOpenRate: false,
@@ -84,6 +86,7 @@ class ProductDetail extends Component {
                     reviews: res.data.data.reviews,
                     shop: res.data.data.shop,
                     category: res.data.data.category,
+                    category_id: res.data.data.category_id,
                     shop_id: res.data.data.shop_id,
                     linkShop: `/store/${res.data.data.shop_id}`,
                     stock: res.data.data.stock,
@@ -110,9 +113,9 @@ class ProductDetail extends Component {
     };
 
     componentWillMount() {
-        // this.setState({
-        //     currentUserId: this.props.user.id,
-        // });
+        this.setState({
+            currentUserId: this.props.user.id,
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -132,15 +135,15 @@ class ProductDetail extends Component {
         }
     }
 
-    //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment
+    //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment, mua hang
     fetchUserShopId = async () => {
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
-        this.state.currentUserId &&
-            (await axios
-                .get(`${apiGetShop}/${this.state.currentUserId}`, {
+        try {
+            await axios
+                .get(`${apiGetShop}`, {
                     headers: headers,
                 })
                 .then((res) => {
@@ -151,7 +154,8 @@ class ProductDetail extends Component {
                 })
                 .catch((error) => {
                     console.error(error);
-                }));
+                });
+        } catch (error) {}
     };
 
     componentDidMount() {
@@ -385,11 +389,6 @@ class ProductDetail extends Component {
                                         <EmailIcon size={40} round={true} />
                                     </EmailShareButton>
                                 </div>
-                                {console.log(
-                                    this.state.shop_id != this.state.shopIdUser,
-                                    this.state.shop_id,
-                                    this.state.shopIdUser
-                                )}
                                 {getCookie("access_token") &&
                                 this.state.shop_id != this.state.shopIdUser ? (
                                     <div className="buy-product">
@@ -446,6 +445,7 @@ class ProductDetail extends Component {
                                 this.state.discount
                             )}
                             stock={this.state.stock}
+                            category_id={this.state.category_id}
                         />
                     </>
                 ) : (

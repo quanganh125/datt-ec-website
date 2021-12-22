@@ -28,6 +28,12 @@ class HistoryController extends Controller
         return (new HistoryCollection($histories))->response();
     }
 
+    public function historyOfUser()
+    {
+        $histories = $this->historyService->getAllOfUser();
+        return (new HistoryCollection($histories))->response();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -50,6 +56,7 @@ class HistoryController extends Controller
         $history = new Invoice();
         $history->user_id = $user_id;
         $history->product_id = $request->input('product_id');
+        $history->category_id = $request->input('category_id');
         $history->quantity = $request->input('quantity');
         $history->price_at_purchase_time = $request->input('price_at_purchase_time');
         $history->save();

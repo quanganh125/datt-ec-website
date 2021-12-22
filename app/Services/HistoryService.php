@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
-
 use App\Models\Invoice;
+use Illuminate\Support\Facades\Auth;
 class HistoryService
 {
     public function get($id)
@@ -13,6 +13,13 @@ class HistoryService
     public function getAll()
     {
         return Invoice::all();
+    }
+
+    public function getAllOfUser()
+    {
+        $user_id = Auth::user()->id;
+        $histories = Invoice::where("user_id", "=", $user_id)->get();
+        return $histories;
     }
 
     public function update($id, array $history_data)

@@ -16,10 +16,13 @@ class HistoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'quantily' => $this->quantily,
+            'quantity' => $this->quantity,
             'price_at_purchase_time' => $this->price_at_purchase_time,
             'user_id' => $this->user_id,
+            'product_name' => $this->product->name,
             'product_id' => $this->product_id,
+            'category' => $this->category->name,
+            'category_id' => $this->category_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

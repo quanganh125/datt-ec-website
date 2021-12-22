@@ -6,6 +6,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { headers, apiHistory } from "./../../constant";
 
 export default function FormBuy({
     isOpen,
@@ -16,6 +18,7 @@ export default function FormBuy({
     description,
     setIsOpenBuy,
     stock,
+    category_id,
 }) {
     const [open, setOpen] = useState(false);
     const [total, setTotal] = useState(price);
@@ -30,15 +33,24 @@ export default function FormBuy({
         setIsOpenBuy(false);
         setOpen(false);
     };
-    const handleCheckout = () => {
-        var buyProduct = {
-            user_id: 1,
+    const handleCheckout = async () => {
+        const buyProduct = {
             product_id: product_id,
+            category_id: category_id,
+            quantity: quantily,
+            price_at_purchase_time: total,
         };
-
-        //call api add history
+        console.log(buyProduct);
+        try {
+            await axios
+                .post(apiHistory, buyProduct, { headers: headers })
+                .then((res) => {
+                    toast.success("購入に成功しました");
+                });
+        } catch (error) {
+            return { statusCode: 500, body: error.toString() };
+        }
         handleClose();
-        toast.success("購入に成功しました！");
     };
 
     useEffect(() => {

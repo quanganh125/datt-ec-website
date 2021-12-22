@@ -171,8 +171,7 @@ export default function App() {
                         exact
                         path="/history"
                         render={() => {
-                            return getCookie("access_token") != "" &&
-                                !shop_id ? (
+                            return getCookie("access_token") != "" ? (
                                 <HistoryProduct />
                             ) : (
                                 <Redirect to="/home" />

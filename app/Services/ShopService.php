@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Shop;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 class ShopService
 {
     /**
@@ -31,8 +32,9 @@ class ShopService
         return Shop::find($id);
     }
 
-    public function getIdShop($user_id){
-        $shop_id = User::find($user_id)->shops()->get()->pluck('id')->first();
+    public function getIdShop(){
+        $user = Auth::user()->id;
+        $shop_id = User::find($user)->shops()->get()->pluck('id')->first();
         return $shop_id;
     }
 

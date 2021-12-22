@@ -12,6 +12,7 @@ class Invoice extends Model
     protected $fillable = [
         'user_id',
         'product_id',
+        'category_id',
         'quantity',
         'price_at_purchase_time',
     ];
@@ -20,9 +21,14 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

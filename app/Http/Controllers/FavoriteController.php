@@ -28,6 +28,12 @@ class FavoriteController extends Controller
         return (new FavoriteCollection($favortites))->response();
     }
 
+    public function favoriteOfUser()
+    {
+        $favortites = $this->favoriteService->getAllOfUser();
+        return (new FavoriteCollection($favortites))->response();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

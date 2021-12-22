@@ -1,0 +1,15 @@
+@import "../../../../sass/_common.scss";
+
+.listContainer {
+    margin: 20px 0px 20px 0px;
+    padding-bottom: 30px;
+    .list-more-btn {
+        @include makeCenter();
+        .more-btn {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 200px;
+            @include styleButton();
+        }
+    }
+}

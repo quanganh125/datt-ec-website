@@ -76,7 +76,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
         };
         userProfile.id &&
             (await axios
-                .get(`${apiGetShop}/${userProfile.id}`, {
+                .get(`${apiGetShop}`, {
                     headers: headers,
                 })
                 .then((res) => {
@@ -160,7 +160,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                                     )}
                                     <li className="option">
                                         <a
-                                            href="/favorite"
+                                            href="/history"
                                             className="underline"
                                         >
                                             購入履歴
@@ -212,4 +212,4 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
     );
 }
 
-export default React.memo(Navigation);
+export default Navigation;
