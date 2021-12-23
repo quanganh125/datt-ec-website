@@ -56,6 +56,15 @@ export default function ProductManager() {
                             type={"manager-product"}
                         />
                     </div>
+                    {!all_shop_product_datas.length && (
+                        <div className="nonProduct">
+                            <img
+                                src="https://www.polonomicho.com/images/no-product.png"
+                                alt="product not found"
+                                className="product-not-found"
+                            />
+                        </div>
+                    )}
                 </>
             ) : (
                 <Loading />

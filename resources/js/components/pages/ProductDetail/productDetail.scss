@@ -15,6 +15,7 @@
         font-size: 1.5rem;
         line-height: 1.2;
         font-weight: bold;
+        color: #1f1f1f;
     }
     ul {
         li {
@@ -71,6 +72,7 @@
         margin-left: 5px;
         font-weight: normal;
         font-size: 0.75rem;
+        color: grey;
     }
 }
 
@@ -139,6 +141,7 @@
     line-height: 1.2;
     font-weight: bold;
     margin-right: 10px;
+    color: #1f1f1f;
 }
 
 .flex {
@@ -213,5 +216,24 @@
 
     button:hover {
         background: #f05d40;
+    }
+}
+
+.socialMediaButton {
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.buy-product {
+    width: 100%;
+    .buy-product-btn {
+        width: 100%;
+        background: $base-color-1;
+        margin-bottom: 10px;
+        height: 48px;
+        color: white;
+        &:hover {
+            background: $base-color-2;
+        }
     }
 }

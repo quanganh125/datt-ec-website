@@ -1,61 +1,48 @@
 import React, { useEffect, useState } from "react";
-import "./home.scss";
+import "./favorite.scss";
 import ProductList from "../../layouts/ProductList";
-import { fetchProductRecommend } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiProduct, paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
+import { fetchProductFavorite } from "../../redux/actions/productActions";
 
-export default function Home() {
+export default function History() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    const fetchProduct = () => {
-        dispatch(fetchProductRecommend());
+
+    const fetchFavoriteProducts = () => {
+        dispatch(fetchProductFavorite());
     };
 
     useEffect(() => {
-        fetchProduct();
+        fetchFavoriteProducts();
+        return () => {};
     }, []);
 
-    const product_recommend_datas = useSelector(
-        (state) => state.product.product_recommend
+    const all_favorite_product_datas = useSelector(
+        (state) => state.product.products_favortite
     );
 
     useEffect(() => {
-        if (product_recommend_datas) {
+        if (all_favorite_product_datas) {
             setIsLoading(true);
         }
-        return () => {
-            setIsLoading(null);
-        };
-    }, [isLoading, product_recommend_datas]);
-
-    const searchTitle = useSelector((state) => state.search.search_title);
-
-    const getSearchResult = () => {
-        if (searchTitle == "") return product_recommend_datas;
-        else
-            return product_recommend_datas.filter(function (el) {
-                return el.name
-                    .toLowerCase()
-                    .includes(searchTitle.toLowerCase());
-            });
-    };
+    }, [isLoading, all_favorite_product_datas]);
 
     return (
-        <div id="homeContainer">
+        <div id="favoriteContainer">
             {isLoading ? (
                 <>
                     <h3>
-                        <b>レコメンデーション</b>
+                        <b>ウィッシュリスト</b>
                     </h3>
                     <Pagination
-                        dataItems={getSearchResult()}
+                        dataItems={all_favorite_product_datas}
                         itemsPerPage={8}
-                        type={"home-product"}
+                        type={"history-product"}
                     />
-                    {!product_recommend_datas.length && (
+                    {all_favorite_product_datas.length == 0 && (
                         <div className="nonProduct">
                             <img
                                 src="https://www.polonomicho.com/images/no-product.png"

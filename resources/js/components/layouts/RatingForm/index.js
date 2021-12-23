@@ -63,9 +63,14 @@ export default function RatingForm({
 
     useEffect(() => {
         setOpen(isOpen);
+        return () => {
+            setEvaluate("");
+            setNumStar(0);
+        };
     }, [isOpen]);
 
     const handleClose = () => {
+        setNumStar(0);
         setIsOpen(false);
         setOpen(false);
     };
@@ -88,6 +93,7 @@ export default function RatingForm({
                             <Rating
                                 choice={true}
                                 handleGetNumStar={handleGetNumStar}
+                                numStar={numStar}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.commentContainer}>
@@ -99,6 +105,7 @@ export default function RatingForm({
                                 type="text"
                                 placeholder="評価を入力してください。。。"
                                 id="rate"
+                                value={evaluate}
                                 onChange={(e) => handleOnChange(e)}
                                 className={classes.inputRate}
                             />

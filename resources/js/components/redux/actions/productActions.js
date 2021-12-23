@@ -1,13 +1,15 @@
 import axios from "axios";
 import { setCookie, getCookie } from "../../utils/cookie";
 import { toast } from "react-toastify";
-import { apiProduct } from "../../constant";
+import { apiFavorite, apiProduct, apiHistory } from "../../constant";
 
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
 const DELETE_PRODUCT = "DELETE_PRODUCT";
 const GET_SHOP_PRODUCT = "GET_SHOP_PRODUCT";
 const GET_PRODUCT_RECOMMEND_DETAIL = "GET_PRODUCT_RECOMMEND_DETAIL";
+const GET_PRODUCTS_FAVORITE = "GET_PRODUCTS_FAVORITE";
+const GET_PRODUCTS_HISTORY = "GET_PRODUCTS_HISTORY";
 
 export const headers = {
     "Content-type": "application/json",
@@ -71,6 +73,36 @@ export const fetchProductRecommend = () => async (dispatch) => {
         .catch((error) => {
             console.error(error);
             dispatch(setProductRecommend(null));
+        });
+};
+
+export const fetchProductFavorite = () => async (dispatch) => {
+    await axios
+        .get(`${apiFavorite}/user`, { headers: headers })
+        .then((res) => {
+            const products_favortite = res.data.data;
+            dispatch({
+                type: GET_PRODUCTS_FAVORITE,
+                payload: products_favortite,
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const fetchProductHistory = () => async (dispatch) => {
+    await axios
+        .get(`${apiHistory}/user`, { headers: headers })
+        .then((res) => {
+            const products_history = res.data.data;
+            dispatch({
+                type: GET_PRODUCTS_HISTORY,
+                payload: products_history,
+            });
+        })
+        .catch((error) => {
+            console.error(error);
         });
 };
 

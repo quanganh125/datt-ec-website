@@ -247,6 +247,7 @@ class EditStoreProfile extends Component {
                     justifyContent: "center",
                     minHeight: "100vh",
                     marginTop: 80,
+                    minWidth: 600,
                 }}
             >
                 {this.state.isLoading ? (

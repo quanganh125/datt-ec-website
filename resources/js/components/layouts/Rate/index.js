@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { Container, Radio, Rating } from "./styles";
-const Rate = ({ numberVoted, size, choice, handleGetNumStar }) => {
-    const [rate, setRate] = useState(numberVoted || 0);
+const Rate = ({ numberVoted, size, choice, handleGetNumStar, numStar }) => {
+    const [rate, setRate] = useState(numStar || 0);
 
     const handleVoteStar = (givenRating) => {
         if (choice === true) {
@@ -10,6 +10,12 @@ const Rate = ({ numberVoted, size, choice, handleGetNumStar }) => {
             handleGetNumStar(givenRating);
         }
     };
+
+    useEffect(() => {
+        return () => {
+            setRate(0);
+        };
+    }, []);
 
     return (
         <Container style={{ fontSize: size || null }}>

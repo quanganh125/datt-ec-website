@@ -13,7 +13,14 @@ import Loading from "../../layouts/Loading";
 import { getProductRecommendDetail } from "../../redux/actions/productActions";
 import ProductList from "../../layouts/ProductList";
 import storage from "../../services/firebaseConfig";
-
+import FormBuy from "../../layouts/FormBuy";
+import { format } from "./../../utils/common";
+import {
+    FacebookShareButton,
+    FacebookIcon,
+    EmailIcon,
+    EmailShareButton,
+} from "react-share";
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -25,8 +32,9 @@ class ProductDetail extends Component {
             recommend_mark: "",
             reviews: [],
             category: "",
+            category_id: null,
             shop: "",
-            id: this.getProductId(),
+            id: Number(this.getProductId()),
             isOpenRate: false,
             isLoading: false,
             shop_id: null,
@@ -34,6 +42,9 @@ class ProductDetail extends Component {
             currentUserId: null,
             shopIdUser: null,
             productRecommend: [],
+            isOpenBuy: false,
+            stock: null,
+            discount: null,
         };
     }
 
@@ -46,6 +57,7 @@ class ProductDetail extends Component {
             recommend_mark: "",
             reviews: [],
             category: "",
+            category_id: null,
             shop: "",
             id: null,
             isOpenRate: false,
@@ -55,6 +67,9 @@ class ProductDetail extends Component {
             currentUserId: null,
             shopIdUser: null,
             productRecommend: [],
+            isOpenBuy: false,
+            stock: null,
+            discount: null,
         });
     }
 
@@ -71,8 +86,11 @@ class ProductDetail extends Component {
                     reviews: res.data.data.reviews,
                     shop: res.data.data.shop,
                     category: res.data.data.category,
+                    category_id: res.data.data.category_id,
                     shop_id: res.data.data.shop_id,
                     linkShop: `/store/${res.data.data.shop_id}`,
+                    stock: res.data.data.stock,
+                    discount: res.data.data.discount,
                 });
                 this.getLinkImage(this.state.image_name);
             })
@@ -95,9 +113,9 @@ class ProductDetail extends Component {
     };
 
     componentWillMount() {
-        // this.setState({
-        //     currentUserId: this.props.user.id,
-        // });
+        this.setState({
+            currentUserId: this.props.user.id,
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -117,15 +135,15 @@ class ProductDetail extends Component {
         }
     }
 
-    //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment
+    //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment, mua hang
     fetchUserShopId = async () => {
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
-        this.state.currentUserId &&
-            (await axios
-                .get(`${apiGetShop}/${this.state.currentUserId}`, {
+        try {
+            await axios
+                .get(`${apiGetShop}`, {
                     headers: headers,
                 })
                 .then((res) => {
@@ -136,7 +154,8 @@ class ProductDetail extends Component {
                 })
                 .catch((error) => {
                     console.error(error);
-                }));
+                });
+        } catch (error) {}
     };
 
     componentDidMount() {
@@ -180,6 +199,9 @@ class ProductDetail extends Component {
             this.setState({
                 isOpenRate: true,
             });
+        else {
+            alert("この機能を使用するには、ログインする必要があります");
+        }
     };
 
     setIsOpen = (isOpen) => {
@@ -199,6 +221,29 @@ class ProductDetail extends Component {
             .catch((error) => {
                 console.log(error);
             });
+    };
+
+    setIsOpenBuy = (isOpen) => {
+        this.setState({
+            isOpenBuy: isOpen,
+        });
+    };
+
+    onClickBuy = () => {
+        if (
+            getCookie("access_token") &&
+            this.state.shop_id != this.state.shopIdUser
+        )
+            this.setState({
+                isOpenBuy: true,
+            });
+        else {
+            alert("この機能を使用するには、ログインする必要があります");
+        }
+    };
+
+    getPriceSale = (price, discount) => {
+        return Math.round(discount ? price - (price * discount) / 100 : price);
     };
 
     render() {
@@ -236,8 +281,28 @@ class ProductDetail extends Component {
                             <div className="col-sm-12 col-md-6">
                                 <div className="product-price">
                                     <label className="title"> 価値： </label>
-                                    <h3>
-                                        {this.state.price} 円
+                                    <h3 style={{ color: "red" }}>
+                                        {this.getPriceSale(
+                                            this.state.price,
+                                            this.state.discount
+                                        ) > 0
+                                            ? `${format(
+                                                  this.getPriceSale(
+                                                      this.state.price,
+                                                      this.state.discount
+                                                  )
+                                              )}円`
+                                            : "無料"}
+                                        &nbsp;&nbsp;&nbsp;
+                                        <span
+                                            style={{
+                                                textDecoration: "line-through",
+                                                color: "grey",
+                                                fontSize: 20,
+                                            }}
+                                        >
+                                            {format(this.state.price)} 円
+                                        </span>
                                         <span className="lead">
                                             オンライン価格
                                         </span>
@@ -292,18 +357,50 @@ class ProductDetail extends Component {
                                                 </Link>
                                             </p>
                                         </li>
+                                        <li>
+                                            <p>
+                                                <b
+                                                    style={{
+                                                        color: "black",
+                                                    }}
+                                                >
+                                                    数量：
+                                                </b>
+                                                {this.state.stock}
+                                            </p>
+                                        </li>
                                     </ul>
                                 </div>
-                                <div className="review-btn">
-                                    <Button
-                                        onClick={() =>
-                                            this.handeOpenRatingForm()
-                                        }
-                                        className="item-btn-care"
+                                <div>
+                                    <FacebookShareButton
+                                        url={window.location.href}
+                                        quote={document.title}
+                                        hashtag="#itss2"
+                                        className="socialMediaButton"
                                     >
-                                        レビュー
-                                    </Button>
+                                        <FacebookIcon size={40} round={true} />
+                                    </FacebookShareButton>
+                                    <EmailShareButton
+                                        url={window.location.href}
+                                        quote={document.title}
+                                        hashtag="#itss2"
+                                        className="socialMediaButton"
+                                    >
+                                        <EmailIcon size={40} round={true} />
+                                    </EmailShareButton>
                                 </div>
+                                {getCookie("access_token") &&
+                                this.state.shop_id != this.state.shopIdUser ? (
+                                    <div className="buy-product">
+                                        <Button
+                                            onClick={() => this.onClickBuy()}
+                                            className="buy-product-btn"
+                                            fullWidth
+                                        >
+                                            購入
+                                        </Button>
+                                    </div>
+                                ) : null}
                                 <div className="product-reviews">
                                     <label className="title"> レビュー </label>
                                     <div className="reviews">
@@ -314,6 +411,20 @@ class ProductDetail extends Component {
                                         />
                                     </div>
                                 </div>
+                                {getCookie("access_token") &&
+                                this.state.shop_id != this.state.shopIdUser &&
+                                this.checkReviewed() ? (
+                                    <div className="review-btn">
+                                        <Button
+                                            onClick={() =>
+                                                this.handeOpenRatingForm()
+                                            }
+                                            className="item-btn-care"
+                                        >
+                                            レビュー
+                                        </Button>
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
                         <RatingForm
@@ -321,6 +432,20 @@ class ProductDetail extends Component {
                             setIsOpen={this.setIsOpen}
                             productId={this.state.id}
                             reloadReview={this.reloadReview}
+                        />
+                        <FormBuy
+                            isOpen={this.state.isOpenBuy}
+                            setIsOpenBuy={this.setIsOpenBuy}
+                            product_id={this.state.id}
+                            image_link={this.state.image_link}
+                            name={this.state.name}
+                            description={this.state.description}
+                            price={this.getPriceSale(
+                                this.state.price,
+                                this.state.discount
+                            )}
+                            stock={this.state.stock}
+                            category_id={this.state.category_id}
                         />
                     </>
                 ) : (

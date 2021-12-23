@@ -1,23 +1,13 @@
 @import "../../../../sass/common";
 @import "../../../../sass/variables";
 
-#homeContainer {
+#favoriteContainer {
     margin-bottom: 20px;
     @include width-container();
     @include page-frame();
-    margin-top: 140px;
+    margin-top: 80px;
 }
 
 .paginate {
     @include makeCenter();
-}
-
-.nonProduct {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .product-not-found {
-        width: 50%;
-        height: 50%;
-    }
 }

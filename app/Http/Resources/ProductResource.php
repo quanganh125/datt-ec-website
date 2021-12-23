@@ -26,6 +26,8 @@ class ProductResource extends JsonResource
             'shop_id' => $this->shop_id,
             'shop' =>$this->shop->name,
             'reviews' => ReviewResource::collection($this->reviews),
+            'stock' => $this->stock,
+            'discount' => $this->discount
         ];
     }
 }

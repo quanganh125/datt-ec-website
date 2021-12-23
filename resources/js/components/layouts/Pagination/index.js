@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductList from "../ProductList";
+import ProductFavoriteList from "../ProductFavoriteList";
 import ProductManagerList from "../ProductManagerList";
 import VoteList from "../VoteList";
 import ReactPaginate from "react-paginate";
@@ -30,6 +31,8 @@ export default function Pagination({ dataItems, itemsPerPage, type }) {
             return <ProductManagerList currentItems={currentItems} />;
         } else if (type == "vote-product") {
             return <VoteList currentItems={currentItems} />;
+        } else if (type == "history-product") {
+            return <ProductFavoriteList currentItems={currentItems} />;
         }
     }
 

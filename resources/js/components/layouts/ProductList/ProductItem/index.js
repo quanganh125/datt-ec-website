@@ -5,6 +5,12 @@ import { useHistory } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { apiStorage } from "../../../constant";
 import storage from "../../../services/firebaseConfig";
+import { toast } from "react-toastify";
+import saleIcon from "../../../../assets/images/sale.png";
+import { format } from "../../../utils/common";
+import { apiFavorite } from "../../../constant";
+import axios from "axios";
+import { headers } from "./../../../redux/actions/productActions";
 
 export default function Item({ data }) {
     const caculatorAvgRate = (reviews) => {
@@ -18,6 +24,7 @@ export default function Item({ data }) {
     };
     const [linkDetail, setLinkDetail] = useState("");
     const [image_url, setImage_url] = useState("");
+    const [favorite, setFavorite] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -46,26 +53,99 @@ export default function Item({ data }) {
             });
     };
 
+    const toggleFavorite = async (event) => {
+        event.preventDefault();
+        const dataFavorite = {
+            product_id: data.id,
+        };
+        if (favorite) {
+            try {
+                await axios
+                    .delete(`${apiFavorite}/${data.id}`, dataFavorite, {
+                        headers: headers,
+                    })
+                    .then((response) => {
+                        toast.success("ウィッシュリストから削除されました");
+                    });
+            } catch (error) {
+                return { statusCode: 500, body: error.toString() };
+            }
+        } else {
+            try {
+                await axios
+                    .post(apiFavorite, dataFavorite, {
+                        headers: headers,
+                    })
+                    .then((response) => {
+                        toast.success("ウィッシュリストに追加されました");
+                    });
+            } catch (error) {
+                return { statusCode: 500, body: error.toString() };
+            }
+        }
+        setFavorite(!favorite);
+    };
+
+    const checkFavorite = () => {};
+
+    useEffect(() => {
+        checkFavorite();
+        return () => {};
+    }, [favorite]);
+
+    const getPriceSale = (price, discount) => {
+        return Math.round(discount ? price - (price * discount) / 100 : price);
+    };
+
     return (
-        <div className="itemContainer" onClick={() => goToDetail()}>
+        <div className="itemContainer">
             <div className="itemHeader">
                 <img src={image_url} alt="productImg" className="itemImg" />
+                <i
+                    className="fas fa-heart favorite-heart"
+                    onClick={(event) => toggleFavorite(event)}
+                    style={{ color: favorite ? "red" : "grey" }}
+                ></i>
+                {data.discount && (
+                    <img src={saleIcon} alt="sale-icon" className="sale-icon" />
+                )}
             </div>
-            <div className="itemContent">
+            <div className="itemContent" onClick={() => goToDetail()}>
                 <h6>{data.name}</h6>
-                <p className="item-value">価格: {data.price}円</p>
+                <p className="item-value">
+                    <span>
+                        {getPriceSale(data.price, data.discount) > 0
+                            ? `${format(
+                                  getPriceSale(data.price, data.discount)
+                              )}円`
+                            : "無料"}
+                    </span>
+                </p>
+                {data.discount ? (
+                    <p>
+                        <span
+                            style={{
+                                textDecoration: "line-through",
+                                color: "grey",
+                            }}
+                        >
+                            <b>{format(data.price)}円</b>
+                        </span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>
+                            <b>
+                                <i className="fas fa-arrow-down"></i>
+                                {data.discount}%
+                            </b>
+                        </span>
+                    </p>
+                ) : null}
                 <StarRatings
                     rating={caculatorAvgRate(data.reviews)}
                     starDimension="20px"
                     starSpacing="0"
                     starRatedColor="#fcec00"
                 />
-                <p className="item-review">
-                    レビュー数: {data.reviews.length}回
-                </p>
-                <div className="item-create-location">
-                    <span className="item-location">{data.location}</span>
-                </div>
             </div>
             <div className="itemDrop-btn">
                 <Button

@@ -13,20 +13,21 @@ export const fetchUser = (access_token) => async (dispatch) => {
         "Content-type": "application/json",
         Authorization: `Bearer ${access_token}`,
     };
-    await axios
-        .get(apiAuthUserProfile, {
-            headers: headers,
-        })
-        .then((res) => {
-            const user = res.data;
-            dispatch(setLogin(true));
-            dispatch(setUser(user));
-        })
-        .catch((error) => {
-            console.error(error);
-            dispatch(setLogin(false));
-            dispatch(setUser(null));
-        });
+    try {
+        await axios
+            .get(apiAuthUserProfile, {
+                headers: headers,
+            })
+            .then((res) => {
+                const user = res.data;
+                dispatch(setLogin(true));
+                dispatch(setUser(user));
+            });
+    } catch (error) {
+        dispatch(setLogin(false));
+        dispatch(setUser(null));
+        return { statusCode: 500, body: error.toString() };
+    }
 };
 
 export const setUser = (user) => {

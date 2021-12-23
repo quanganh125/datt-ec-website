@@ -45,6 +45,13 @@
             transform: scale(1.05);
         }
     }
+    .sale-icon {
+        position: absolute;
+        right: 10px;
+        top: 150px;
+        width: 5em;
+        height: 5em;
+    }
 }
 
 .itemContent {
@@ -52,8 +59,10 @@
     margin: 20px;
     .item-value {
         color: red;
-        font-size: 15px;
+        font-size: 20px;
         font-weight: bold;
+        margin: 0px;
+        padding: 0px;
     }
     .item-create-location {
         width: 100%;

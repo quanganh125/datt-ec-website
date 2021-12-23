@@ -1,0 +1,93 @@
+import React, { useEffect, useState } from "react";
+import "./history.scss";
+import ProductList from "../../layouts/ProductList";
+import { useDispatch, useSelector } from "react-redux";
+import { apiProduct, paginate_count } from "../../constant";
+import Pagination from "../../layouts/Pagination";
+import Loading from "../../layouts/Loading";
+import { fetchProductHistory } from "../../redux/actions/productActions";
+
+export default function Favorite() {
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchHistoryProducts = () => {
+        dispatch(fetchProductHistory());
+    };
+
+    useEffect(() => {
+        fetchHistoryProducts();
+        return () => {};
+    }, []);
+
+    const all_history_product_datas = useSelector(
+        (state) => state.product.products_history
+    );
+
+    useEffect(() => {
+        if (all_history_product_datas) {
+            setIsLoading(true);
+        }
+    }, [isLoading, all_history_product_datas]);
+
+    return (
+        <div id="historyContainer">
+            {isLoading ? (
+                <>
+                    <h3>
+                        <b>購入履歴</b>
+                    </h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">商品名</th>
+                                <th scope="col">カテゴリー</th>
+                                <th scope="col">数量</th>
+                                <th scope="col">価格</th>
+                                <th scope="col">時間</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {all_history_product_datas &&
+                                all_history_product_datas.map((data, index) => (
+                                    <tr key={index}>
+                                        <td data-label="商品名">
+                                            {data.product_name}
+                                        </td>
+                                        <td data-label="カテゴリー">
+                                            {data.category}
+                                        </td>
+                                        <td data-label="数量">
+                                            {data.quantity}
+                                        </td>
+                                        <td data-label="価格">
+                                            {data.price_at_purchase_time}円
+                                        </td>
+                                        <td data-label="時間">
+                                            {new Intl.DateTimeFormat("en-US", {
+                                                year: "numeric",
+                                                month: "2-digit",
+                                                day: "2-digit",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                                second: "2-digit",
+                                            }).format(data.create_at)}
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                    {all_history_product_datas.length == 0 && (
+                        <div className="nonHistory">
+                            <div>
+                                <h3>購入履歴がありません</h3>
+                            </div>
+                        </div>
+                    )}
+                </>
+            ) : (
+                <Loading />
+            )}
+        </div>
+    );
+}
