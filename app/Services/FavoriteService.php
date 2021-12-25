@@ -30,10 +30,13 @@ class FavoriteService
         return $favorite;
     }
 
-    public function delete($id)
+    public function delete($product_id)
     {
-        $favorite = Favorite::destroy($id);
-        return response()->json($id);
+        //get favorite id from product id
+        $favorite_id = Favorite::where("product_id", "=", $product_id)->get()->pluck('id')->first();
+        // dd($favorite_id);
+        $favorite = Favorite::destroy($favorite_id);
+        return response()->json($favorite_id);
     }
 
     //Kiểm tra sản phẩm đã like chưa, nếu rồi thì không cho like lại

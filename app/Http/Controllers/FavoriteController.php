@@ -100,8 +100,8 @@ class FavoriteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        return $this->favoriteService->delete($id);
+        return $this->favoriteService->delete($product_id);
     }
 }

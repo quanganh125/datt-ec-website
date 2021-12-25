@@ -40,7 +40,6 @@ export default function FormBuy({
             quantity: quantily,
             price_at_purchase_time: total,
         };
-        console.log(buyProduct);
         try {
             await axios
                 .post(apiHistory, buyProduct, { headers: headers })

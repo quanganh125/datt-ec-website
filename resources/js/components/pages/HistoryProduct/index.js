@@ -77,6 +77,11 @@ export default function Favorite() {
                                 ))}
                         </tbody>
                     </table>
+                    <div className="continue-buy">
+                        <a href="/home">
+                            <b>ショッピングを続ける...</b>
+                        </a>
+                    </div>
                     {all_history_product_datas.length == 0 && (
                         <div className="nonHistory">
                             <div>

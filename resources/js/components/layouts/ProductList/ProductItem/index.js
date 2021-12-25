@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./productItem.scss";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { apiStorage } from "../../../constant";
 import storage from "../../../services/firebaseConfig";
@@ -10,9 +9,13 @@ import saleIcon from "../../../../assets/images/sale.png";
 import { format } from "../../../utils/common";
 import { apiFavorite } from "../../../constant";
 import axios from "axios";
-import { headers } from "./../../../redux/actions/productActions";
+import {
+    fetchProductFavorite,
+    headers,
+} from "./../../../redux/actions/productActions";
+import { useDispatch } from "react-redux";
 
-export default function Item({ data }) {
+export default function Item({ data, userIdShop, loginState, favoriteState }) {
     const caculatorAvgRate = (reviews) => {
         if (reviews.length == 0) return 0;
         let sum = 0;
@@ -25,7 +28,7 @@ export default function Item({ data }) {
     const [linkDetail, setLinkDetail] = useState("");
     const [image_url, setImage_url] = useState("");
     const [favorite, setFavorite] = useState(false);
-    const history = useHistory();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getLinkImage(data.image_link);
@@ -83,29 +86,40 @@ export default function Item({ data }) {
                 return { statusCode: 500, body: error.toString() };
             }
         }
+        dispatch(fetchProductFavorite());
         setFavorite(!favorite);
     };
 
-    const checkFavorite = () => {};
-
     useEffect(() => {
-        checkFavorite();
-        return () => {};
-    }, [favorite]);
+        setFavorite(favoriteState || false);
+        return () => {
+            setLinkDetail("");
+            setImage_url("");
+            setFavorite(false);
+        };
+    }, []);
 
     const getPriceSale = (price, discount) => {
         return Math.round(discount ? price - (price * discount) / 100 : price);
+    };
+
+    //kiem tra shop cua nguoi dung co trung shop cua san pham hay khong
+    const checkShop = () => {
+        if (userIdShop == "" || userIdShop != data.shop_id) return true;
+        return false;
     };
 
     return (
         <div className="itemContainer">
             <div className="itemHeader">
                 <img src={image_url} alt="productImg" className="itemImg" />
-                <i
-                    className="fas fa-heart favorite-heart"
-                    onClick={(event) => toggleFavorite(event)}
-                    style={{ color: favorite ? "red" : "grey" }}
-                ></i>
+                {loginState && checkShop() && (
+                    <i
+                        className="fas fa-heart favorite-heart"
+                        onClick={(event) => toggleFavorite(event)}
+                        style={{ color: favorite ? "red" : "grey" }}
+                    ></i>
+                )}
                 {data.discount && (
                     <img src={saleIcon} alt="sale-icon" className="sale-icon" />
                 )}
