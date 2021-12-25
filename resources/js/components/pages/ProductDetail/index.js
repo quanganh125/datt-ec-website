@@ -266,17 +266,31 @@ class ProductDetail extends Component {
                                         name="image"
                                     />
                                 </div>
-                                <div className="product-recommend">
-                                    <h4>
-                                        <b>関連製品</b>
-                                    </h4>
-                                    <ProductList
-                                        currentItems={
-                                            this.state.productRecommend
-                                        }
-                                        type={"detail"}
-                                    />
-                                </div>
+                                {getCookie("access_token") &&
+                                this.state.shop_id != this.state.shopIdUser ? (
+                                    <div className="buy-product">
+                                        <Button
+                                            onClick={() => this.onClickBuy()}
+                                            className="buy-product-btn"
+                                            fullWidth
+                                        >
+                                            購入
+                                        </Button>
+                                    </div>
+                                ) : null}
+                                {this.state.productRecommend && (
+                                    <div className="product-recommend">
+                                        <h4>
+                                            <b>関連製品</b>
+                                        </h4>
+                                        <ProductList
+                                            currentItems={
+                                                this.state.productRecommend
+                                            }
+                                            type={"detail"}
+                                        />
+                                    </div>
+                                )}
                             </div>
                             <div className="col-sm-12 col-md-6">
                                 <div className="product-price">
@@ -375,7 +389,7 @@ class ProductDetail extends Component {
                                     <FacebookShareButton
                                         url={window.location.href}
                                         quote={document.title}
-                                        hashtag="#itss2"
+                                        hashtag="#ZeroTwo"
                                         className="socialMediaButton"
                                     >
                                         <FacebookIcon size={40} round={true} />
@@ -383,24 +397,12 @@ class ProductDetail extends Component {
                                     <EmailShareButton
                                         url={window.location.href}
                                         quote={document.title}
-                                        hashtag="#itss2"
+                                        hashtag="#ZeroTwo"
                                         className="socialMediaButton"
                                     >
                                         <EmailIcon size={40} round={true} />
                                     </EmailShareButton>
                                 </div>
-                                {getCookie("access_token") &&
-                                this.state.shop_id != this.state.shopIdUser ? (
-                                    <div className="buy-product">
-                                        <Button
-                                            onClick={() => this.onClickBuy()}
-                                            className="buy-product-btn"
-                                            fullWidth
-                                        >
-                                            購入
-                                        </Button>
-                                    </div>
-                                ) : null}
                                 <div className="product-reviews">
                                     <label className="title"> レビュー </label>
                                     <div className="reviews">

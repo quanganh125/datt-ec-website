@@ -52,7 +52,7 @@ export default function Home() {
                     </h3>
                     <Pagination
                         dataItems={getSearchResult()}
-                        itemsPerPage={8}
+                        itemsPerPage={paginate_count}
                         type={"home-product"}
                     />
                     {!product_recommend_datas.length && (

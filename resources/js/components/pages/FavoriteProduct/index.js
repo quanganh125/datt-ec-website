@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./favorite.scss";
 import ProductList from "../../layouts/ProductList";
-import { useDispatch, useSelector } from "react-redux";
 import { apiProduct, paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProductFavorite } from "../../redux/actions/productActions";
 
 export default function History() {
@@ -39,7 +39,7 @@ export default function History() {
                     </h3>
                     <Pagination
                         dataItems={all_favorite_product_datas}
-                        itemsPerPage={8}
+                        itemsPerPage={paginate_count}
                         type={"history-product"}
                     />
                     {all_favorite_product_datas.length == 0 && (
