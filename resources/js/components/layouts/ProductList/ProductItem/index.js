@@ -125,7 +125,7 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
                 )}
             </div>
             <div className="itemContent" onClick={() => goToDetail()}>
-                <h6>{data.name}</h6>
+                <h5>{data.name}</h5>
                 <p className="item-value">
                     <span>
                         {getPriceSale(data.price, data.discount) > 0
@@ -135,25 +135,29 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
                             : "無料"}
                     </span>
                 </p>
-                {data.discount ? (
-                    <p>
+                <p>
+                    <>
                         <span
                             style={{
                                 textDecoration: "line-through",
                                 color: "grey",
                             }}
                         >
-                            <b>{format(data.price)}円</b>
+                            {data.discount ? (
+                                <b>{format(data.price)}円</b>
+                            ) : null}
                         </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>
-                            <b>
-                                <i className="fas fa-arrow-down"></i>
-                                {data.discount}%
-                            </b>
+                            {data.discount ? (
+                                <b>
+                                    <i className="fas fa-arrow-down"></i>
+                                    {data.discount}%
+                                </b>
+                            ) : null}
                         </span>
-                    </p>
-                ) : null}
+                    </>
+                </p>
                 <StarRatings
                     rating={caculatorAvgRate(data.reviews)}
                     starDimension="20px"

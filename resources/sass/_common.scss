@@ -39,6 +39,10 @@
     padding: 0px 140px;
 }
 
+@mixin mobile-width-container {
+    padding: 0px 10px;
+}
+
 @mixin width-lg-container {
     padding: 0px 200px;
 }

@@ -73,6 +73,12 @@ class ProductDetail extends Component {
         });
     }
 
+    updateQuantity = (value) => {
+        this.setState({
+            stock: value,
+        });
+    };
+
     fetchProductDetail = async () => {
         await axios
             .get(`${apiProduct}/${this.state.id}`)
@@ -380,7 +386,9 @@ class ProductDetail extends Component {
                                                 >
                                                     数量：
                                                 </b>
-                                                {this.state.stock}
+                                                {this.state.stock != 0
+                                                    ? this.state.stock
+                                                    : "在庫切れ"}
                                             </p>
                                         </li>
                                     </ul>
@@ -448,6 +456,7 @@ class ProductDetail extends Component {
                             )}
                             stock={this.state.stock}
                             category_id={this.state.category_id}
+                            updateQuantity={this.updateQuantity}
                         />
                     </>
                 ) : (

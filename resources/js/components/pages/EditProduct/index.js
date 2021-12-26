@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { apiProduct, apiStorage } from "../../constant";
+import { apiProduct, apiStorage, apiCategory } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import "./edit.scss";
 import Loading from "../../layouts/Loading";
@@ -28,6 +28,7 @@ class EditProduct extends React.Component {
             isLoading: false,
             stock: "",
             discount: "",
+            categories: [],
         };
     }
 
@@ -48,6 +49,7 @@ class EditProduct extends React.Component {
             isLoading: false,
             stock: "",
             discount: "",
+            categories: [],
         });
     }
 
@@ -255,11 +257,19 @@ class EditProduct extends React.Component {
     };
 
     componentDidMount() {
+        this.fetchAllData();
+    }
+
+    fetchAllData = async () => {
         const apiGetProduct = `${apiProduct}/${this.state.id}`;
-        axios
-            .get(apiGetProduct)
-            .then((response) => {
-                let dataProduct = response.data.data;
+        const apiCate = `${apiCategory}`;
+        const getProduct = axios.get(apiGetProduct);
+        const getCategory = axios.get(apiCate);
+
+        await axios.all([getProduct, getCategory]).then(
+            axios.spread((...allData) => {
+                const dataProduct = allData[0].data.data;
+                const dataCategory = allData[1].data.data;
                 this.setState({
                     description: dataProduct.description,
                     image_name: dataProduct.image_link,
@@ -271,13 +281,12 @@ class EditProduct extends React.Component {
                     id: this.props.match.params.id,
                     stock: dataProduct.stock,
                     discount: dataProduct.discount,
+                    categories: dataCategory,
                 });
                 this.getImageSrc();
             })
-            .catch((error) => {
-                console.error("ERROR:: ", error.response.data);
-            });
-    }
+        );
+    };
 
     render() {
         return (
@@ -356,11 +365,14 @@ class EditProduct extends React.Component {
                                     value={this.state.category}
                                     onChange={this.handleCategoryChange}
                                 >
-                                    <option value="1">春</option>
-                                    <option value="2">夏</option>
-                                    <option value="3">秋</option>
-                                    <option value="4">冬</option>
-                                    <option value="5">なんでもいい</option>
+                                    {this.state.categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="form-group">
@@ -421,13 +433,13 @@ class EditProduct extends React.Component {
                                     type="submit"
                                     className="btn btn-primary"
                                     value="アップデート"
-                                    style={{ marginRight: 10 }}
+                                    style={{ marginRight: 10, width: "20%" }}
                                 />
                                 <button
                                     type="button"
                                     className="btn btn-success"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ marginLeft: 10 }}
+                                    style={{ marginLeft: 10, width: "20%" }}
                                 >
                                     キャンセル
                                 </button>
