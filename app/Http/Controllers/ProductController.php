@@ -136,6 +136,12 @@ class ProductController extends Controller
         return (new ProductResource($product))->response();
     }
 
+    public function updateOne(Request $request, $id){
+        $feild = $request->input('feild');
+        $value = $request->input('value');
+        $updateOne = $this->productService->updateOne($id, $feild, $value);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

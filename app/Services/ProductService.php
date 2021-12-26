@@ -97,4 +97,8 @@ class ProductService
         // return Storage::url($folder.'/'.$fileName);
     }
 
+    public function updateOne ($id, $feild, $value){
+        Product::where('id', $id)->update(array($feild => $value));
+    }
+
 }

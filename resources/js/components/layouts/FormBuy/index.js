@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { headers, apiHistory } from "./../../constant";
+import { headers, apiHistory, apiProduct } from "./../../constant";
 
 export default function FormBuy({
     isOpen,
@@ -19,6 +19,7 @@ export default function FormBuy({
     setIsOpenBuy,
     stock,
     category_id,
+    updateQuantity,
 }) {
     const [open, setOpen] = useState(false);
     const [total, setTotal] = useState(price);
@@ -34,6 +35,7 @@ export default function FormBuy({
         setOpen(false);
     };
     const handleCheckout = async () => {
+        //update history
         const buyProduct = {
             product_id: product_id,
             category_id: category_id,
@@ -45,6 +47,23 @@ export default function FormBuy({
                 .post(apiHistory, buyProduct, { headers: headers })
                 .then((res) => {
                     toast.success("購入に成功しました");
+                });
+        } catch (error) {
+            return { statusCode: 500, body: error.toString() };
+        }
+
+        //update stock product
+        let remain = stock - quantily;
+        const updateStock = {
+            feild: "stock",
+            value: remain,
+        };
+        try {
+            await axios
+                .post(`${apiProduct}/${product_id}/editOne`, updateStock)
+                .then((res) => {
+                    //update ui
+                    updateQuantity(remain);
                 });
         } catch (error) {
             return { statusCode: 500, body: error.toString() };

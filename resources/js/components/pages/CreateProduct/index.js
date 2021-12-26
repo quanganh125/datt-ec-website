@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { apiProduct } from "../../constant";
+import { apiCategory, apiProduct } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
+import Loading from "../../layouts/Loading";
 import "./create.scss";
 
 const maxFileSize = 1024 * 1024;
@@ -26,6 +27,8 @@ class CreateProduct extends Component {
             image: {},
             stock: 1,
             discount: 0,
+            categories: [],
+            isLoading: false,
         };
     }
 
@@ -43,6 +46,8 @@ class CreateProduct extends Component {
             image: {},
             stock: null,
             discount: null,
+            categories: [],
+            isLoading: false,
         });
     }
 
@@ -247,6 +252,26 @@ class CreateProduct extends Component {
             }
         }
     };
+
+    componentDidMount() {
+        this.fetchAllData();
+    }
+
+    fetchAllData = async () => {
+        await axios
+            .get(`${apiCategory}`)
+            .then((res) => {
+                const dataCategories = res.data.data;
+                this.setState({
+                    categories: dataCategories,
+                    isLoading: true,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
     render() {
         return (
             <div
@@ -260,140 +285,155 @@ class CreateProduct extends Component {
                     minWidth: 600,
                 }}
             >
-                <div className="col-9">
-                    <h3>新製品を作成</h3>
-                    <form
-                        className="form-wrap"
-                        onSubmit={this.handleFormSubmit}
-                    >
-                        <div className="form-group file-input">
-                            <button
-                                type="button"
-                                className="btn btn-success"
-                                onClick={this.onBtnClick}
-                            >
-                                画像を選択 ...
-                            </button>
-                            <input
-                                id="file"
-                                type="file"
-                                className="upload-input"
-                                ref={this.fileRef}
-                                accept="image/*"
-                                onChange={this.handleFileChange}
-                            />
-                        </div>
-                        {this.state.image_link ? (
-                            <div className="img-container">
-                                <img
-                                    src={`${this.state.image_link}`}
-                                    alt="productImg"
-                                    className="itemImg"
+                {this.state.isLoading ? (
+                    <div className="col-9">
+                        <h3>新製品を作成</h3>
+                        <form
+                            className="form-wrap"
+                            onSubmit={this.handleFormSubmit}
+                        >
+                            <div className="form-group file-input">
+                                <button
+                                    type="button"
+                                    className="btn btn-success"
+                                    onClick={this.onBtnClick}
+                                >
+                                    画像を選択 ...
+                                </button>
+                                <input
+                                    id="file"
+                                    type="file"
+                                    className="upload-input"
+                                    ref={this.fileRef}
+                                    accept="image/*"
+                                    onChange={this.handleFileChange}
                                 />
                             </div>
-                        ) : null}
-                        <div className="form-group">
-                            <h5>名前</h5>
-                            <input
-                                className="form-control"
-                                placeholder="製品名を入力してください ..."
-                                value={this.state.name}
-                                onChange={this.handleNameChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <h5>説明</h5>
-                            <textarea
-                                className="form-control"
-                                id="exampleFormControlTextarea1"
-                                rows="4"
-                                placeholder="説明を入力してください ..."
-                                value={this.state.content}
-                                onChange={this.handleContentChange}
-                            ></textarea>
-                        </div>
+                            {this.state.image_link ? (
+                                <div className="img-container">
+                                    <img
+                                        src={`${this.state.image_link}`}
+                                        alt="productImg"
+                                        className="itemImg"
+                                    />
+                                </div>
+                            ) : null}
+                            <div className="form-group">
+                                <h5>名前</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="製品名を入力してください ..."
+                                    value={this.state.name}
+                                    onChange={this.handleNameChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <h5>説明</h5>
+                                <textarea
+                                    className="form-control"
+                                    id="exampleFormControlTextarea1"
+                                    rows="4"
+                                    placeholder="説明を入力してください ..."
+                                    value={this.state.content}
+                                    onChange={this.handleContentChange}
+                                ></textarea>
+                            </div>
 
-                        <div className="form-group">
-                            <h5>カテゴリー</h5>
-                            <select
-                                className="form-control"
-                                name="製品のカテゴリを入力してください..."
-                                value={this.state.category}
-                                onChange={this.handleCategoryChange}
-                            >
-                                <option>カテゴリを選択</option>
-                                <option value="1">春</option>
-                                <option value="2">夏</option>
-                                <option value="3">秋</option>
-                                <option value="4">冬</option>
-                                <option value="5">なんでもいい</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <h5>価格</h5>
-                            <input
-                                className="form-control"
-                                placeholder="価格を入力してください..."
-                                value={this.state.price}
-                                onChange={this.handlePriceChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <h5>数量</h5>
-                            <input
-                                className="form-control"
-                                placeholder="数量を入力してください..."
-                                type="number"
-                                min={1}
-                                value={this.state.stock}
-                                onChange={this.handleStockChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <h5>割引（％）</h5>
-                            <input
-                                className="form-control"
-                                placeholder="割引を入力してください..."
-                                value={this.state.discount}
-                                type="number"
-                                min={0}
-                                onChange={this.handleDiscountChange.bind(this)}
-                            />
-                        </div>
-                        <div className="form-group"></div>
-                        {this.state.errormessage ? (
-                            <div className="alert alert-danger" role="alert">
-                                {this.state.errormessage}
+                            <div className="form-group">
+                                <h5>カテゴリー</h5>
+                                <select
+                                    className="form-control"
+                                    name="製品のカテゴリを入力してください..."
+                                    value={this.state.category}
+                                    onChange={this.handleCategoryChange}
+                                >
+                                    <option>カテゴリを選択</option>
+                                    {this.state.categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
-                        ) : null}
-                        {this.state.successmessage ? (
-                            <div className="alert alert-danger" role="alert">
-                                {this.state.successmessage}
+                            <div className="form-group">
+                                <h5>価格</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="価格を入力してください..."
+                                    value={this.state.price}
+                                    onChange={this.handlePriceChange}
+                                />
                             </div>
-                        ) : null}
-                        <div
-                            className="form-group"
-                            style={{
-                                textAlign: `center`,
-                            }}
-                        >
-                            <input
-                                type="submit"
-                                className="btn btn-primary"
-                                value="作成"
-                                style={{ marginRight: 10 }}
-                            />
-                            <button
-                                type="button"
-                                className="btn btn-success"
-                                onClick={this.handleReturnHomePage}
-                                style={{ marginLeft: 10 }}
+                            <div className="form-group">
+                                <h5>数量</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="数量を入力してください..."
+                                    type="number"
+                                    min={1}
+                                    value={this.state.stock}
+                                    onChange={this.handleStockChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <h5>割引（％）</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="割引を入力してください..."
+                                    value={this.state.discount}
+                                    type="number"
+                                    min={0}
+                                    onChange={this.handleDiscountChange.bind(
+                                        this
+                                    )}
+                                />
+                            </div>
+                            <div className="form-group"></div>
+                            {this.state.errormessage ? (
+                                <div
+                                    className="alert alert-danger"
+                                    role="alert"
+                                >
+                                    {this.state.errormessage}
+                                </div>
+                            ) : null}
+                            {this.state.successmessage ? (
+                                <div
+                                    className="alert alert-danger"
+                                    role="alert"
+                                >
+                                    {this.state.successmessage}
+                                </div>
+                            ) : null}
+                            <div
+                                className="form-group"
+                                style={{
+                                    textAlign: `center`,
+                                }}
                             >
-                                キャンセル
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                                <input
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    value="作成"
+                                    style={{ marginRight: 10, width: "20%" }}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-success"
+                                    onClick={this.handleReturnHomePage}
+                                    style={{ marginLeft: 10, width: "20%" }}
+                                >
+                                    キャンセル
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                ) : (
+                    <Loading />
+                )}
             </div>
         );
     }

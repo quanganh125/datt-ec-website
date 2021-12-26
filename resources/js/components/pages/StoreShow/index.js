@@ -2,7 +2,7 @@ import { event } from "jquery";
 import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
-import { apiShop, apiStorage } from "../../constant";
+import { apiShop, apiStorage, headers, apiGetShop } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "../../utils/cookie";
 import storage from "../../services/firebaseConfig";
@@ -19,6 +19,7 @@ class ShowStoreProfile extends Component {
             logo_url: "",
             id: this.props.match.params.id,
             isLoading: false,
+            shopIdUser: null,
         };
     }
 
@@ -37,6 +38,7 @@ class ShowStoreProfile extends Component {
             .catch((error) => {
                 console.log(error);
             });
+        this.fetchUserShopId();
     }
 
     componentWillUnmount() {
@@ -50,6 +52,7 @@ class ShowStoreProfile extends Component {
             logo_url: "",
             id: null,
             isLoading: false,
+            shopIdUser: null,
         });
     }
 
@@ -77,6 +80,26 @@ class ShowStoreProfile extends Component {
             successmessage: "",
         });
         window.location.href = `/store/${this.state.id}/edit`;
+    };
+
+    fetchUserShopId = async () => {
+        try {
+            await axios
+                .get(`${apiGetShop}`, {
+                    headers: headers,
+                })
+                .then((res) => {
+                    const currentShopId = res.data; //shop cua nguoi dung dang xem san pham
+                    this.setState({
+                        shopIdUser: currentShopId,
+                    });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     render() {
@@ -151,19 +174,21 @@ class ShowStoreProfile extends Component {
                                     textAlign: "center",
                                 }}
                             >
-                                <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    onClick={this.handleGoToEdit}
-                                    style={{ margin: 5 }}
-                                >
-                                    編集
-                                </button>
+                                {this.state.id == this.state.shopIdUser ? (
+                                    <button
+                                        type="button"
+                                        className="btn btn-success"
+                                        onClick={this.handleGoToEdit}
+                                        style={{ margin: 5, width: "20%" }}
+                                    >
+                                        編集
+                                    </button>
+                                ) : null}
                                 <button
                                     type="button"
                                     className="btn btn-primary"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ margin: 5 }}
+                                    style={{ margin: 5, width: "20%" }}
                                 >
                                     ホームに戻る
                                 </button>

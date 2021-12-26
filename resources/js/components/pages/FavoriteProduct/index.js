@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./favorite.scss";
-import ProductList from "../../layouts/ProductList";
 import { apiProduct, paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";

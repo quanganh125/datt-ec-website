@@ -14,6 +14,8 @@ import {
 import { fetchShopId, setShopId } from "./../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiGetShop } from "./../../constant/index";
+import CloseMenu from "../../../assets/images/close.png";
+import MenuIcon from "../../../assets/images/menu.png";
 
 var lastScrollTop = 0;
 
@@ -26,6 +28,8 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
     const [isScroll, setIsScroll] = useState({
         onTop: false,
     });
+
+    const handleClickMobile = () => setClick(!click);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -174,10 +178,49 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                                             ウィッシュリスト
                                         </a>
                                     </li>
+                                    {click ? (
+                                        <li className="option">
+                                            <a
+                                                className="underline"
+                                                onClick={() => logout()}
+                                            >
+                                                サインアウト
+                                            </a>
+                                        </li>
+                                    ) : null}
                                 </>
-                            ) : null}
+                            ) : (
+                                <>
+                                    <li
+                                        className="option mobile-option"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        <a href="/login" className="underline">
+                                            ログイン
+                                        </a>
+                                    </li>
+                                    <li
+                                        className="option mobile-option"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        <a
+                                            href="/register"
+                                            className="underline"
+                                        >
+                                            サインアップ
+                                        </a>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </div>
+                </div>
+                <div className="mobile-menu" onClick={handleClickMobile}>
+                    {click ? (
+                        <i className="fas fa-times fa-2x menu-icon"></i>
+                    ) : (
+                        <i className="fas fa-bars fa-2x menu-icon"></i>
+                    )}
                 </div>
                 {!loginState ? (
                     <ul className="signin-up">
