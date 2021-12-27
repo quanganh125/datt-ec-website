@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
 import React, { Component } from "react";
 import "./sideBar.scss";
+import { apiCategory } from "../../constant";
 
 class SideBar extends Component {
     constructor(props) {
@@ -11,21 +11,44 @@ class SideBar extends Component {
             is_discount_selected: "",
             min_price: "",
             max_price: "",
+            categories: [],
+            validateNofi: "",
         };
-    };
+    }
 
     isPositiveInteger = (number) => {
         return /^\+?\d+$/.test(number);
     };
 
     handleSubmit = () => {
-        if (this.state.min_price && !this.isPositiveInteger(this.state.min_price)) {
-            toast.error("最小値を正の数で入力してください");
-        } else if (this.state.max_price && !this.isPositiveInteger(this.state.max_price)) {
-            toast.error("最大値を正の数で入力してください");
-        } else if (this.state.min_price && this.state.max_price && this.state.max_price <= this.state.min_price) {
-            toast.error("最小値よりも大きい最大値を入力してください");
-        } else this.props.onFilterSubmit(this.state); 
+        if (
+            this.state.min_price &&
+            !this.isPositiveInteger(this.state.min_price)
+        ) {
+            this.setState({
+                validateNofi: "最小値を正の数で入力してください",
+            });
+        } else if (
+            this.state.max_price &&
+            !this.isPositiveInteger(this.state.max_price)
+        ) {
+            this.setState({
+                validateNofi: "最大値を正の数で入力してください",
+            });
+        } else if (
+            this.state.min_price &&
+            this.state.max_price &&
+            Number(this.state.max_price) <= Number(this.state.min_price)
+        ) {
+            this.setState({
+                validateNofi: "最小値よりも大きい最大値を入力してください",
+            });
+        } else {
+            this.setState({
+                validateNofi: "",
+            });
+            this.props.onFilterSubmit(this.state);
+        }
     };
 
     handleCategoryChange = (event) => {
@@ -58,6 +81,24 @@ class SideBar extends Component {
         });
     };
 
+    fetchCategory = async () => {
+        await axios
+            .get(`${apiCategory}`)
+            .then((res) => {
+                const dataCategories = res.data.data;
+                this.setState({
+                    categories: dataCategories,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    componentDidMount() {
+        this.fetchCategory();
+    }
+
     render() {
         return (
             <div id="sideBarContainer">
@@ -87,11 +128,14 @@ class SideBar extends Component {
                                     onChange={this.handleCategoryChange}
                                 >
                                     <option value="">カテゴリ別</option>
-                                    <option value="1">春</option>
-                                    <option value="2">夏</option>
-                                    <option value="3">秋</option>
-                                    <option value="4">冬</option>
-                                    <option value="5">何でもいい</option>
+                                    {this.state.categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
@@ -147,6 +191,11 @@ class SideBar extends Component {
                             </div>
                         </div>
                     </div>
+                    {this.state.validateNofi != "" ? (
+                        <span className="validate-nofication">
+                            {this.state.validateNofi}
+                        </span>
+                    ) : null}
                 </div>
             </div>
         );

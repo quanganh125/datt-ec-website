@@ -110,23 +110,43 @@ export default function Home() {
                     );
                 })
                 .sort(function (a, b) {
-                    switch(filterData.sort_option) {
+                    switch (filterData.sort_option) {
                         case "1":
-                            var a_last_price = a.price * (100-a.discount)/100;
-                            var b_last_price = b.price * (100-b.discount)/100;
-                            return (a_last_price < b_last_price) ? 1 : ((b_last_price < a_last_price) ? -1 : 0);
-                          break;
+                            var a_last_price =
+                                (a.price * (100 - a.discount)) / 100;
+                            var b_last_price =
+                                (b.price * (100 - b.discount)) / 100;
+                            return a_last_price < b_last_price
+                                ? 1
+                                : b_last_price < a_last_price
+                                ? -1
+                                : 0;
+                            break;
                         case "2":
-                            var a_last_price = a.price * (100-a.discount)/100;
-                            var b_last_price = b.price * (100-b.discount)/100;
-                            return (a_last_price > b_last_price) ? 1 : ((b_last_price > a_last_price) ? -1 : 0);
-                          break;
+                            var a_last_price =
+                                (a.price * (100 - a.discount)) / 100;
+                            var b_last_price =
+                                (b.price * (100 - b.discount)) / 100;
+                            return a_last_price > b_last_price
+                                ? 1
+                                : b_last_price > a_last_price
+                                ? -1
+                                : 0;
+                            break;
                         case "4":
-                            return (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0);
-                          break;
+                            return a.created_at < b.created_at
+                                ? 1
+                                : b.created_at < a.created_at
+                                ? -1
+                                : 0;
+                            break;
                         default:
-                            return (a.recommend_mark < b.recommend_mark) ? 1 : ((b.recommend_mark < a.recommend_mark) ? -1 : 0);
-                      }
+                            return a.recommend_mark < b.recommend_mark
+                                ? 1
+                                : b.recommend_mark < a.recommend_mark
+                                ? -1
+                                : 0;
+                    }
                 })
         );
     };
