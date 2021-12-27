@@ -5,7 +5,7 @@
     box-shadow: 0px 8px 20px 0px rgb(0 0 0 / 15%);
     box-sizing: border-box;
     display: block;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     line-height: 1.15;
     max-width: 700px;
     margin: auto;
@@ -20,6 +20,10 @@
         box-sizing: border-box;
     }
 
+    .validate-nofication {
+        color: red;
+    }
+
     .row {
         display: flex;
         -ms-flex-pack: justify;
@@ -31,14 +35,15 @@
     }
 }
 
-select, input {
+select,
+input {
     width: 100%;
     padding: 10px 20px;
     border-radius: 6px;
     font-size: 14px;
     color: #666;
     background: #fff;
-    font-family: poppins,arial,helvetica neue,sans-serif;
+    font-family: poppins, arial, helvetica neue, sans-serif;
 }
 
 select {

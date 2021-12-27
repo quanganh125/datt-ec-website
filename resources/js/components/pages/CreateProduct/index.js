@@ -347,7 +347,7 @@ class CreateProduct extends Component {
                                     value={this.state.category}
                                     onChange={this.handleCategoryChange}
                                 >
-                                    <option>カテゴリを選択</option>
+                                    <option>カテゴリ別</option>
                                     {this.state.categories.map((category) => (
                                         <option
                                             key={category.id}

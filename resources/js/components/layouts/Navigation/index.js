@@ -14,8 +14,6 @@ import {
 import { fetchShopId, setShopId } from "./../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiGetShop } from "./../../constant/index";
-import CloseMenu from "../../../assets/images/close.png";
-import MenuIcon from "../../../assets/images/menu.png";
 
 var lastScrollTop = 0;
 
