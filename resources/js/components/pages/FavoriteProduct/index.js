@@ -36,12 +36,14 @@ export default function History() {
                     <h3>
                         <b>ウィッシュリスト</b>
                     </h3>
-                    <Pagination
-                        dataItems={all_favorite_product_datas}
-                        itemsPerPage={paginate_count}
-                        type={"history-product"}
-                    />
-                    {all_favorite_product_datas.length == 0 && (
+                    {all_favorite_product_datas.length > 0 && (
+                        <Pagination
+                            dataItems={all_favorite_product_datas}
+                            itemsPerPage={paginate_count}
+                            type={"history-product"}
+                        />
+                    )}
+                    {!all_favorite_product_datas.length && (
                         <div className="nonProduct">
                             <img
                                 src="https://www.polonomicho.com/images/no-product.png"

@@ -1,0 +1,60 @@
+@import "../../../../sass/common";
+@import "../../../../sass/variables";
+
+.event-container {
+    margin-bottom: 20px;
+    @include width-container();
+    @include page-frame();
+    margin-top: 40px;
+
+    .top-event {
+        @include deleteSpace();
+    }
+
+    .discount-event {
+    }
+}
+
+.image-event {
+    width: 100%;
+}
+
+.item-manager-container {
+    width: 100%;
+    height: auto;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #dfe1e3;
+    border-radius: 5px;
+    position: relative;
+    justify-content: left;
+    align-items: center;
+    display: flex;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.item-manager-image {
+    .itemImg {
+        padding: 5px;
+        width: 100px;
+        height: 100px;
+    }
+}
+.item-manager-content {
+    h6 {
+        color: red;
+    }
+}
+
+.coupon-clipboard {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    i {
+        color: grey;
+    }
+    // &:hover {
+    //     cursor: pointer;
+    // }
+}

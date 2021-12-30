@@ -49,13 +49,15 @@ export default function ProductManager() {
                             </Link>
                         </div>
                     </div>
-                    <div className="product-list">
-                        <Pagination
-                            dataItems={all_shop_product_datas}
-                            itemsPerPage={8}
-                            type={"manager-product"}
-                        />
-                    </div>
+                    {all_shop_product_datas.length > 0 && (
+                        <div className="product-list">
+                            <Pagination
+                                dataItems={all_shop_product_datas}
+                                itemsPerPage={8}
+                                type={"manager-product"}
+                            />
+                        </div>
+                    )}
                     {!all_shop_product_datas.length && (
                         <div className="nonProduct">
                             <img

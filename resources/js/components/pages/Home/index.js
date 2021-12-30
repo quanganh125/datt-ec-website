@@ -7,6 +7,7 @@ import { apiProduct, paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 import SideBar from "../../layouts/SideBar";
+import { Link } from "react-router-dom";
 import { set } from "lodash";
 
 export default function Home() {
@@ -157,28 +158,91 @@ export default function Home() {
         filterByFilterData(filterData);
     };
 
+    const onClickTab = (event, tabName) => {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(
+                " active",
+                ""
+            );
+        }
+        document.getElementById(tabName).style.display = "block";
+        event.currentTarget.className += " active";
+    };
+
     return (
         <div id="homeContainer">
-            <h3 className="mb-5">
-                <b>レコメンデーション</b>
-            </h3>
-            <SideBar onFilterSubmit={handleFilterSubmit} />
+            <div className="top-banner">
+                <img
+                    src="https://icms-image.slatic.net/images/ims-web/6a239f08-db37-457f-bc7a-8129ea7f9967.jpg"
+                    alt="top-event"
+                    className="image-banner"
+                />
+            </div>
             {isLoading ? (
                 <>
-                    <Pagination
-                        dataItems={displayProducts}
-                        itemsPerPage={paginate_count}
-                        type={"home-product"}
-                    />
-                    {!product_recommend_datas.length && (
-                        <div className="nonProduct">
+                    <div className="tab">
+                        <button
+                            className="tablinks active"
+                            onClick={(event) => onClickTab(event, "all")}
+                        >
+                            全て
+                        </button>
+                        <button
+                            className="tablinks"
+                            onClick={(event) => onClickTab(event, "recommend")}
+                        >
+                            レコメンデーション
+                        </button>
+                        <button
+                            className="tablinks"
+                            onClick={(event) => onClickTab(event, "selling")}
+                        >
+                            ベストセラー
+                        </button>
+                    </div>
+
+                    <div
+                        id="all"
+                        className="tabcontent"
+                        style={{ display: "block" }}
+                    >
+                        <SideBar onFilterSubmit={handleFilterSubmit} />
+                        <Pagination
+                            dataItems={displayProducts}
+                            itemsPerPage={paginate_count}
+                            type={"home-product"}
+                        />
+                        {!product_recommend_datas.length && (
+                            <div className="nonProduct">
+                                <img
+                                    src="https://www.polonomicho.com/images/no-product.png"
+                                    alt="product not found"
+                                    className="product-not-found"
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                    <div id="recommend" className="tabcontent"></div>
+
+                    <div id="selling" className="tabcontent"></div>
+
+                    <Link to="/event">
+                        <div className="event">
                             <img
-                                src="https://www.polonomicho.com/images/no-product.png"
-                                alt="product not found"
-                                className="product-not-found"
+                                src="https://cf.shopee.vn/file/d61120acdb4a7e883f6f9adf1e1f50fd"
+                                alt="event"
+                                width={80}
+                                height={80}
                             />
                         </div>
-                    )}
+                    </Link>
                 </>
             ) : (
                 <Loading />

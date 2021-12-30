@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import React, { useState, useEffect, Fragment } from "react";
 import Home from "./pages/Home";
+import Event from "./pages/Event";
 import FavoriteProduct from "./pages/FavoriteProduct";
 import HistoryProduct from "./pages/HistoryProduct";
 import Signin from "./pages/Signin";
@@ -179,6 +180,13 @@ export default function App() {
                         }}
                     />
                     <Route exact path="/store/:id" component={ShowStore} />
+                    <Route
+                        exact
+                        path="/event"
+                        render={() => {
+                            return <Event />;
+                        }}
+                    />
                     <Route
                         exact
                         path="/:nothing"
