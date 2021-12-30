@@ -4,6 +4,19 @@ $font-default: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
     Helvetica, Arial, sans-serif;
 $font-bold: "HelveticaNeue-Medium", "Helvetica Neue Medium";
 
+.discount-code-form {
+    width: 50%;
+    float: right;
+    padding-bottom: 10px;
+    .input-code {
+        width: 75%;
+        margin-right: 5%;
+    }
+    .apply-code {
+        width: 20%;
+        height: 46px;
+    }
+}
 // /* Global "table" column settings */
 .product-image-cart {
     float: left;
@@ -115,7 +128,7 @@ label {
 
     .product-quantity-cart {
         input {
-            width: 40px;
+            width: 100%;
         }
     }
 
@@ -136,6 +149,27 @@ label {
 
 /* Totals section */
 .totals-cart {
+    .discount-item-cart {
+        float: right;
+        clear: both;
+        width: 100%;
+        margin-bottom: 5px;
+        color: grey;
+        font-size: 15px;
+        label {
+            float: left;
+            clear: both;
+            width: 79%;
+            text-align: right;
+            color: grey;
+        }
+
+        .discount-value-cart {
+            float: right;
+            width: 21%;
+            text-align: right;
+        }
+    }
     .totals-item-cart {
         float: right;
         clear: both;

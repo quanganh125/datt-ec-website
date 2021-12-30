@@ -30,6 +30,10 @@ export default function Favorite() {
         }
     }, [isLoading, all_history_product_datas]);
 
+    const toDetail = (id) => {
+        window.location.href = `/product/${id}/detail`;
+    };
+
     return (
         <div id="historyContainer">
             {isLoading ? (
@@ -50,7 +54,11 @@ export default function Favorite() {
                         <tbody>
                             {all_history_product_datas &&
                                 all_history_product_datas.map((data, index) => (
-                                    <tr key={index}>
+                                    <tr
+                                        key={index}
+                                        onClick={() => toDetail(data.id)}
+                                        className="item-history"
+                                    >
                                         <td data-label="商品名">
                                             {data.product_name}
                                         </td>

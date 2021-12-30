@@ -152,9 +152,9 @@ class EditProduct extends React.Component {
                     errormessage: "説明をアップロードしてください",
                 });
             } else {
-                if (!this.state.price) {
+                if (!this.state.price || this.state.price < 0) {
                     this.setState({
-                        errormessage: "価格をアップロードしてください",
+                        errormessage: "価格フィールドに数値を入力してください",
                     });
                 } else {
                     if (isNaN(this.state.price)) {

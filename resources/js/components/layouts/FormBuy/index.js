@@ -25,6 +25,9 @@ export default function FormBuy({
     const [total, setTotal] = useState(price);
     const [quantily, setQuantily] = useState(1);
     const [buyEnable, setBuyEnable] = useState(true);
+    const [discountCode, setDiscountCode] = useState("");
+    const [discountPercent, setDiscountPercent] = useState(0);
+    const [discountValue, setDiscountValue] = useState(0);
     const [validateNofi, setValidateNofi] = useState("");
     const handleClickOpen = () => {
         setOpen(true);
@@ -40,7 +43,8 @@ export default function FormBuy({
             product_id: product_id,
             category_id: category_id,
             quantity: quantily,
-            price_at_purchase_time: total,
+            price_at_purchase_time:
+                total - discountValue >= 0 ? total - discountValue : 0,
         };
         try {
             await axios
@@ -102,6 +106,18 @@ export default function FormBuy({
         }
     };
 
+    const onChangeCode = (event) => {
+        let code = event.target.value;
+        setDiscountCode(code);
+    };
+
+    const onSubmitDiscountCode = (event) => {
+        //api get discount
+        let percent = 20;
+        setDiscountPercent(percent);
+        setDiscountValue(Math.round(total * (percent / 100)));
+    };
+
     return (
         <div>
             <Dialog
@@ -151,7 +167,9 @@ export default function FormBuy({
                                 <input
                                     type="number"
                                     defaultValue={1}
+                                    name="quantity"
                                     min="1"
+                                    className="input-quatity"
                                     onChange={(event) =>
                                         onChangeQuantity(event)
                                     }
@@ -166,14 +184,43 @@ export default function FormBuy({
                                 {validateNofi}
                             </span>
                         </div>
+                        <div className="discount-code-form">
+                            <h6>割引コード</h6>
+                            <input
+                                type="text"
+                                name="code"
+                                className="input-code"
+                                onChange={(event) => onChangeCode(event)}
+                            />
+                            <Button
+                                onClick={(event) => onSubmitDiscountCode(event)}
+                                color="primary"
+                                variant="contained"
+                                className="apply-code"
+                            >
+                                申し込み
+                            </Button>
+                        </div>
                         <div className="totals-cart">
+                            <div className="discount-item-cart">
+                                <label>商品の金額</label>
+                                <div className="discount-value-cart">
+                                    {total}円
+                                </div>
+                            </div>
+                            <div className="discount-item-cart">
+                                <label>割引(-{discountPercent}%)</label>
+                                <div className="discount-value-cart">
+                                    -{discountValue}円
+                                </div>
+                            </div>
                             <div className="totals-item-cart totals-item-total-cart">
                                 <label>合計</label>
                                 <div
                                     className="totals-value-cart"
                                     id="cart-total-cart"
                                 >
-                                    {total}
+                                    {total - discountValue}
                                 </div>
                             </div>
                         </div>
