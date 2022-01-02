@@ -9,6 +9,7 @@ import Loading from "../../layouts/Loading";
 import SideBar from "../../layouts/SideBar";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
+import ProductNotFound from "../../../assets/images/Product Not Found.png";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -221,7 +222,7 @@ export default function Home() {
                         {!product_recommend_datas.length && (
                             <div className="nonProduct">
                                 <img
-                                    src="https://www.polonomicho.com/images/no-product.png"
+                                    src={ProductNotFound}
                                     alt="product not found"
                                     className="product-not-found"
                                 />

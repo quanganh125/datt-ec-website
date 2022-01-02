@@ -12,6 +12,8 @@ export const apiStorage = `${api}/api/storage`;
 export const apiGetShop = `${api}/api/shop/user`;
 export const apiFavorite = `${api}/api/favorite`;
 export const apiHistory = `${api}/api/history`;
+export const apiEvent = `${api}/api/event`;
+export const apiCoupon = `${api}/api/coupon`;
 export const paginate_count = 8;
 export const headers = {
     "Content-type": "application/json",
