@@ -17,11 +17,12 @@ class CategorySeeder extends Seeder
         DB::table('categories')->delete();
 
         $categories = [
-            ['id' => 1, 'name' => 'Spring'],
-            ['id' => 2, 'name' => 'Summer'],
-            ['id' => 3, 'name' => 'Autumn'],
-            ['id' => 4, 'name' => 'Winter'],
-            ['id' => 5, 'name' => 'Whatever']
+            ['id' => 1, 'name' => 'アウター'],
+            ['id' => 2, 'name' => 'トップス'],
+            ['id' => 3, 'name' => 'ボトムス'],
+            ['id' => 4, 'name' => 'インナー・下着'],
+            ['id' => 5, 'name' => 'スポーツユーティリティウェア'],
+            ['id' => 6, 'name' => 'ルーム・ホーム'],
         ];
 
         DB::table('categories')->insert($categories);
