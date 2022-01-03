@@ -10,6 +10,9 @@ import SideBar from "../../layouts/SideBar";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
 import ProductNotFound from "../../../assets/images/Product Not Found.png";
+import banner1 from "../../../assets/images/homeBanner1.jpg";
+import banner2 from "../../../assets/images/homeBanner2.jpg";
+import banner3 from "../../../assets/images/homeBanner3.jpg";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -178,13 +181,6 @@ export default function Home() {
 
     return (
         <div id="homeContainer">
-            {/* <div className="top-banner">
-                <img
-                    src="https://icms-image.slatic.net/images/ims-web/6a239f08-db37-457f-bc7a-8129ea7f9967.jpg"
-                    alt="top-event"
-                    className="image-banner"
-                />
-            </div> */}
             <div id="demo" className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-indicators">
                     <button
@@ -208,7 +204,7 @@ export default function Home() {
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <img
-                            src="https://s3-ap-southeast-1.amazonaws.com/storage.adpia.vn/affiliate_document/multi/shopee-brand-bonus-sale-tet-2021.jpg"
+                            src={banner1}
                             alt="Los Angeles"
                             className="d-block image-banner"
                         />
@@ -223,7 +219,7 @@ export default function Home() {
                     </div>
                     <div className="carousel-item">
                         <img
-                            src="https://s3-ap-southeast-1.amazonaws.com/storage.adpia.vn/affiliate_document/multi/shopee-khung-gio-sa%CC%86n-sale-2021.jpg"
+                            src={banner2}
                             alt="Chicago"
                             className="d-block image-banner"
                         />
@@ -236,7 +232,7 @@ export default function Home() {
                     </div>
                     <div className="carousel-item">
                         <img
-                            src="https://s3-ap-southeast-1.amazonaws.com/storage.adpia.vn/affiliate_document/multi/15-dieu-khong-the-bo-lo-shopee-adpia-0.jpg"
+                            src={banner3}
                             alt="New York"
                             className="d-block image-banner"
                         />
