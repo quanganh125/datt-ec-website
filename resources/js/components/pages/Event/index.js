@@ -8,6 +8,8 @@ import {
     fetchAllCouponEvent,
     fetchEvent,
 } from "../../redux/actions/EventActions";
+import eventBanner from "../../../assets/images/eventBanner.jpg";
+import couponBanner from "../../../assets/images/couponBanner.png";
 
 export default function Event() {
     const dispatch = useDispatch();
@@ -47,14 +49,14 @@ export default function Event() {
                     <div className="top-event">
                         {/* <h3>{event_datas.description}</h3> */}
                         <img
-                            src="https://bota.vn/wp-content/uploads/2019/01/bai-web-ko-duyet-01.jpg"
+                            src={eventBanner}
                             alt="top-event"
                             className="image-event"
                         />
                     </div>
                     <div className="discount-event">
                         <img
-                            src="https://cf.shopee.vn/file/3c3a2fbf352bfe469df6ca809dedfd48"
+                            src={couponBanner}
                             alt="top-event"
                             className="image-event"
                         />
