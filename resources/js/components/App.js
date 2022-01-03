@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setShowNav } from "../components/redux/actions/userActions";
 import ProductDetail from "./pages/ProductDetail";
 import Error from "./pages/Error";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App() {
     const dispatch = useDispatch();

@@ -113,13 +113,23 @@ export default function FormBuy({
     };
 
     const onSubmitDiscountCode = async () => {
+        if (!discountCode) {
+            setValidateCode("割引コードを入力していません");
+            return;
+        }
         try {
             await axios
                 .get(`${apiCoupon}/discount/${discountCode}`)
                 .then((res) => {
-                    let percent = res.data[0].discount;
-                    setDiscountPercent(percent);
-                    setDiscountValue(Math.round(total * (percent / 100)));
+                    if (res.data[0]) {
+                        let percent = res.data[0].discount;
+                        setDiscountPercent(percent);
+                        setDiscountValue(Math.round(total * (percent / 100)));
+                    } else {
+                        setValidateCode(
+                            "割引コードが無効であるか、有効期限が切れています"
+                        );
+                    }
                 });
         } catch (error) {
             return { statusCode: 500, body: error.toString() };
@@ -208,6 +218,7 @@ export default function FormBuy({
                             >
                                 申し込み
                             </Button>
+                            <p style={{ color: "red" }}>{validateCode}</p>
                         </div>
                         <div className="totals-cart">
                             <div className="discount-item-cart">

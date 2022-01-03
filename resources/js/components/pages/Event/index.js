@@ -36,7 +36,6 @@ export default function Event() {
 
     useEffect(() => {
         if (event_datas && coupon_datas) {
-            console.log(event_datas, coupon_datas);
             setIsLoading(true);
         }
     }, [isLoading, event_datas, coupon_datas]);
@@ -46,12 +45,12 @@ export default function Event() {
             {isLoading ? (
                 <>
                     <div className="top-event">
+                        {/* <h3>{event_datas.description}</h3> */}
                         <img
-                            src="https://cf.shopee.vn/file/bfddfdf9437535f6b614cd86a0b94c03"
+                            src="https://bota.vn/wp-content/uploads/2019/01/bai-web-ko-duyet-01.jpg"
                             alt="top-event"
                             className="image-event"
                         />
-                        <h3>{event_datas.description}</h3>
                     </div>
                     <div className="discount-event">
                         <img
@@ -79,7 +78,7 @@ export default function Event() {
                                                     className="item-manager-image"
                                                     xs={6}
                                                     md={5}
-                                                    lg={3}
+                                                    lg={4}
                                                     onClick={() => nextDetail()}
                                                 >
                                                     <img
@@ -93,13 +92,14 @@ export default function Event() {
                                                     className="item-manager-content"
                                                     xs={6}
                                                     md={7}
-                                                    lg={9}
+                                                    lg={8}
                                                     onClick={() => nextDetail()}
                                                 >
-                                                    <h6>Coupon: {data.code}</h6>
+                                                    <h6>
+                                                        クーポン: {data.code}
+                                                    </h6>
                                                     <p>
-                                                        Discount:{" "}
-                                                        {data.discount}%
+                                                        割引: {data.discount}%
                                                     </p>
                                                 </Grid>
                                                 <div
