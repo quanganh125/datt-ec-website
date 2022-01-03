@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { headers, apiHistory, apiProduct } from "./../../constant";
+import { headers, apiHistory, apiProduct, apiCoupon } from "./../../constant";
 
 export default function FormBuy({
     isOpen,
@@ -29,6 +29,7 @@ export default function FormBuy({
     const [discountPercent, setDiscountPercent] = useState(0);
     const [discountValue, setDiscountValue] = useState(0);
     const [validateNofi, setValidateNofi] = useState("");
+    const [validateCode, setValidateCode] = useState("");
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -111,11 +112,28 @@ export default function FormBuy({
         setDiscountCode(code);
     };
 
-    const onSubmitDiscountCode = (event) => {
-        //api get discount
-        let percent = 20;
-        setDiscountPercent(percent);
-        setDiscountValue(Math.round(total * (percent / 100)));
+    const onSubmitDiscountCode = async () => {
+        if (!discountCode) {
+            setValidateCode("割引コードを入力していません");
+            return;
+        }
+        try {
+            await axios
+                .get(`${apiCoupon}/discount/${discountCode}`)
+                .then((res) => {
+                    if (res.data[0]) {
+                        let percent = res.data[0].discount;
+                        setDiscountPercent(percent);
+                        setDiscountValue(Math.round(total * (percent / 100)));
+                    } else {
+                        setValidateCode(
+                            "割引コードが無効であるか、有効期限が切れています"
+                        );
+                    }
+                });
+        } catch (error) {
+            return { statusCode: 500, body: error.toString() };
+        }
     };
 
     return (
@@ -200,6 +218,7 @@ export default function FormBuy({
                             >
                                 申し込み
                             </Button>
+                            <p style={{ color: "red" }}>{validateCode}</p>
                         </div>
                         <div className="totals-cart">
                             <div className="discount-item-cart">

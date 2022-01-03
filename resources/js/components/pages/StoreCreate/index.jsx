@@ -271,13 +271,13 @@ class StoreProfile extends Component {
                                 type="submit"
                                 className="btn btn-primary"
                                 value="作成"
-                                style={{ margin: 5 }}
+                                style={{ margin: 5, width: "20%" }}
                             />
                             <button
                                 type="button"
                                 className="btn btn-success"
                                 onClick={this.handleReturnHomePage}
-                                style={{ margin: 5 }}
+                                style={{ margin: 5, width: "20%" }}
                             >
                                 キャンセル
                             </button>

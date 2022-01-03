@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
+import ProductNotFound from "../../../assets/images/Product Not Found.png";
 
 export default function ProductManager() {
     const dispatch = useDispatch();
@@ -61,7 +62,7 @@ export default function ProductManager() {
                     {!all_shop_product_datas.length && (
                         <div className="nonProduct">
                             <img
-                                src="https://www.polonomicho.com/images/no-product.png"
+                                src={ProductNotFound}
                                 alt="product not found"
                                 className="product-not-found"
                             />

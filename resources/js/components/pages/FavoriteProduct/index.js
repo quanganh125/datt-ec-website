@@ -5,6 +5,7 @@ import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductFavorite } from "../../redux/actions/productActions";
+import ProductNotFound from "../../../assets/images/Product Not Found.png";
 
 export default function History() {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function History() {
                     {!all_favorite_product_datas.length && (
                         <div className="nonProduct">
                             <img
-                                src="https://www.polonomicho.com/images/no-product.png"
+                                src={ProductNotFound}
                                 alt="product not found"
                                 className="product-not-found"
                             />

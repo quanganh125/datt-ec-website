@@ -50,9 +50,14 @@
     }
 }
 
-.top-banner {
-    .image-banner {
-        width: 100%;
+.carousel-inner {
+    .carousel-item {
+        .image-banner {
+            width: 100%;
+        }
+        .title-carousel {
+            background: rgba(0, 0, 0, 0.4);
+        }
     }
 }
 

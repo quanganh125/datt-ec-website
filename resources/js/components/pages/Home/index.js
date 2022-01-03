@@ -9,6 +9,7 @@ import Loading from "../../layouts/Loading";
 import SideBar from "../../layouts/SideBar";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
+import ProductNotFound from "../../../assets/images/Product Not Found.png";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -177,13 +178,95 @@ export default function Home() {
 
     return (
         <div id="homeContainer">
-            <div className="top-banner">
+            {/* <div className="top-banner">
                 <img
                     src="https://icms-image.slatic.net/images/ims-web/6a239f08-db37-457f-bc7a-8129ea7f9967.jpg"
                     alt="top-event"
                     className="image-banner"
                 />
+            </div> */}
+            <div id="demo" className="carousel slide" data-bs-ride="carousel">
+                <div className="carousel-indicators">
+                    <button
+                        type="button"
+                        data-bs-target="#demo"
+                        data-bs-slide-to="0"
+                        className="active"
+                    ></button>
+                    <button
+                        type="button"
+                        data-bs-target="#demo"
+                        data-bs-slide-to="1"
+                    ></button>
+                    <button
+                        type="button"
+                        data-bs-target="#demo"
+                        data-bs-slide-to="2"
+                    ></button>
+                </div>
+
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <img
+                            src="https://s3-ap-southeast-1.amazonaws.com/storage.adpia.vn/affiliate_document/multi/shopee-brand-bonus-sale-tet-2021.jpg"
+                            alt="Los Angeles"
+                            className="d-block image-banner"
+                        />
+                        <div className="carousel-caption title-carousel">
+                            <h3 style={{ color: "white" }}>
+                                多くの魅力的なオファーで新年あけましておめでとうございます
+                            </h3>
+                            <h5 style={{ color: "white" }}>
+                                0円からのご注文で全国送料無料
+                            </h5>
+                        </div>
+                    </div>
+                    <div className="carousel-item">
+                        <img
+                            src="https://s3-ap-southeast-1.amazonaws.com/storage.adpia.vn/affiliate_document/multi/shopee-khung-gio-sa%CC%86n-sale-2021.jpg"
+                            alt="Chicago"
+                            className="d-block image-banner"
+                        />
+                        <div className="carousel-caption title-carousel">
+                            <h3 style={{ color: "white" }}>ゴールデンアワー</h3>
+                            <h5 style={{ color: "white" }}>
+                                時間枠には多くの安い製品があります
+                            </h5>
+                        </div>
+                    </div>
+                    <div className="carousel-item">
+                        <img
+                            src="https://s3-ap-southeast-1.amazonaws.com/storage.adpia.vn/affiliate_document/multi/15-dieu-khong-the-bo-lo-shopee-adpia-0.jpg"
+                            alt="New York"
+                            className="d-block image-banner"
+                        />
+                        <div className="carousel-caption title-carousel">
+                            <h3 style={{ color: "white" }}>見逃せない情報</h3>
+                            <h5 style={{ color: "white" }}>
+                                具体的には、衝撃的な割引プログラム
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#demo"
+                    data-bs-slide="prev"
+                >
+                    <span className="carousel-control-prev-icon"></span>
+                </button>
+                <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#demo"
+                    data-bs-slide="next"
+                >
+                    <span className="carousel-control-next-icon"></span>
+                </button>
             </div>
+
             {isLoading ? (
                 <>
                     <div className="tab">
@@ -221,7 +304,7 @@ export default function Home() {
                         {!product_recommend_datas.length && (
                             <div className="nonProduct">
                                 <img
-                                    src="https://www.polonomicho.com/images/no-product.png"
+                                    src={ProductNotFound}
                                     alt="product not found"
                                     className="product-not-found"
                                 />

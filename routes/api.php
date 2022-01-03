@@ -7,6 +7,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,6 +80,22 @@ Route::group(['prefix' => 'history'], function ($router) {
     Route::get('/user', [HistoryController::class, 'historyOfUser']);
     Route::post('/', [HistoryController::class, 'store']);
     Route::delete('/{id}', [HistoryController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'event'], function ($router) {
+    Route::get('/', [EventController::class, 'index']);
+    Route::get('/{id}', [EventController::class, 'show']);
+    Route::get('/current', [EventController::class, 'eventCurrent']);
+    Route::post('/', [EventController::class, 'store']);
+    Route::delete('/{id}', [EventController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'coupon'], function ($router) {
+    Route::get('/', [CouponController::class, 'index']);
+    Route::get('/discount/{code}', [CouponController::class, 'getDiscount']);
+    Route::get('/event/{id}', [CouponController::class, 'couponOfEvent']);
+    Route::post('/', [CouponController::class, 'store']);
+    Route::delete('/{id}', [CouponController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'storage'], function ($router) {
