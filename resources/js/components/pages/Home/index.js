@@ -265,7 +265,7 @@ export default function Home() {
 
             {isLoading ? (
                 <>
-                    <div className="tab">
+                    <div className="tab sticky">
                         <button
                             className="tablinks active"
                             onClick={(event) => onClickTab(event, "all")}
