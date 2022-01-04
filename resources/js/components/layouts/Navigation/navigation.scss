@@ -130,7 +130,7 @@ a {
 
 .mobile-menu {
     color: "white";
-    display: block;
+    display: none;
     z-index: 10;
 }
 
@@ -167,9 +167,15 @@ a {
         padding-left: 0px;
     }
 
+    .mobile-menu {
+        color: "white";
+        display: block;
+    }
+
     .menu-icon {
         color: #ffffff;
         z-index: 10;
+        display: block;
     }
     .option {
         display: flex;

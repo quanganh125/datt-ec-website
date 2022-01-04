@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./history.scss";
-import ProductList from "../../layouts/ProductList";
 import { useDispatch, useSelector } from "react-redux";
-import { apiProduct, paginate_count } from "../../constant";
-import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 import { fetchProductHistory } from "../../redux/actions/productActions";
 
@@ -17,7 +14,9 @@ export default function Favorite() {
 
     useEffect(() => {
         fetchHistoryProducts();
-        return () => {};
+        return () => {
+            setIsLoading(false);
+        };
     }, []);
 
     const all_history_product_datas = useSelector(
@@ -32,6 +31,11 @@ export default function Favorite() {
 
     const toDetail = (id) => {
         window.location.href = `/product/${id}/detail`;
+    };
+
+    const convertDate = (date) => {
+        let d = new Date(date);
+        return d.toLocaleString("en-US");
     };
 
     return (
@@ -52,6 +56,7 @@ export default function Favorite() {
                             </tr>
                         </thead>
                         <tbody>
+                            {console.log(all_history_product_datas)}
                             {all_history_product_datas &&
                                 all_history_product_datas.map((data, index) => (
                                     <tr
@@ -72,14 +77,15 @@ export default function Favorite() {
                                             {data.price_at_purchase_time}円
                                         </td>
                                         <td data-label="時間">
-                                            {new Intl.DateTimeFormat("en-US", {
+                                            {/* {new Intl.DateTimeFormat("en-US", {
                                                 year: "numeric",
                                                 month: "2-digit",
                                                 day: "2-digit",
                                                 hour: "2-digit",
                                                 minute: "2-digit",
                                                 second: "2-digit",
-                                            }).format(data.create_at)}
+                                            }).format(data.create_at)} */}
+                                            {convertDate(data.created_at)}
                                         </td>
                                     </tr>
                                 ))}

@@ -21,6 +21,8 @@ import {
     EmailIcon,
     EmailShareButton,
 } from "react-share";
+import soldOut from "../../../assets/images/soldout.png";
+
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
@@ -271,9 +273,17 @@ class ProductDetail extends Component {
                                         src={this.state.image_link}
                                         name="image"
                                     />
+                                    {this.state.stock <= 0 ? (
+                                        <img
+                                            src={soldOut}
+                                            alt="sold-out"
+                                            className="sold-out"
+                                        />
+                                    ) : null}
                                 </div>
                                 {getCookie("access_token") &&
-                                this.state.shop_id != this.state.shopIdUser ? (
+                                this.state.shop_id != this.state.shopIdUser &&
+                                this.state.stock > 0 ? (
                                     <div className="buy-product">
                                         <Button
                                             onClick={() => this.onClickBuy()}

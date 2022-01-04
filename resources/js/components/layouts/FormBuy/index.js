@@ -91,13 +91,11 @@ export default function FormBuy({
         if (nquantily == "" || nquantily <= 0) {
             setValidateNofi("数値は0より大きくなければなりません");
             setBuyEnable(false);
-            setTotal(0);
         } else if (nquantily > stock) {
             setValidateNofi(
                 `在庫が残っている商品は${stock}のみです。これ以上購入することはできません`
             );
             setBuyEnable(false);
-            setTotal(0);
         } else {
             setBuyEnable(true);
             setValidateNofi("");
@@ -198,9 +196,14 @@ export default function FormBuy({
                             </div>
                         </div>
                         <div>
-                            <span style={{ color: "red", float: "right" }}>
+                            <p
+                                style={{
+                                    color: "red",
+                                    float: "right",
+                                }}
+                            >
                                 {validateNofi}
-                            </span>
+                            </p>
                         </div>
                         <div className="discount-code-form">
                             <h6>割引コード</h6>
