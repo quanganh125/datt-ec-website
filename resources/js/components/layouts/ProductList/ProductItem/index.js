@@ -120,7 +120,7 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
                         style={{ color: favorite ? "red" : "grey" }}
                     ></i>
                 )}
-                {data.discount && (
+                {data.discount > 0 && (
                     <img src={saleIcon} alt="sale-icon" className="sale-icon" />
                 )}
             </div>
@@ -143,13 +143,13 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
                                 color: "grey",
                             }}
                         >
-                            {data.discount ? (
+                            {data.discount > 0 ? (
                                 <b>{format(data.price)}円</b>
                             ) : null}
                         </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>
-                            {data.discount ? (
+                            {data.discount > 0? (
                                 <b>
                                     <i className="fas fa-arrow-down"></i>
                                     {data.discount}%

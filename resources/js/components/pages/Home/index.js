@@ -10,9 +10,9 @@ import SideBar from "../../layouts/SideBar";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
 import ProductNotFound from "../../../assets/images/Product Not Found.png";
-import banner1 from "../../../assets/images/homeBanner1.jpg";
-import banner2 from "../../../assets/images/homeBanner2.jpg";
-import banner3 from "../../../assets/images/homeBanner3.jpg";
+import banner1 from "../../../assets/images/homeBanner1.png";
+import banner2 from "../../../assets/images/homeBanner2.png";
+import banner3 from "../../../assets/images/homeBanner3.png";
 
 export default function Home() {
     const dispatch = useDispatch();

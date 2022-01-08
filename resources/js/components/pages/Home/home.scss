@@ -63,6 +63,7 @@
 
 /* Style the tab */
 .tab {
+    z-index: 10;
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: $base-color-1;
