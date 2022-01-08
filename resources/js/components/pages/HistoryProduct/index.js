@@ -61,7 +61,7 @@ export default function Favorite() {
                                 all_history_product_datas.map((data, index) => (
                                     <tr
                                         key={index}
-                                        onClick={() => toDetail(data.id)}
+                                        onClick={() => toDetail(data.product_id)}
                                         className="item-history"
                                     >
                                         <td data-label="商品名">

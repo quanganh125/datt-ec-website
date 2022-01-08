@@ -83,6 +83,10 @@ export default function FormBuy({
             setQuantily(1);
             setBuyEnable(true);
             setValidateNofi("");
+            setDiscountCode("");
+            setDiscountPercent(0);
+            setDiscountValue(0);
+            setValidateNofi("");
         };
     }, [isOpen]);
 
@@ -99,7 +103,10 @@ export default function FormBuy({
         } else {
             setBuyEnable(true);
             setValidateNofi("");
+            console.log(discountPercent, discountValue);
             let sum = nquantily * price;
+            if (discountPercent > 0)
+                setDiscountValue(Math.round(sum * (discountPercent / 100)));
             setQuantily(nquantily);
             setTotal(sum);
         }

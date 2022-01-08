@@ -110,7 +110,7 @@ export default function Signin({ setAuth }) {
                 <form className={classes.form} noValidate>
                     <TextField
                         error={errorEmail != "" ? true : false}
-                        variant="outlined"
+                        variant="filled"
                         margin="normal"
                         required
                         fullWidth
@@ -126,7 +126,7 @@ export default function Signin({ setAuth }) {
                     </p>
                     <TextField
                         error={errorPassword != "" ? true : false}
-                        variant="outlined"
+                        variant="filled"
                         margin="normal"
                         required
                         fullWidth

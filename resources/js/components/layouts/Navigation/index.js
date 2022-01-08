@@ -234,6 +234,9 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                     </ul>
                 ) : (
                     <ul className="signin-up">
+                        <li className="sign-in" style={{ color: "white" }}>
+                            <a>Hello {userProfile.name}</a>
+                        </li>
                         <li className="signup-btn" onClick={closeMobileMenu}>
                             <a onClick={() => logout()}>サインアウト</a>
                         </li>

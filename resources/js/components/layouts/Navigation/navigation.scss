@@ -4,7 +4,7 @@
 #nav {
     width: 100%;
     transition: top 0.3s ease-in-out;
-    z-index: 10;
+    z-index: 20;
     // box-shadow: 0 10px 10px 3px rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 0;
@@ -88,6 +88,7 @@ a {
         color: white;
     }
 }
+
 .sign-in :hover {
     color: #0abfd2;
     transform: scale(1.05);

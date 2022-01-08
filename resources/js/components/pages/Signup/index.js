@@ -118,7 +118,7 @@ export default function Signup() {
                         <Grid item xs={12}>
                             <TextField
                                 error={errorName != "" ? true : false}
-                                variant="outlined"
+                                variant="filled"
                                 required
                                 fullWidth
                                 id="name"
@@ -134,7 +134,7 @@ export default function Signup() {
                         <Grid item xs={12}>
                             <TextField
                                 error={errorEmail != "" ? true : false}
-                                variant="outlined"
+                                variant="filled"
                                 required
                                 fullWidth
                                 id="email"
@@ -150,7 +150,7 @@ export default function Signup() {
                         <Grid item xs={12}>
                             <TextField
                                 error={errorPassword != "" ? true : false}
-                                variant="outlined"
+                                variant="filled"
                                 required
                                 fullWidth
                                 name="password"
@@ -167,7 +167,7 @@ export default function Signup() {
                         <Grid item xs={12}>
                             <TextField
                                 error={errorPassword != "" ? true : false}
-                                variant="outlined"
+                                variant="filled"
                                 required
                                 fullWidth
                                 name="confirmPassword"
