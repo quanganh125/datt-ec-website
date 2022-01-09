@@ -44,12 +44,16 @@
 }
 
 @mixin width-lg-container {
-    padding: 0px 200px;
+    padding: 0px 300px;
+}
+
+@mixin width-sm-container {
+    padding: 0px 50px;
 }
 
 @mixin page-frame {
     padding-top: 30px;
     min-height: 100vh;
-    margin-top: $height-top-nav;
+    // margin-top: $height-top-nav;
     min-width: 600px;
 }

@@ -8,6 +8,12 @@
     margin-top: 100px;
 }
 
+@media (min-width: 1500px) {
+    #homeContainer {
+        @include width-lg-container();
+    }
+}
+
 .paginate {
     @include makeCenter();
 }
@@ -58,6 +64,9 @@
         .title-carousel {
             background: rgba(0, 0, 0, 0.4);
         }
+    }
+    &:hover {
+        cursor: pointer;
     }
 }
 

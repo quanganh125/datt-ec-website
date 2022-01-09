@@ -68,7 +68,10 @@ function Footer() {
                     </ul>
                 </span>
             </Grid>
-            <hr style={{ width: "80%" }} className="line-footer" />
+            <hr
+                style={{ width: "80%", marginLeft: "10%", marginRight: "10%" }}
+                className="line-footer"
+            />
             <Grid item xs={12} id="nocopyright">
                 <p style={{ color: "white" }}>
                     @2021 - ZeroTwo. All Right Reserved. Designed and Developed

@@ -8,6 +8,12 @@
     margin-top: 80px;
 }
 
+@media (min-width: 1500px) {
+    #favoriteContainer {
+        @include width-lg-container();
+    }
+}
+
 .paginate {
     @include makeCenter();
 }

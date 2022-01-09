@@ -5,13 +5,19 @@
     margin-bottom: 20px;
     @include width-container();
     @include page-frame();
-    margin-top: 40px;
+    margin-top: 80px;
 
     .top-event {
         @include deleteSpace();
     }
 
     .discount-event {
+    }
+}
+
+@media (min-width: 1500px) {
+    .event-container {
+        @include width-lg-container();
     }
 }
 

@@ -47,7 +47,6 @@ export default function Event() {
             {isLoading ? (
                 <>
                     <div className="top-event">
-                        {/* <h3>{event_datas.description}</h3> */}
                         <img
                             src={eventBanner}
                             alt="top-event"
