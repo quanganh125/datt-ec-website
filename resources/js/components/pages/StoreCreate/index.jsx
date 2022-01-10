@@ -94,7 +94,7 @@ class StoreProfile extends Component {
         });
     }
 
-    handleFormSubmit = async (event) => {
+    handleFormSubmit = (event) => {
         event.preventDefault();
         if (!this.state.name) {
             this.setState({
@@ -118,67 +118,69 @@ class StoreProfile extends Component {
                     } else {
                         storage
                             .ref(`/store_logo/${this.state.logo_url.name}`)
-                            .put(this.state.logo_url);
-                        // .on(
-                        //     "state_changed",
-                        //     (snapShot) => {
-                        //         // console.log(snapShot);
-                        //     },
-                        //     (err) => {
-                        //         console.log(err);
-                        //     },
-                        //     () => {
-                        //         storage
-                        //             .ref("store_logo")
-                        //             .child(this.state.logo_url.name)
-                        //             .getDownloadURL()
-                        //             .then((url) => {
-                        //                 this.setState({
-                        //                     logo: url,
-                        //                     isLoadLinkImage: true,
-                        //                 });
-                        //                 packets.logo = url;
-                        //             });
-                        //     }
-                        // );
-                        const packets = {
-                            name: this.state.name,
-                            address: this.state.address,
-                            logo: this.state.logo_url.name,
-                            url: this.state.url,
-                        };
-                        const headers = {
-                            "Content-type": "application/json",
-                            Authorization: `Bearer ${getCookie(
-                                "access_token"
-                            )}`,
-                        };
-                        await axios
-                            .post(apiShop, packets, {
-                                headers: headers,
-                            })
-                            .then((response) => {
-                                toast.success("ストアを正常に作成する!");
-                                this.setState({
-                                    errormessage: "",
-                                    successmessage: "",
-                                    address: "",
-                                    name: "",
-                                    url: "",
-                                    logo: "",
-                                    logo_url: {},
-                                });
-                                window.location.href = `/home`;
-                            })
-
-                            .catch((error) => {
-                                toast.error("ストアの作成に失敗しました!");
-                            });
+                            .put(this.state.logo_url)
+                            .on(
+                                "state_changed",
+                                (snapShot) => {
+                                    // console.log(snapShot);
+                                },
+                                (err) => {
+                                    console.log(err);
+                                },
+                                () => {
+                                    storage
+                                        .ref("store_logo")
+                                        .child(this.state.logo_url.name)
+                                        .getDownloadURL()
+                                        .then((url) => {
+                                            this.setState({
+                                                logo: url,
+                                                isLoadLinkImage: true,
+                                            });
+                                            const packets = {
+                                                name: this.state.name,
+                                                address: this.state.address,
+                                                logo: url,
+                                                url: this.state.url,
+                                            };
+                                            this.onCreateStore(packets);
+                                        });
+                                }
+                            );
                     }
                 }
             }
         }
     };
+
+    onCreateStore = async (packets) => {
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
+        await axios
+            .post(apiShop, packets, {
+                headers: headers,
+            })
+            .then((response) => {
+                toast.success("ストアを正常に作成する!");
+                this.setState({
+                    errormessage: "",
+                    successmessage: "",
+                    address: "",
+                    name: "",
+                    url: "",
+                    logo: "",
+                    logo_url: {},
+                });
+                window.location.href = `/home`;
+            })
+
+            .catch((error) => {
+                toast.error("ストアの作成に失敗しました!");
+            });
+    };
+
     render() {
         return (
             <div

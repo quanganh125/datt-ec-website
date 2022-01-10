@@ -56,7 +56,6 @@ export default function Favorite() {
                             </tr>
                         </thead>
                         <tbody>
-                            {console.log(all_history_product_datas)}
                             {all_history_product_datas &&
                                 all_history_product_datas.map((data, index) => (
                                     <tr

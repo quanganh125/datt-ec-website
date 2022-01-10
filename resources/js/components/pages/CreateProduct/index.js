@@ -139,7 +139,7 @@ class CreateProduct extends Component {
             };
         }
     };
-    handleFormSubmit = async (event) => {
+    handleFormSubmit = (event) => {
         event.preventDefault();
         this.setState({
             successmessage: "",
@@ -197,53 +197,50 @@ class CreateProduct extends Component {
                                         .ref(
                                             `/product_img/${this.state.image.name}`
                                         )
-                                        .put(this.state.image);
-                                    const packets = {
-                                        name: this.state.name,
-                                        price: this.state.price,
-                                        category_id: this.state.category,
-                                        description: this.state.content,
-                                        image_link: this.state.image.name,
-                                        stock: this.state.stock,
-                                        discount: this.state.discount,
-                                    };
-                                    const headers = {
-                                        "Content-type": "application/json",
-                                        Authorization: `Bearer ${getCookie(
-                                            "access_token"
-                                        )}`,
-                                    };
-                                    await axios
-                                        .post(apiProduct, packets, {
-                                            headers: headers,
-                                        })
-                                        .then((response) => {
-                                            toast.success(
-                                                "製品が正常に作成されました！"
-                                            );
-                                            this.setState({
-                                                content: "",
-                                                image_link: "",
-                                                category: "",
-                                                file: undefined,
-                                                errormessage: "",
-                                                successmessage: "",
-                                                price: "",
-                                                name: "",
-                                                url: "",
-                                                image: {},
-                                                stock: 1,
-                                                discount: 0,
-                                            });
-                                            setTimeout(() => {
-                                                window.location.href = `/product/manager`;
-                                            }, 1000);
-                                        })
-                                        .catch((error) => {
-                                            toast.error(
-                                                "製品の作成に失敗しました!"
-                                            );
-                                        });
+                                        .put(this.state.image)
+                                        .on(
+                                            "state_changed",
+                                            (snapShot) => {
+                                                // console.log(snapShot);
+                                            },
+                                            (err) => {
+                                                console.log(err);
+                                            },
+                                            () => {
+                                                storage
+                                                    .ref("product_img")
+                                                    .child(
+                                                        this.state.image.name
+                                                    )
+                                                    .getDownloadURL()
+                                                    .then((url) => {
+                                                        this.setState({
+                                                            isLoadLinkImage: true,
+                                                        });
+                                                        const packets = {
+                                                            name: this.state
+                                                                .name,
+                                                            price: this.state
+                                                                .price,
+                                                            category_id:
+                                                                this.state
+                                                                    .category,
+                                                            description:
+                                                                this.state
+                                                                    .content,
+                                                            image_link: url,
+                                                            stock: this.state
+                                                                .stock,
+                                                            discount:
+                                                                this.state
+                                                                    .discount,
+                                                        };
+                                                        this.onCreateProduct(
+                                                            packets
+                                                        );
+                                                    });
+                                            }
+                                        );
                                 }
                             }
                         }
@@ -251,6 +248,40 @@ class CreateProduct extends Component {
                 }
             }
         }
+    };
+
+    onCreateProduct = async (packets) => {
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
+        await axios
+            .post(apiProduct, packets, {
+                headers: headers,
+            })
+            .then((response) => {
+                toast.success("製品が正常に作成されました！");
+                this.setState({
+                    content: "",
+                    image_link: "",
+                    category: "",
+                    file: undefined,
+                    errormessage: "",
+                    successmessage: "",
+                    price: "",
+                    name: "",
+                    url: "",
+                    image: {},
+                    stock: 1,
+                    discount: 0,
+                });
+                setTimeout(() => {
+                    window.location.href = `/product/manager`;
+                }, 1000);
+            })
+            .catch((error) => {
+                toast.error("製品の作成に失敗しました!");
+            });
     };
 
     componentDidMount() {
@@ -412,6 +443,7 @@ class CreateProduct extends Component {
                                 className="form-group"
                                 style={{
                                     textAlign: `center`,
+                                    marginBottom: 30,
                                 }}
                             >
                                 <input

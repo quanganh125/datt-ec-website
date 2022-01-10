@@ -6,6 +6,7 @@ import { apiShop, apiStorage, headers, apiGetShop } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "../../utils/cookie";
 import storage from "../../services/firebaseConfig";
+import "./storeShow.scss";
 class ShowStoreProfile extends Component {
     constructor(props) {
         super(props);
@@ -32,8 +33,8 @@ class ShowStoreProfile extends Component {
                     address: res.data.data.address,
                     logo: res.data.data.logo,
                     url: res.data.data.url,
+                    isLoading: true,
                 });
-                this.getLinkImage(this.state.logo);
             })
             .catch((error) => {
                 console.log(error);
@@ -56,18 +57,6 @@ class ShowStoreProfile extends Component {
         });
     }
 
-    getLinkImage = (name) => {
-        storage
-            .ref("store_logo")
-            .child(name)
-            .getDownloadURL()
-            .then((url) => {
-                this.setState({
-                    logo_url: url,
-                    isLoading: true,
-                });
-            });
-    };
     handleReturnHomePage = () => {
         this.setState({
             successmessage: "",
@@ -120,8 +109,8 @@ class ShowStoreProfile extends Component {
                         <h3>ストアプロファイル</h3>
                         <form>
                             {/* input ten cua cua hang */}
-                            <h5>名前</h5>
                             <div className="form-group">
+                                <h5>名前</h5>
                                 <label className="form-control">
                                     {" "}
                                     {this.state.name}
@@ -129,23 +118,23 @@ class ShowStoreProfile extends Component {
 
                                 {/* input dia chi cua cua hang */}
                             </div>
-                            <h5>住所</h5>
                             <div className="form-group">
+                                <h5>住所</h5>
                                 <label className="form-control">
                                     {" "}
                                     {this.state.address}
                                 </label>
                             </div>
-                            <h5>ロゴ</h5>
-                            <div className="img-container">
+                            <h5 style={{ marginTop: 20 }}>ロゴ</h5>
+                            <div className="img-container form-group">
                                 <img
-                                    src={this.state.logo_url}
+                                    src={this.state.logo}
                                     alt="productImg"
                                     className="itemImg"
                                 />
                             </div>
-                            <h5>ストアのURL</h5>
                             <div className="form-group">
+                                <h5>ストアのURL</h5>
                                 <label className="form-control">
                                     {" "}
                                     {this.state.url}

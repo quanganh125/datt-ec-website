@@ -7,6 +7,7 @@
     background-color: $nav-bottom-color;
     @include deleteSpace();
     min-width: 600px;
+    @include width-container();
 }
 
 .line-footer {
@@ -16,7 +17,7 @@
 
 .support {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     span {
         margin-bottom: 20px;
         color: white;
@@ -34,6 +35,12 @@
                 }
             }
         }
+    }
+}
+
+@media (min-width: 1500px) {
+    #footer {
+        @include width-lg-container();
     }
 }
 

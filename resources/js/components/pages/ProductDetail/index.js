@@ -99,24 +99,15 @@ class ProductDetail extends Component {
                     linkShop: `/store/${res.data.data.shop_id}`,
                     stock: res.data.data.stock,
                     discount: res.data.data.discount,
+                    isLoading: true,
                 });
-                this.getLinkImage(this.state.image_name);
+                this.props.getRecommendDetail(
+                    this.getProductId(),
+                    this.state.category_id
+                );
             })
             .catch((error) => {
                 console.log(error);
-            });
-    };
-
-    getLinkImage = (name) => {
-        storage
-            .ref("product_img")
-            .child(name)
-            .getDownloadURL()
-            .then((url) => {
-                this.setState({
-                    image_link: url,
-                    isLoading: true,
-                });
             });
     };
 
@@ -169,7 +160,6 @@ class ProductDetail extends Component {
     componentDidMount() {
         this.fetchProductDetail();
         this.fetchUserShopId();
-        this.props.getRecommendDetail(this.getProductId());
     }
 
     checkReviewed = () => {
@@ -270,7 +260,7 @@ class ProductDetail extends Component {
                                     <img
                                         className="product-image-detail"
                                         alt="productImg"
-                                        src={this.state.image_link}
+                                        src={this.state.image_name}
                                         name="image"
                                     />
                                     {this.state.stock <= 0 ? (
@@ -486,7 +476,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRecommendDetail: (id) => dispatch(getProductRecommendDetail(id)),
+        getRecommendDetail: (id, category_id) =>
+            dispatch(getProductRecommendDetail(id, category_id)),
     };
 };
 

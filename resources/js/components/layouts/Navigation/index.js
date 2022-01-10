@@ -128,6 +128,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                             className={
                                 click ? "nav-options active" : "nav-options"
                             }
+                            style={{ marginBottom: 0 }}
                         >
                             {loginState ? (
                                 <>
@@ -221,7 +222,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                     )}
                 </div>
                 {!loginState ? (
-                    <ul className="signin-up">
+                    <ul className="signin-up" style={{ marginBottom: 0 }}>
                         <li className="sign-in" onClick={closeMobileMenu}>
                             <a href="/login">
                                 <i className="fas fa-sign-in-alt icon-btn"></i>
@@ -233,7 +234,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                         </li>
                     </ul>
                 ) : (
-                    <ul className="signin-up">
+                    <ul className="signin-up" style={{ marginBottom: 0 }}>
                         <li className="sign-in" style={{ color: "white" }}>
                             <a>Hello {userProfile.name}</a>
                         </li>

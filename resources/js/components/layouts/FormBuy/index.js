@@ -103,7 +103,6 @@ export default function FormBuy({
         } else {
             setBuyEnable(true);
             setValidateNofi("");
-            console.log(discountPercent, discountValue);
             let sum = nquantily * price;
             if (discountPercent > 0)
                 setDiscountValue(Math.round(sum * (discountPercent / 100)));

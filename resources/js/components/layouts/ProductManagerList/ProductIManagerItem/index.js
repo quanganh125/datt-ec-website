@@ -22,15 +22,12 @@ export default function Item({ data }) {
     const [linkDetail, setLinkDetail] = useState("");
     const [reviews, setReviews] = useState([]);
     const history = useHistory();
-    const [image_url, setImage_url] = useState("");
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getLinkImage(data.image_link);
         setLinkDetail(`/product/${data.id}/edit`);
         return () => {
             setLinkDetail("");
-            setImage_url("");
         };
     }, [linkDetail]);
 
@@ -46,19 +43,6 @@ export default function Item({ data }) {
     useEffect(() => {
         setReviews(data.reviews);
     }, []);
-
-    const getLinkImage = (name) => {
-        storage
-            .ref("product_img")
-            .child(name)
-            .getDownloadURL()
-            .then((url) => {
-                setImage_url(url);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
 
     //popup confirm delete
     const [open, setOpen] = React.useState(false);
@@ -82,7 +66,11 @@ export default function Item({ data }) {
                     xs={3}
                     onClick={() => nextDetail()}
                 >
-                    <img src={image_url} alt="productImg" className="itemImg" />
+                    <img
+                        src={data.image_link}
+                        alt="productImg"
+                        className="itemImg"
+                    />
                 </Grid>
                 <Grid
                     item
