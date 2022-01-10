@@ -29,6 +29,7 @@ class CreateProduct extends Component {
             discount: 0,
             categories: [],
             isLoading: false,
+            isSubmit: false,
         };
     }
 
@@ -48,6 +49,7 @@ class CreateProduct extends Component {
             discount: null,
             categories: [],
             isLoading: false,
+            isSubmit: false,
         });
     }
 
@@ -251,6 +253,9 @@ class CreateProduct extends Component {
     };
 
     onCreateProduct = async (packets) => {
+        this.setState({
+            isSubmit: true,
+        });
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
@@ -281,6 +286,9 @@ class CreateProduct extends Component {
             })
             .catch((error) => {
                 toast.error("製品の作成に失敗しました!");
+                this.setState({
+                    isSubmit: false,
+                });
             });
     };
 
@@ -451,12 +459,14 @@ class CreateProduct extends Component {
                                     className="btn btn-primary"
                                     value="作成"
                                     style={{ marginRight: 10, width: "20%" }}
+                                    disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
                                     className="btn btn-success"
                                     onClick={this.handleReturnHomePage}
                                     style={{ marginLeft: 10, width: "20%" }}
+                                    disabled={this.state.isSubmit}
                                 >
                                     キャンセル
                                 </button>

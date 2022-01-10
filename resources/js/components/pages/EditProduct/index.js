@@ -29,6 +29,7 @@ class EditProduct extends React.Component {
             stock: "",
             discount: "",
             categories: [],
+            isSubmit: false,
         };
     }
 
@@ -50,6 +51,7 @@ class EditProduct extends React.Component {
             stock: "",
             discount: "",
             categories: [],
+            isSubmit: false,
         });
     }
 
@@ -264,6 +266,9 @@ class EditProduct extends React.Component {
     };
 
     onEditProductSubmit = async (packets) => {
+        this.setState({
+            isSubmit: true,
+        });
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
@@ -277,6 +282,9 @@ class EditProduct extends React.Component {
                 window.location.href = `/product/manager`;
             })
             .catch((error) => {
+                this.setState({
+                    isSubmit: false,
+                });
                 toast.error("編集に失敗しました!");
             });
     };
@@ -464,12 +472,14 @@ class EditProduct extends React.Component {
                                     className="btn btn-primary"
                                     value="アップデート"
                                     style={{ marginRight: 10, width: "20%" }}
+                                    disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
                                     className="btn btn-success"
                                     onClick={this.handleReturnHomePage}
                                     style={{ marginLeft: 10, width: "20%" }}
+                                    disabled={this.state.isSubmit}
                                 >
                                     キャンセル
                                 </button>

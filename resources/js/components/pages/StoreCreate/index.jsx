@@ -17,6 +17,7 @@ class StoreProfile extends Component {
         logo: "",
         logo_url: {},
         isLoadLinkImage: false,
+        isSubmit: false,
     };
 
     onBtnClick = () => {
@@ -91,6 +92,7 @@ class StoreProfile extends Component {
             logo: "",
             logo_url: {},
             isLoadLinkImage: false,
+            isSubmit: false,
         });
     }
 
@@ -154,6 +156,9 @@ class StoreProfile extends Component {
     };
 
     onCreateStore = async (packets) => {
+        this.setState({
+            isSubmit: true,
+        });
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
@@ -178,6 +183,9 @@ class StoreProfile extends Component {
 
             .catch((error) => {
                 toast.error("ストアの作成に失敗しました!");
+                this.setState({
+                    isSubmit: false,
+                });
             });
     };
 
@@ -274,12 +282,14 @@ class StoreProfile extends Component {
                                 className="btn btn-primary"
                                 value="作成"
                                 style={{ margin: 5, width: "20%" }}
+                                disabled={this.state.isSubmit}
                             />
                             <button
                                 type="button"
                                 className="btn btn-success"
                                 onClick={this.handleReturnHomePage}
                                 style={{ margin: 5, width: "20%" }}
+                                disabled={this.state.isSubmit}
                             >
                                 キャンセル
                             </button>
