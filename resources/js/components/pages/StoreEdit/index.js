@@ -32,6 +32,7 @@ class EditStoreProfile extends Component {
                     ? this.props.match.params.id
                     : null,
             isLoading: false,
+            isSubmit: false,
         };
     }
     onBtnClick = () => {
@@ -52,6 +53,7 @@ class EditStoreProfile extends Component {
             url: "",
             id: null,
             isLoading: false,
+            isSubmit: false,
         });
     }
 
@@ -216,6 +218,9 @@ class EditStoreProfile extends Component {
     };
 
     onSubmitEditStore = async (packets) => {
+        this.setState({
+            isSubmit: true,
+        });
         await axios
             .post(`${apiShop}/${this.state.id}/edit`, packets, {
                 headers: headers,
@@ -227,6 +232,9 @@ class EditStoreProfile extends Component {
             .catch((error) => {
                 toast.error("更新されたストアが失敗しました！");
                 console.error("ERROR:: ", error.response.data);
+                this.setState({
+                    isSubmit: false,
+                });
             });
     };
 
@@ -355,12 +363,14 @@ class EditStoreProfile extends Component {
                                     className="btn btn-primary"
                                     value="アップデート"
                                     style={{ margin: 5, width: "30%" }}
+                                    disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
                                     className="btn btn-secondary"
                                     onClick={this.handleDelete}
                                     style={{ margin: 5, width: "30%" }}
+                                    disabled={this.state.isSubmit}
                                 >
                                     消去
                                 </button>
@@ -369,6 +379,7 @@ class EditStoreProfile extends Component {
                                     className="btn btn-success"
                                     onClick={this.handleReturnHomePage}
                                     style={{ margin: 5, width: "30%" }}
+                                    disabled={this.state.isSubmit}
                                 >
                                     キャンセル
                                 </button>
