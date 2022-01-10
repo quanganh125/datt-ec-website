@@ -142,7 +142,7 @@ class EditProduct extends React.Component {
             this.setState({
                 errormessage: "名前をアップロードしてください",
             });
-        } else if (!this.state.image_link) {
+        } else if (!this.state.image_name) {
             this.setState({
                 errormessage: "画像をアップロードしてください",
             });
@@ -189,42 +189,71 @@ class EditProduct extends React.Component {
                                             .ref(
                                                 `/product_img/${this.state.new_image_file.name}`
                                             )
-                                            .put(this.state.new_image_file);
-                                    }
-                                    const packets = {
-                                        name: this.state.newname,
-                                        price: this.state.price,
-                                        category_id: this.state.category,
-                                        description: this.state.description,
-                                        image_link: this.state.new_image
-                                            ? this.state.new_image_file.name
-                                            : this.state.image_name,
-                                        stock: this.state.stock,
-                                        discount: this.state.discount,
-                                    };
-                                    const headers = {
-                                        "Content-type": "application/json",
-                                        Authorization: `Bearer ${getCookie(
-                                            "access_token"
-                                        )}`,
-                                    };
-                                    await axios
-                                        .post(
-                                            `${apiProduct}/${this.state.id}/edit`,
-                                            packets,
-                                            {
-                                                headers: headers,
-                                            }
-                                        )
-                                        .then((response) => {
-                                            toast.success(
-                                                "製品の編集に成功しました！!"
+                                            .put(this.state.new_image_file)
+                                            .on(
+                                                "state_changed",
+                                                (snapShot) => {
+                                                    // console.log(snapShot);
+                                                },
+                                                (err) => {
+                                                    console.log(err);
+                                                },
+                                                () => {
+                                                    storage
+                                                        .ref("product_img")
+                                                        .child(
+                                                            this.state
+                                                                .new_image_file
+                                                                .name
+                                                        )
+                                                        .getDownloadURL()
+                                                        .then((url) => {
+                                                            this.setState({
+                                                                isLoadLinkImage: true,
+                                                            });
+                                                            const packets = {
+                                                                name: this.state
+                                                                    .newname,
+                                                                price: this
+                                                                    .state
+                                                                    .price,
+                                                                category_id:
+                                                                    this.state
+                                                                        .category,
+                                                                description:
+                                                                    this.state
+                                                                        .description,
+                                                                image_link: this
+                                                                    .state
+                                                                    .new_image
+                                                                    ? url
+                                                                    : this.state
+                                                                          .image_name,
+                                                                stock: this
+                                                                    .state
+                                                                    .stock,
+                                                                discount:
+                                                                    this.state
+                                                                        .discount,
+                                                            };
+                                                            this.onEditProductSubmit(
+                                                                packets
+                                                            );
+                                                        });
+                                                }
                                             );
-                                            window.location.href = `/product/manager`;
-                                        })
-                                        .catch((error) => {
-                                            toast.error("編集に失敗しました!");
-                                        });
+                                    } else {
+                                        const packets = {
+                                            name: this.state.newname,
+                                            price: this.state.price,
+                                            category_id: this.state.category,
+                                            description: this.state.description,
+                                            image_link: this.state.image_name,
+                                            stock: this.state.stock,
+                                            discount: this.state.discount,
+                                        };
+                                        this.onEditProductSubmit(packets);
+                                    }
                                 }
                             }
                         }
@@ -234,23 +263,23 @@ class EditProduct extends React.Component {
         }
     };
 
-    getImageSrc() {
-        return storage
-            .ref("product_img")
-            .child(this.state.image_name)
-            .getDownloadURL()
-            .then((url) => {
-                if (
-                    this.state.new_image == "" &&
-                    this.state.isLoading == false
-                ) {
-                    this.setState({
-                        image_link: url,
-                        isLoading: true,
-                    });
-                }
+    onEditProductSubmit = async (packets) => {
+        const headers = {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        };
+        await axios
+            .post(`${apiProduct}/${this.state.id}/edit`, packets, {
+                headers: headers,
+            })
+            .then((response) => {
+                toast.success("製品の編集に成功しました！!");
+                window.location.href = `/product/manager`;
+            })
+            .catch((error) => {
+                toast.error("編集に失敗しました!");
             });
-    }
+    };
 
     onBtnClick = () => {
         this.fileRef.current.click();
@@ -282,8 +311,8 @@ class EditProduct extends React.Component {
                     stock: dataProduct.stock,
                     discount: dataProduct.discount,
                     categories: dataCategory,
+                    isLoading: true,
                 });
-                this.getImageSrc();
             })
         );
     };
@@ -330,7 +359,7 @@ class EditProduct extends React.Component {
                                     src={
                                         this.state.new_image
                                             ? this.state.new_image
-                                            : this.state.image_link
+                                            : this.state.image_name
                                     }
                                     alt="productImg"
                                     className="itemImg"
@@ -427,6 +456,7 @@ class EditProduct extends React.Component {
                                 className="form-group"
                                 style={{
                                     textAlign: `center`,
+                                    marginBottom: 30,
                                 }}
                             >
                                 <input

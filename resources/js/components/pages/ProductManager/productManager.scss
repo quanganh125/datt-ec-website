@@ -2,6 +2,7 @@
 @import "../../../../sass/variables";
 
 #productManagerContainer {
+    margin-top: 80px;
     @include width-container();
     @include page-frame();
     margin-bottom: 20px;

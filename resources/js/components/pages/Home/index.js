@@ -13,6 +13,7 @@ import ProductNotFound from "../../../assets/images/Product Not Found.png";
 import banner1 from "../../../assets/images/homeBanner1.png";
 import banner2 from "../../../assets/images/homeBanner2.png";
 import banner3 from "../../../assets/images/homeBanner3.png";
+import saleIcon from "../../../assets/images/Super Sale Vector PNG.png";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -200,51 +201,55 @@ export default function Home() {
                         data-bs-slide-to="2"
                     ></button>
                 </div>
-
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img
-                            src={banner1}
-                            alt="Los Angeles"
-                            className="d-block image-banner"
-                        />
-                        <div className="carousel-caption title-carousel">
-                            <h3 style={{ color: "white" }}>
-                                多くの魅力的なオファーで新年あけましておめでとうございます
-                            </h3>
-                            <h5 style={{ color: "white" }}>
-                                0円からのご注文で全国送料無料
-                            </h5>
+                <Link to="/event">
+                    <div className="carousel-inner">
+                        <div className="carousel-item active">
+                            <img
+                                src={banner1}
+                                alt="Los Angeles"
+                                className="d-block image-banner"
+                            />
+                            <div className="carousel-caption title-carousel">
+                                <h3 style={{ color: "white" }}>
+                                    多くの魅力的なオファーで新年あけましておめでとうございます
+                                </h3>
+                                <h5 style={{ color: "white" }}>
+                                    0円からのご注文で全国送料無料
+                                </h5>
+                            </div>
+                        </div>
+                        <div className="carousel-item">
+                            <img
+                                src={banner2}
+                                alt="Chicago"
+                                className="d-block image-banner"
+                            />
+                            <div className="carousel-caption title-carousel">
+                                <h3 style={{ color: "white" }}>
+                                    ゴールデンアワー
+                                </h3>
+                                <h5 style={{ color: "white" }}>
+                                    時間枠には多くの安い製品があります
+                                </h5>
+                            </div>
+                        </div>
+                        <div className="carousel-item">
+                            <img
+                                src={banner3}
+                                alt="New York"
+                                className="d-block image-banner"
+                            />
+                            <div className="carousel-caption title-carousel">
+                                <h3 style={{ color: "white" }}>
+                                    見逃せない情報
+                                </h3>
+                                <h5 style={{ color: "white" }}>
+                                    具体的には、衝撃的な割引プログラム
+                                </h5>
+                            </div>
                         </div>
                     </div>
-                    <div className="carousel-item">
-                        <img
-                            src={banner2}
-                            alt="Chicago"
-                            className="d-block image-banner"
-                        />
-                        <div className="carousel-caption title-carousel">
-                            <h3 style={{ color: "white" }}>ゴールデンアワー</h3>
-                            <h5 style={{ color: "white" }}>
-                                時間枠には多くの安い製品があります
-                            </h5>
-                        </div>
-                    </div>
-                    <div className="carousel-item">
-                        <img
-                            src={banner3}
-                            alt="New York"
-                            className="d-block image-banner"
-                        />
-                        <div className="carousel-caption title-carousel">
-                            <h3 style={{ color: "white" }}>見逃せない情報</h3>
-                            <h5 style={{ color: "white" }}>
-                                具体的には、衝撃的な割引プログラム
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-
+                </Link>
                 <button
                     className="carousel-control-prev"
                     type="button"
@@ -315,7 +320,7 @@ export default function Home() {
                     <Link to="/event">
                         <div className="event">
                             <img
-                                src="https://cf.shopee.vn/file/d61120acdb4a7e883f6f9adf1e1f50fd"
+                                src={saleIcon}
                                 alt="event"
                                 width={80}
                                 height={80}

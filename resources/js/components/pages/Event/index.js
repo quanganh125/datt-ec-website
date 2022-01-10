@@ -10,13 +10,16 @@ import {
 } from "../../redux/actions/EventActions";
 import eventBanner from "../../../assets/images/eventBanner.jpg";
 import couponBanner from "../../../assets/images/couponBanner.png";
+import CheckMark from "../../layouts/CheckMark";
 
 export default function Event() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    const [stateCopy, setStateCopy] = useState(false);
 
     const onClickClipboard = (coupon) => {
         navigator.clipboard.writeText(coupon);
+        setStateCopy(true);
     };
 
     const fetchEventData = () => {
@@ -47,7 +50,6 @@ export default function Event() {
             {isLoading ? (
                 <>
                     <div className="top-event">
-                        {/* <h3>{event_datas.description}</h3> */}
                         <img
                             src={eventBanner}
                             alt="top-event"
@@ -119,6 +121,12 @@ export default function Event() {
                                     ))}
                             </Grid>
                         </div>
+                    </div>
+                    <div className="copy-check-mark">
+                        <CheckMark
+                            stateCopy={stateCopy}
+                            setStateCopy={setStateCopy}
+                        />
                     </div>
                 </>
             ) : (

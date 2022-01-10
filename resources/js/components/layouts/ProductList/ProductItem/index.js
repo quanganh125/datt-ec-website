@@ -26,34 +26,18 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
         return parseFloat(avg.toFixed(1));
     };
     const [linkDetail, setLinkDetail] = useState("");
-    const [image_url, setImage_url] = useState("");
     const [favorite, setFavorite] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getLinkImage(data.image_link);
         setLinkDetail(`/product/${data.id}/detail`);
         return () => {
             setLinkDetail("");
-            setImage_url("");
         };
     }, [linkDetail]);
 
     const goToDetail = () => {
         window.location.href = linkDetail;
-    };
-
-    const getLinkImage = (name) => {
-        storage
-            .ref("product_img")
-            .child(name)
-            .getDownloadURL()
-            .then((url) => {
-                setImage_url(url);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
     };
 
     const toggleFavorite = async (event) => {
@@ -94,7 +78,6 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
         setFavorite(favoriteState || false);
         return () => {
             setLinkDetail("");
-            setImage_url("");
             setFavorite(false);
         };
     }, []);
@@ -112,7 +95,11 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
     return (
         <div className="itemContainer">
             <div className="itemHeader">
-                <img src={image_url} alt="productImg" className="itemImg" />
+                <img
+                    src={data.image_link}
+                    alt="productImg"
+                    className="itemImg"
+                />
                 {loginState && checkShop() && (
                     <i
                         className="fas fa-heart favorite-heart"
@@ -149,7 +136,7 @@ export default function Item({ data, userIdShop, loginState, favoriteState }) {
                         </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>
-                            {data.discount > 0? (
+                            {data.discount > 0 ? (
                                 <b>
                                     <i className="fas fa-arrow-down"></i>
                                     {data.discount}%

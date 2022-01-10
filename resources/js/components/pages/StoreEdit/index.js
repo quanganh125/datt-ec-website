@@ -55,24 +55,6 @@ class EditStoreProfile extends Component {
         });
     }
 
-    getImageSrc() {
-        return storage
-            .ref("store_logo")
-            .child(this.state.logo)
-            .getDownloadURL()
-            .then((url) => {
-                if (
-                    this.state.logo_url == "" &&
-                    this.state.isLoading == false
-                ) {
-                    this.setState({
-                        logo_url: url,
-                        isLoading: true,
-                    });
-                }
-            });
-    }
-
     handleFileChange = (event) => {
         this.setState({
             successmessage: "",
@@ -159,7 +141,7 @@ class EditStoreProfile extends Component {
             logo: event.target.value,
         });
     };
-    handleFormSubmit = async (event) => {
+    handleFormSubmit = (event) => {
         event.preventDefault();
         if (!this.state.name) {
             this.setState({
@@ -186,32 +168,66 @@ class EditStoreProfile extends Component {
                                 .ref(
                                     `/store_logo/${this.state.new_logo_file.name}`
                                 )
-                                .put(this.state.new_logo_file);
+                                .put(this.state.new_logo_file)
+                                .on(
+                                    "state_changed",
+                                    (snapShot) => {
+                                        // console.log(snapShot);
+                                    },
+                                    (err) => {
+                                        console.log(err);
+                                    },
+                                    () => {
+                                        storage
+                                            .ref("store_logo")
+                                            .child(
+                                                this.state.new_logo_file.name
+                                            )
+                                            .getDownloadURL()
+                                            .then((url) => {
+                                                this.setState({
+                                                    isLoadLinkImage: true,
+                                                });
+                                                const packets = {
+                                                    name: this.state.name,
+                                                    address: this.state.address,
+                                                    logo: this.state.new_logo
+                                                        ? url
+                                                        : this.state.logo,
+                                                    url: this.state.url,
+                                                };
+                                                this.onSubmitEditStore(packets);
+                                            });
+                                    }
+                                );
+                        } else {
+                            const packets = {
+                                name: this.state.name,
+                                address: this.state.address,
+                                logo: this.state.logo,
+                                url: this.state.url,
+                            };
+                            this.onSubmitEditStore(packets);
                         }
-                        const packets = {
-                            name: this.state.name,
-                            address: this.state.address,
-                            logo: this.state.new_logo
-                                ? this.state.new_logo_file.name
-                                : this.state.logo,
-                            url: this.state.url,
-                        };
-                        await axios
-                            .post(`${apiShop}/${this.state.id}/edit`, packets, {
-                                headers: headers,
-                            })
-                            .then((response) => {
-                                window.location.href = `/store/${this.state.id}`;
-                                toast.success("店舗の更新に成功しました！");
-                            })
-                            .catch((error) => {
-                                toast.error("更新されたストアが失敗しました！");
-                                console.error("ERROR:: ", error.response.data);
-                            });
                     }
                 }
             }
         }
+    };
+
+    onSubmitEditStore = async (packets) => {
+        await axios
+            .post(`${apiShop}/${this.state.id}/edit`, packets, {
+                headers: headers,
+            })
+            .then((response) => {
+                window.location.href = `/store/${this.state.id}`;
+                toast.success("店舗の更新に成功しました！");
+            })
+            .catch((error) => {
+                toast.error("更新されたストアが失敗しました！");
+                console.error("ERROR:: ", error.response.data);
+            });
     };
 
     fetchStore = async () => {
@@ -225,8 +241,8 @@ class EditStoreProfile extends Component {
                     address: dataShop.address,
                     logo: dataShop.logo,
                     url: dataShop.url,
+                    isLoading: true,
                 });
-                this.getImageSrc();
             })
             .catch((error) => {
                 console.error("ERROR:: ", error.response.data);
@@ -296,7 +312,7 @@ class EditStoreProfile extends Component {
                                     src={
                                         this.state.new_logo
                                             ? this.state.new_logo
-                                            : this.state.logo_url
+                                            : this.state.logo
                                     }
                                     alt="productImg"
                                     className="itemImg"
@@ -338,13 +354,13 @@ class EditStoreProfile extends Component {
                                     type="submit"
                                     className="btn btn-primary"
                                     value="アップデート"
-                                    style={{ margin: 5 }}
+                                    style={{ margin: 5, width: "30%" }}
                                 />
                                 <button
                                     type="button"
                                     className="btn btn-secondary"
                                     onClick={this.handleDelete}
-                                    style={{ margin: 5 }}
+                                    style={{ margin: 5, width: "30%" }}
                                 >
                                     消去
                                 </button>
@@ -352,7 +368,7 @@ class EditStoreProfile extends Component {
                                     type="button"
                                     className="btn btn-success"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ margin: 5 }}
+                                    style={{ margin: 5, width: "30%" }}
                                 >
                                     キャンセル
                                 </button>

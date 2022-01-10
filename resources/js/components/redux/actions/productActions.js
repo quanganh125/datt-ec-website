@@ -110,68 +110,45 @@ export const setProductRecommend = (products) => {
     return { type: GET_PRODUCT_RECOMMEND, payload: products };
 };
 
-export const getProductRecommendDetail = (id) => async (dispatch) => {
-    await axios
-        .get(`${apiProduct}/recommend`, { headers: headers })
-        .then((res) => {
-            const get_product_recommend = res.data.data;
-            var get_product_recommend_detail = [];
-            if (get_product_recommend.length > 2) {
-                for (let i = 0; i < get_product_recommend.length; i++) {
-                    if (get_product_recommend[i].id == id && i == 0) {
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i + 1]
-                        );
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i + 2]
-                        );
+export const getProductRecommendDetail =
+    (id, category_id) => async (dispatch) => {
+        await axios
+            .get(`${apiProduct}/recommend`, { headers: headers })
+            .then((res) => {
+                const get_product_recommend = res.data.data;
+                var get_product_recommend_detail = [];
+                if (get_product_recommend.length > 2) {
+                    for (let i = 0; i < get_product_recommend.length; i++) {
+                        if (
+                            get_product_recommend[i].id != id &&
+                            get_product_recommend[i].category_id ==
+                                category_id &&
+                            get_product_recommend_detail.length < 2
+                        ) {
+                            get_product_recommend_detail.push(
+                                get_product_recommend[i]
+                            );
+                        }
                     }
-                    if (
-                        get_product_recommend[i].id == id &&
-                        i == get_product_recommend.length - 1
-                    ) {
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i - 1]
-                        );
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i - 2]
-                        );
-                    }
-                    if (
-                        get_product_recommend[i].id == id &&
-                        i < get_product_recommend.length - 1 &&
-                        i > 0
-                    ) {
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i - 1]
-                        );
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i + 1]
-                        );
+                } else {
+                    for (let i = 0; i < get_product_recommend.length; i++) {
+                        if (get_product_recommend[i].id != id) {
+                            get_product_recommend_detail.push(
+                                get_product_recommend[i]
+                            );
+                        }
                     }
                 }
-            } else if (
-                get_product_recommend.length > 1 &&
-                get_product_recommend.length <= 2
-            ) {
-                for (let i = 0; i < get_product_recommend.length; i++) {
-                    if (get_product_recommend[i].id != id) {
-                        get_product_recommend_detail.push(
-                            get_product_recommend[i]
-                        );
-                    }
-                }
-            }
-            dispatch({
-                type: GET_PRODUCT_RECOMMEND_DETAIL,
-                payload: get_product_recommend_detail,
+                dispatch({
+                    type: GET_PRODUCT_RECOMMEND_DETAIL,
+                    payload: get_product_recommend_detail,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                dispatch({
+                    type: GET_PRODUCT_RECOMMEND_DETAIL,
+                    payload: [],
+                });
             });
-        })
-        .catch((error) => {
-            console.error(error);
-            dispatch({
-                type: GET_PRODUCT_RECOMMEND_DETAIL,
-                payload: [],
-            });
-        });
-};
+    };

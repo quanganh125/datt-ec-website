@@ -56,12 +56,13 @@ export default function Favorite() {
                             </tr>
                         </thead>
                         <tbody>
-                            {console.log(all_history_product_datas)}
                             {all_history_product_datas &&
                                 all_history_product_datas.map((data, index) => (
                                     <tr
                                         key={index}
-                                        onClick={() => toDetail(data.product_id)}
+                                        onClick={() =>
+                                            toDetail(data.product_id)
+                                        }
                                         className="item-history"
                                     >
                                         <td data-label="商品名">
@@ -77,14 +78,6 @@ export default function Favorite() {
                                             {data.price_at_purchase_time}円
                                         </td>
                                         <td data-label="時間">
-                                            {/* {new Intl.DateTimeFormat("en-US", {
-                                                year: "numeric",
-                                                month: "2-digit",
-                                                day: "2-digit",
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                                second: "2-digit",
-                                            }).format(data.create_at)} */}
                                             {convertDate(data.created_at)}
                                         </td>
                                     </tr>

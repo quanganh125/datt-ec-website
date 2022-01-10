@@ -19,6 +19,7 @@
     @include width-container();
     height: $height-top-nav;
 }
+
 .logo-nav {
     display: flex;
     align-items: center;
@@ -203,4 +204,11 @@ a {
     height: $height-bottom-nav;
     @include makeCenter();
     z-index: 3;
+}
+
+@media (min-width: 1500px) {
+    .header,
+    .bottomNav {
+        @include width-lg-container();
+    }
 }
