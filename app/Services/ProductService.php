@@ -2,7 +2,11 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Services\ShopService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
 class ProductService
 {
     /**
@@ -26,6 +30,30 @@ class ProductService
     public function getAll()
     {
         return Product::all();
+    }
+
+    public function getVisibleProducts()
+    {
+        if (Auth::user()) {
+            $user_id = Auth::user()->id;
+            $shop_id = ShopService::getIdShop($user_id);
+            return Product::where('stock', '>', 0)
+                ->where('shop_id', '!=', $shop_id)
+                ->get();
+        } else {
+            return Product::all();
+        }
+
+    }
+
+    public function getBestSale()
+    {
+        return Product::join('invoices', 'products.id', '=', 'invoices.product_id')
+            ->select('products.*', \DB::raw('SUM(quantity) as quantity'), 'product_id')
+            ->groupBy('product_id')
+            ->orderBy('quantity', 'desc')
+            ->take(4)
+            ->get(['products.*', 'product_id']);
     }
 
     public function update($id, array $product_data)
@@ -59,10 +87,11 @@ class ProductService
         return $products;
     }
 
-    public function getCount(){
+    public function getCount()
+    {
         return Product::count();
     }
-    
+
     public function saveImgBase64($param, $folder)
     {
         list($extension, $content) = explode(';', $param);
@@ -86,18 +115,19 @@ class ProductService
         // $file = explode(',', $param)[1];
         // $file = str_replace(' ', '+', $file);
         // $file = base64_decode($file);
-        
+
         // $extension = explode('/', mime_content_type($param))[1];
-        
+
         // $fileName = time().'-'.uniqid().'.'.$extension;
-        
+
         // Storage::disk('public')->put($folder.'/'.$fileName, $file);
-        
+
         // $fileNames[] = $fileName;
         // return Storage::url($folder.'/'.$fileName);
     }
 
-    public function updateOne ($id, $feild, $value){
+    public function updateOne($id, $feild, $value)
+    {
         Product::where('id', $id)->update(array($feild => $value));
     }
 

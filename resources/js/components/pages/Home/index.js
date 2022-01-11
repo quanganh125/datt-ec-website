@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./home.scss";
 import ProductList from "../../layouts/ProductList";
-import { fetchProductRecommend } from "./../../redux/actions/productActions";
+import { fetchProductRecommend, fetchBestSale } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { apiProduct, paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
@@ -33,6 +33,18 @@ export default function Home() {
     const product_recommend_datas = useSelector(
         (state) => state.product.product_recommend
     );
+
+    const fetchBestSaleProduct = () => {
+        dispatch(fetchBestSale());
+    };
+
+    const best_sale_datas = useSelector(
+        (state) => state.product.best_sale
+    );
+
+    useEffect(() => {
+        fetchBestSaleProduct();
+    }, []);
 
     useEffect(() => {
         if (product_recommend_datas) {
@@ -315,7 +327,22 @@ export default function Home() {
 
                     <div id="recommend" className="tabcontent"></div>
 
-                    <div id="selling" className="tabcontent"></div>
+                    <div id="selling" className="tabcontent">
+                        <Pagination
+                            dataItems={best_sale_datas}
+                            itemsPerPage={paginate_count}
+                            type={"home-product"}
+                        />
+                         {!best_sale_datas.length && (
+                            <div className="nonProduct">
+                                <img
+                                    src={ProductNotFound}
+                                    alt="product not found"
+                                    className="product-not-found"
+                                />
+                            </div>
+                        )}
+                    </div>
 
                     <Link to="/event">
                         <div className="event">
