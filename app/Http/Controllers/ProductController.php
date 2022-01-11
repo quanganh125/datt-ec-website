@@ -8,9 +8,9 @@ use App\Models\Product;
 use App\Services\ProductService;
 use App\Services\ShopService;
 use Illuminate\Http\Request;
-use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Validator;
 
 class ProductController extends Controller
 {
@@ -35,9 +35,15 @@ class ProductController extends Controller
 
     public function recommend()
     {
-        $products = $this->productService->getAll();
+        $products = $this->productService->getVisibleProducts();
         $this->productService->addRecommendMark($products);
         return (new ProductCollection($products->sortBy('recommend_mark')->reverse()))->response();
+    }
+
+    public function bestsale()
+    {
+        $products = $this->productService->getBestSale();
+        return (new ProductCollection($products))->response();
     }
 
     /**
@@ -136,7 +142,8 @@ class ProductController extends Controller
         return (new ProductResource($product))->response();
     }
 
-    public function updateOne(Request $request, $id){
+    public function updateOne(Request $request, $id)
+    {
         $feild = $request->input('feild');
         $value = $request->input('value');
         $updateOne = $this->productService->updateOne($id, $feild, $value);
@@ -153,14 +160,16 @@ class ProductController extends Controller
         $product = $this->productService->delete($id);
     }
 
-    public function getShopProducts(){
+    public function getShopProducts()
+    {
         $user_id = Auth::user()->id;
         $shop_id = $this->shopService->getIdShop($user_id);
         $products = $this->productService->getProductOfShop($shop_id);
         return (new ProductCollection($products))->response();
     }
 
-    public function getCountProduct(){
+    public function getCountProduct()
+    {
         return $this->productService->getCount();
     }
 }

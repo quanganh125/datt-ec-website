@@ -3,6 +3,7 @@ import { setCookie, getCookie } from "../../utils/cookie";
 import { toast } from "react-toastify";
 import { apiFavorite, apiProduct, apiHistory } from "../../constant";
 
+const GET_BEST_SALE = "GET_BEST_SALE";
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
 const DELETE_PRODUCT = "DELETE_PRODUCT";
@@ -74,6 +75,23 @@ export const fetchProductRecommend = () => async (dispatch) => {
             console.error(error);
             dispatch(setProductRecommend(null));
         });
+};
+
+export const fetchBestSale = () => async (dispatch) => {
+    await axios
+        .get(`${apiProduct}/bestsale`, { headers: headers })
+        .then((res) => {
+            const get_best_sale = res.data.data;
+            dispatch(setBestSale(get_best_sale));
+        })
+        .catch((error) => {
+            console.error(error);
+            dispatch(setBestSale(null));
+        });
+};
+
+export const setBestSale = (products) => {
+    return { type: GET_BEST_SALE, payload: products };
 };
 
 export const fetchProductFavorite = () => async (dispatch) => {

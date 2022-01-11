@@ -1,4 +1,5 @@
 const initialState = {
+    best_sale: [],
     all_product: [],
     shop_products: [],
     product_recommend: [],
@@ -7,6 +8,7 @@ const initialState = {
     products_history: [],
 };
 
+const GET_BEST_SALE = "GET_BEST_SALE";
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
 const GET_SHOP_PRODUCT = "GET_SHOP_PRODUCT";
@@ -16,6 +18,11 @@ const GET_PRODUCTS_HISTORY = "GET_PRODUCTS_HISTORY";
 
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
+        case GET_BEST_SALE:
+            return {
+                ...state,
+                best_sale: action.payload,
+            };
         case GET_ALL_PRODUCT:
             return {
                 ...state,
