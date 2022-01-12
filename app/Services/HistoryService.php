@@ -1,7 +1,11 @@
 <?php
 namespace App\Services;
+
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class HistoryService
 {
     public function get($id)
@@ -20,6 +24,18 @@ class HistoryService
         $user_id = Auth::user()->id;
         $histories = Invoice::where("user_id", "=", $user_id)->get();
         return $histories;
+    }
+
+    public function getBestSaleCategory()
+    {
+        $user_id = Auth::user()->id;
+        return Product::join('invoices', 'products.id', '=', 'invoices.product_id')
+            ->where("user_id", "=", $user_id)
+            ->select('products.*', \DB::raw('SUM(quantity) as quantity'))
+            ->groupBy('products.id')
+            ->orderBy('quantity', 'desc')
+            ->take(1)
+            ->get(['category_id']);
     }
 
     public function update($id, array $history_data)

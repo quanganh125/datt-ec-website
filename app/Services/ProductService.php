@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Services\ShopService;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -35,25 +35,32 @@ class ProductService
     public function getVisibleProducts()
     {
         if (Auth::user()) {
-            $user_id = Auth::user()->id;
-            $shop_id = ShopService::getIdShop($user_id);
+            $user = Auth::user()->id;
+            $shop_id = User::find($user)->shops()->get()->pluck('id')->first();
             return Product::where('stock', '>', 0)
                 ->where('shop_id', '!=', $shop_id)
                 ->get();
         } else {
             return Product::all();
         }
-
     }
 
     public function getBestSale()
     {
         return Product::join('invoices', 'products.id', '=', 'invoices.product_id')
-            ->select('products.*', \DB::raw('SUM(quantity) as quantity'), 'product_id')
-            ->groupBy('product_id')
+            ->select('products.*', \DB::raw('SUM(quantity) as quantity'))
+            ->groupBy('products.id')
             ->orderBy('quantity', 'desc')
             ->take(4)
-            ->get(['products.*', 'product_id']);
+            ->get(['products.*']);
+    }
+
+    public function getBestSaleCategory()
+    {
+        $user_id = Auth::user()->id;
+        $shop_id = User::find($user_id)->shops()->get()->pluck('id')->first();
+        return Invoice::where('user_id', '=', $user_id)
+            ->get(['category_id'])->toArray();
     }
 
     public function update($id, array $product_data)
