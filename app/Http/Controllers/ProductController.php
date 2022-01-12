@@ -40,7 +40,7 @@ class ProductController extends Controller
         return (new ProductCollection($products->sortBy('recommend_mark')->reverse()))->response();
     }
 
-    public function bestsale()
+    public function bestSale()
     {
         $products = $this->productService->getBestSale();
         return (new ProductCollection($products))->response();

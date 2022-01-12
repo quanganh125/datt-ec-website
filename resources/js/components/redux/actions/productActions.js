@@ -3,6 +3,7 @@ import { setCookie, getCookie } from "../../utils/cookie";
 import { toast } from "react-toastify";
 import { apiFavorite, apiProduct, apiHistory } from "../../constant";
 
+const GET_BEST_SALE_CATEGORY = "GET_BEST_SALE_CATEGORY";
 const GET_BEST_SALE = "GET_BEST_SALE";
 const GET_PRODUCT_RECOMMEND = "GET_PRODUCT_RECOMMEND";
 const GET_ALL_PRODUCT = "GET_ALL_PRODUCT";
@@ -117,6 +118,21 @@ export const fetchProductHistory = () => async (dispatch) => {
             dispatch({
                 type: GET_PRODUCTS_HISTORY,
                 payload: products_history,
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export const fetchBestSaleCategory = () => async (dispatch) => {
+    await axios
+        .get(`${apiHistory}/best-sale-category`, { headers: headers })
+        .then((res) => {
+            const best_sale_category= res.data.data[0].category_id;
+            dispatch({
+                type: GET_BEST_SALE_CATEGORY,
+                payload: best_sale_category,
             });
         })
         .catch((error) => {

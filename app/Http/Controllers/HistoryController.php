@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\HistoryService;
 use App\Models\Invoice;
 use App\Http\Resources\HistoryCollection;
+use App\Http\Resources\ProductCollection;
 use App\Http\Resources\HistoryResource;
 use Illuminate\Support\Facades\Auth;
 class HistoryController extends Controller
@@ -32,6 +33,12 @@ class HistoryController extends Controller
     {
         $histories = $this->historyService->getAllOfUser();
         return (new HistoryCollection($histories))->response();
+    }
+
+    public function bestSaleCategory()
+    {
+        $best_sale_category = $this->historyService->getBestSaleCategory();
+        return (new ProductCollection($best_sale_category))->response();
     }
 
     /**

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./home.scss";
-import ProductList from "../../layouts/ProductList";
-import { fetchProductRecommend, fetchBestSale } from "./../../redux/actions/productActions";
+import {
+    fetchProductRecommend,
+    fetchBestSale,
+    fetchBestSaleCategory,
+} from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
-import { apiProduct, paginate_count } from "../../constant";
+import { paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 import SideBar from "../../layouts/SideBar";
 import { Link } from "react-router-dom";
-import { set } from "lodash";
 import ProductNotFound from "../../../assets/images/Product Not Found.png";
 import banner1 from "../../../assets/images/homeBanner1.png";
 import banner2 from "../../../assets/images/homeBanner2.png";
@@ -22,27 +24,39 @@ export default function Home() {
     const [isFilter, setIsFilter] = useState(false);
     const [filterData, setFilterData] = useState("");
 
-    const fetchProduct = () => {
-        dispatch(fetchProductRecommend());
-    };
-
-    useEffect(() => {
-        fetchProduct();
-    }, []);
+    const best_sale_category = useSelector(
+        (state) => state.product.best_sale_category
+    );
 
     const product_recommend_datas = useSelector(
         (state) => state.product.product_recommend
     );
 
+    const best_sale_datas = useSelector((state) => state.product.best_sale);
+
+    const searchTitle = useSelector((state) => state.search.search_title);
+
+    const recommendByUserHistory = product_recommend_datas.filter(function (
+        el
+    ) {
+        return el.category_id == best_sale_category;
+    });
+
+    const fetchBestSaleCategoryHome = () => {
+        dispatch(fetchBestSaleCategory());
+    };
+
+    const fetchProduct = () => {
+        dispatch(fetchProductRecommend());
+    };
+
     const fetchBestSaleProduct = () => {
         dispatch(fetchBestSale());
     };
 
-    const best_sale_datas = useSelector(
-        (state) => state.product.best_sale
-    );
-
     useEffect(() => {
+        fetchBestSaleCategoryHome();
+        fetchProduct();
         fetchBestSaleProduct();
     }, []);
 
@@ -55,8 +69,6 @@ export default function Home() {
             setIsLoading(null);
         };
     }, [isLoading, product_recommend_datas]);
-
-    const searchTitle = useSelector((state) => state.search.search_title);
 
     useEffect(() => {
         getSearchResult();
@@ -289,12 +301,16 @@ export default function Home() {
                         >
                             全て
                         </button>
-                        <button
-                            className="tablinks"
-                            onClick={(event) => onClickTab(event, "recommend")}
-                        >
-                            レコメンデーション
-                        </button>
+                        {best_sale_category && (
+                            <button
+                                className="tablinks"
+                                onClick={(event) =>
+                                    onClickTab(event, "recommend")
+                                }
+                            >
+                                レコメンデーション
+                            </button>
+                        )}
                         <button
                             className="tablinks"
                             onClick={(event) => onClickTab(event, "selling")}
@@ -325,7 +341,15 @@ export default function Home() {
                         )}
                     </div>
 
-                    <div id="recommend" className="tabcontent"></div>
+                    {best_sale_category && (
+                        <div id="recommend" className="tabcontent">
+                            <Pagination
+                                dataItems={recommendByUserHistory}
+                                itemsPerPage={paginate_count}
+                                type={"home-product"}
+                            />
+                        </div>
+                    )}
 
                     <div id="selling" className="tabcontent">
                         <Pagination
@@ -333,7 +357,7 @@ export default function Home() {
                             itemsPerPage={paginate_count}
                             type={"home-product"}
                         />
-                         {!best_sale_datas.length && (
+                        {!best_sale_datas.length && (
                             <div className="nonProduct">
                                 <img
                                     src={ProductNotFound}
