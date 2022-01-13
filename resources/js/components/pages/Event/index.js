@@ -75,15 +75,14 @@ export default function Event() {
                                         >
                                             <Grid
                                                 container
-                                                className="item-manager-container"
+                                                className="item-copoun-container"
                                             >
                                                 <Grid
                                                     item
-                                                    className="item-manager-image"
+                                                    className="item-copoun-image"
                                                     xs={6}
                                                     md={5}
                                                     lg={4}
-                                                    onClick={() => nextDetail()}
                                                 >
                                                     <img
                                                         src={coupon}
@@ -93,17 +92,19 @@ export default function Event() {
                                                 </Grid>
                                                 <Grid
                                                     item
-                                                    className="item-manager-content"
+                                                    className="item-copoun-content"
                                                     xs={6}
                                                     md={7}
                                                     lg={8}
-                                                    onClick={() => nextDetail()}
                                                 >
                                                     <h6>
                                                         クーポン: {data.code}
                                                     </h6>
                                                     <p>
                                                         割引: {data.discount}%
+                                                    </p>
+                                                    <p>
+                                                        すべての製品に適用されます
                                                     </p>
                                                 </Grid>
                                                 <div

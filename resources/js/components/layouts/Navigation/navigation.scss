@@ -28,7 +28,7 @@
 .logo-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
 }
 .logo {
     width: 45px;
@@ -85,6 +85,16 @@ a {
 .sign-in {
     align-self: center;
     position: relative;
+    p {
+        white-space: nowrap;
+        width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include deleteSpace();
+        &:hover {
+            cursor: pointer;
+        }
+    }
     a {
         color: white;
     }

@@ -1,3 +1,22 @@
+@import "../../../../sass/common";
+@import "../../../../sass/variables";
+
+.product-create-container {
+    margin-bottom: 20px;
+    @include width-container();
+    @include page-frame();
+    margin-top: 100px;
+    .form-container {
+        @include deleteSpace();
+    }
+}
+
+@media (min-width: 1500px) {
+    .product-create-container {
+        @include width-lg-container();
+    }
+}
+
 .form-wrap {
     display: flex;
     flex-direction: column;
@@ -5,7 +24,7 @@
     margin: auto;
 
     .form-group {
-        width: 80%;
+        width: 100%;
         margin-top: 20px;
     }
 }

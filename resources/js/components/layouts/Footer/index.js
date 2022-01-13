@@ -48,7 +48,7 @@ function Footer() {
             </Grid>
             <Grid item xs={12} sm={4} className="support">
                 <span>
-                    <h3 className="footer-title">リンク</h3>
+                    <h3 className="footer-title">私達と接続</h3>
                     <ul>
                         <li style={{ float: "left" }}>
                             <a href="/">

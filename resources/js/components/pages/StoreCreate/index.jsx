@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
+import "./storeCreate.scss";
 class StoreProfile extends Component {
     fileRef = React.createRef();
     state = {
@@ -192,7 +193,7 @@ class StoreProfile extends Component {
     render() {
         return (
             <div
-                className="row"
+                className="row store-create-container"
                 style={{
                     display: "flex",
                     alignItems: "center",
@@ -202,7 +203,7 @@ class StoreProfile extends Component {
                     minWidth: 600,
                 }}
             >
-                <div className="col-9">
+                <div className="form-container">
                     <h3>ストアを作成する</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* input ten cua cua hang */}

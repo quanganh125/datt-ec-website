@@ -1,7 +1,7 @@
 @import "../../../../sass/common";
 @import "../../../../sass/variables";
 
-.store-show-container {
+.store-edit-container {
     margin-bottom: 20px;
     @include width-container();
     @include page-frame();
@@ -12,11 +12,7 @@
 }
 
 @media (min-width: 1500px) {
-    .store-show-container {
+    .store-edit-container {
         @include width-lg-container();
     }
-}
-
-.form-group {
-    margin-top: 20px;
 }

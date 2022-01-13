@@ -112,7 +112,6 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                             title="Trang chu"
                             style={{
                                 padding: 0,
-                                margin: 20,
                                 backgroundColor: "transparent",
                             }}
                         >
@@ -236,7 +235,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                 ) : (
                     <ul className="signin-up" style={{ marginBottom: 0 }}>
                         <li className="sign-in" style={{ color: "white" }}>
-                            <a>こにちは、{userProfile.name}</a>
+                            <p>こにちは、{userProfile.name}</p>
                         </li>
                         <li className="signup-btn" onClick={closeMobileMenu}>
                             <a onClick={() => logout()}>サインアウト</a>

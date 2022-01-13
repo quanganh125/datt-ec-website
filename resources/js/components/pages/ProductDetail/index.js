@@ -87,7 +87,7 @@ class ProductDetail extends Component {
             .then((res) => {
                 this.setState({
                     name: res.data.data.name,
-                    image_name: res.data.data.image_link,
+                    image_link: res.data.data.image_link,
                     price: res.data.data.price,
                     description: res.data.data.description,
                     recommend_mark: res.data.data.recommend_mark,
@@ -260,7 +260,7 @@ class ProductDetail extends Component {
                                     <img
                                         className="product-image-detail"
                                         alt="productImg"
-                                        src={this.state.image_name}
+                                        src={this.state.image_link}
                                         name="image"
                                     />
                                     {this.state.stock <= 0 ? (
@@ -299,6 +299,26 @@ class ProductDetail extends Component {
                                 )}
                             </div>
                             <div className="col-sm-12 col-md-6">
+                                <ul className="theme-offers product-offers">
+                                    <div className="flex">
+                                        <div className="elem product-rating">
+                                            <div className="product-rating-number">
+                                                {this.getProductRating()}
+                                            </div>
+                                            <div className="product-rating-star">
+                                                <StarRatings
+                                                    rating={this.getProductRating()}
+                                                    starDimension="15px"
+                                                    starSpacing="0"
+                                                    starRatedColor="#d0011b"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="product-review-number">
+                                            {this.state.reviews.length} レビュー
+                                        </div>
+                                    </div>
+                                </ul>
                                 <div className="product-price">
                                     <label className="title"> 価値： </label>
                                     <h3 style={{ color: "red" }}>
@@ -328,26 +348,6 @@ class ProductDetail extends Component {
                                         </span>
                                     </h3>
                                 </div>
-                                <ul className="theme-offers product-offers">
-                                    <div className="flex">
-                                        <div className="elem product-rating">
-                                            <div className="product-rating-number">
-                                                {this.getProductRating()}
-                                            </div>
-                                            <div className="product-rating-star">
-                                                <StarRatings
-                                                    rating={this.getProductRating()}
-                                                    starDimension="15px"
-                                                    starSpacing="0"
-                                                    starRatedColor="#d0011b"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="product-review-number">
-                                            {this.state.reviews.length} レビュー
-                                        </div>
-                                    </div>
-                                </ul>
                                 <div className="product-detail">
                                     <label className="title"> 製品詳細 </label>
                                     <ul>

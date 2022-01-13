@@ -328,7 +328,7 @@ class EditProduct extends React.Component {
     render() {
         return (
             <div
-                className="row"
+                className="row product-edit-container"
                 style={{
                     display: "flex",
                     alignItems: "center",
@@ -339,7 +339,7 @@ class EditProduct extends React.Component {
                 }}
             >
                 {this.state.isLoading ? (
-                    <div className="col-9">
+                    <div className="form-container">
                         <h3>製品の編集</h3>
                         <form
                             className="form-wrap"

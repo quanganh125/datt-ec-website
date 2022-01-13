@@ -35,7 +35,7 @@ export default function ProductManager() {
             {isLoading ? (
                 <>
                     <div className="product-handler">
-                        <h3>エクスポート↓</h3>
+                        <h3>プロダクト管理</h3>
                         <div>
                             <Link to="/product/create">
                                 <Button
