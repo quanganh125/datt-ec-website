@@ -7,6 +7,7 @@ import { apiShop, apiStorage } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
+import "./storeEdit.scss";
 
 const headers = {
     "Content-type": "application/json",
@@ -264,7 +265,7 @@ class EditStoreProfile extends Component {
     render() {
         return (
             <div
-                className="row"
+                className="row store-edit-container"
                 style={{
                     display: "flex",
                     alignItems: "center",
@@ -275,7 +276,7 @@ class EditStoreProfile extends Component {
                 }}
             >
                 {this.state.isLoading ? (
-                    <div className="col-9">
+                    <div className="form-container">
                         <h3>ストアを編集する</h3>
                         <form onSubmit={this.handleFormSubmit}>
                             {/* input ten cua cua hang */}
@@ -360,25 +361,25 @@ class EditStoreProfile extends Component {
                             >
                                 <input
                                     type="submit"
-                                    className="btn btn-primary"
+                                    className="btn btn-success"
                                     value="アップデート"
-                                    style={{ margin: 5, width: "30%" }}
+                                    style={{ margin: 5, width: "20%" }}
                                     disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
-                                    className="btn btn-secondary"
+                                    className="btn btn-danger"
                                     onClick={this.handleDelete}
-                                    style={{ margin: 5, width: "30%" }}
+                                    style={{ margin: 5, width: "20%" }}
                                     disabled={this.state.isSubmit}
                                 >
                                     消去
                                 </button>
                                 <button
                                     type="button"
-                                    className="btn btn-success"
+                                    className="btn btn-secondary"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ margin: 5, width: "30%" }}
+                                    style={{ margin: 5, width: "20%" }}
                                     disabled={this.state.isSubmit}
                                 >
                                     キャンセル

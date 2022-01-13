@@ -94,7 +94,7 @@ class ShowStoreProfile extends Component {
     render() {
         return (
             <div
-                className="row"
+                className="row store-show-container"
                 style={{
                     display: "flex",
                     alignItems: "center",
@@ -105,7 +105,7 @@ class ShowStoreProfile extends Component {
                 }}
             >
                 {this.state.isLoading ? (
-                    <div className="col-9">
+                    <div className="col-12 form-container">
                         <h3>ストアプロファイル</h3>
                         <form>
                             {/* input ten cua cua hang */}

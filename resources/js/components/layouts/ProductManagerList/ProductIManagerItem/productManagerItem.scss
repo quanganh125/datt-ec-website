@@ -27,7 +27,10 @@
 }
 
 .item-manager-button {
-    .item-btn-manager {
-        width: 100%;
+    .button-control {
+        margin-right: 10px;
+        .item-btn-manager {
+            width: 100%;
+        }
     }
 }

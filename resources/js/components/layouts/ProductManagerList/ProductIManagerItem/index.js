@@ -82,24 +82,26 @@ export default function Item({ data }) {
                     <p>レビュー数: {reviews.length}</p>
                 </Grid>
                 <Grid item className="item-manager-button" xs={3}>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        className="item-btn-manager"
-                        style={{ fontSize: 15, marginBottom: 2 }}
-                        onClick={() => goToDetail()}
-                    >
-                        編集
-                    </Button>
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        className="item-btn-manager"
-                        style={{ fontSize: 15, marginTop: 2 }}
-                        onClick={() => handleClickOpen()}
-                    >
-                        消去
-                    </Button>
+                    <div className="button-control">
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            className="item-btn-manager"
+                            style={{ fontSize: 15, marginBottom: 2 }}
+                            onClick={() => goToDetail()}
+                        >
+                            編集
+                        </Button>
+                        <Button
+                            color="secondary"
+                            variant="contained"
+                            className="item-btn-manager"
+                            style={{ fontSize: 15, marginTop: 2 }}
+                            onClick={() => handleClickOpen()}
+                        >
+                            消去
+                        </Button>
+                    </div>
                 </Grid>
             </Grid>
             <Dialog

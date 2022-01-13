@@ -5,6 +5,13 @@
     margin-bottom: 20px;
     @include width-container();
     @include page-frame();
+    margin-top: 60px;
+}
+
+@media (min-width: 1500px) {
+    .product-detail-container {
+        @include width-lg-container();
+    }
 }
 
 .product-detail {

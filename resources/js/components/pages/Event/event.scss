@@ -10,9 +10,6 @@
     .top-event {
         @include deleteSpace();
     }
-
-    .discount-event {
-    }
 }
 
 @media (min-width: 1500px) {
@@ -23,15 +20,15 @@
 
 .copy-check-mark {
     position: fixed;
-    top: 40%;
-    right: 45%;
+    top: calc(50% - 80px);
+    right: calc(50% - 80px);
 }
 
 .image-event {
     width: 100%;
 }
 
-.item-manager-container {
+.item-copoun-container {
     width: 100%;
     height: auto;
     border-width: 2px;
@@ -42,20 +39,21 @@
     justify-content: left;
     align-items: center;
     display: flex;
-    &:hover {
-        cursor: pointer;
-    }
 }
-.item-manager-image {
+.item-copoun-image {
     .itemImg {
         padding: 5px;
         width: 100px;
         height: 100px;
     }
 }
-.item-manager-content {
+.item-copoun-content {
     h6 {
         color: red;
+    }
+    p {
+        margin: 0px;
+        padding: 0px;
     }
 }
 
@@ -65,8 +63,9 @@
     right: 10px;
     i {
         color: grey;
+        &:hover {
+            cursor: pointer;
+            color: $base-color-2;
+        }
     }
-    // &:hover {
-    //     cursor: pointer;
-    // }
 }

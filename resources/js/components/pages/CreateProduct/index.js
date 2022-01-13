@@ -314,7 +314,7 @@ class CreateProduct extends Component {
     render() {
         return (
             <div
-                className="row"
+                className="row product-create-container"
                 style={{
                     display: "flex",
                     alignItems: "center",
@@ -325,7 +325,7 @@ class CreateProduct extends Component {
                 }}
             >
                 {this.state.isLoading ? (
-                    <div className="col-9">
+                    <div className="form-container">
                         <h3>新製品を作成</h3>
                         <form
                             className="form-wrap"

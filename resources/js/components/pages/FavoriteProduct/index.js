@@ -45,13 +45,20 @@ export default function History() {
                         />
                     )}
                     {!all_favorite_product_datas.length && (
-                        <div className="nonProduct">
-                            <img
-                                src={ProductNotFound}
-                                alt="product not found"
-                                className="product-not-found"
-                            />
-                        </div>
+                        <>
+                            <div className="continue-buy">
+                                <a href="/home">
+                                    <b>ショッピングを続ける...</b>
+                                </a>
+                            </div>
+                            <div className="nonProduct">
+                                <img
+                                    src={ProductNotFound}
+                                    alt="product not found"
+                                    className="product-not-found"
+                                />
+                            </div>
+                        </>
                     )}
                 </>
             ) : (
