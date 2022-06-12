@@ -1,11 +1,8 @@
-import { event } from "jquery";
 import React, { Component } from "react";
 const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { apiShop, apiStorage, headers, apiGetShop } from "../../constant";
 import Loading from "../../layouts/Loading";
-import { getCookie } from "../../utils/cookie";
-import storage from "../../services/firebaseConfig";
 import "./storeShow.scss";
 class ShowStoreProfile extends Component {
     constructor(props) {

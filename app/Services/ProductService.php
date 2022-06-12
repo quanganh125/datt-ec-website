@@ -118,19 +118,6 @@ class ProductService
 
         $path = Storage::url($fileName);
         return $fileName;
-
-        // $file = explode(',', $param)[1];
-        // $file = str_replace(' ', '+', $file);
-        // $file = base64_decode($file);
-
-        // $extension = explode('/', mime_content_type($param))[1];
-
-        // $fileName = time().'-'.uniqid().'.'.$extension;
-
-        // Storage::disk('public')->put($folder.'/'.$fileName, $file);
-
-        // $fileNames[] = $fileName;
-        // return Storage::url($folder.'/'.$fileName);
     }
 
     public function updateOne($id, $feild, $value)

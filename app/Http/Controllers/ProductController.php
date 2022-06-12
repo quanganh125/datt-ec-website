@@ -70,9 +70,6 @@ class ProductController extends Controller
 
         $user_id = Auth::user()->id;
         $shop_id = $this->shopService->getIdShop($user_id);
-        //endcode base64 image
-        // $image_link_endcode = $this->productService->saveImgBase64($request->input('image_link'), 'product_img');
-        // dd($request);
 
         $product = new Product();
         $product->name = $request->input('name');
@@ -98,7 +95,6 @@ class ProductController extends Controller
     {
         $product = $this->productService->get($id);
         $url_image = Storage::url($product["image_link"]);
-        // dd($product);
         return (new ProductResource($product))->response();
     }
 
@@ -136,8 +132,6 @@ class ProductController extends Controller
         }
 
         $input = $request->all();
-        // $image_link_endcode = $this->productService->saveImgBase64($input["image_link"], 'product_img');
-        // $input["image_link"] = $image_link_endcode;
         $product = $this->productService->update($id, $input);
         return (new ProductResource($product))->response();
     }

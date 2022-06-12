@@ -247,30 +247,32 @@ class ProductDetail extends Component {
     render() {
         return (
             <div className="product-detail-container">
+                {" "}
                 {this.state.isLoading ? (
                     <>
                         <div className="row">
                             <div className="col-sm-12 col-md-6">
                                 <div className="product-name">
                                     <h1 className="title text-center">
-                                        {this.state.name}
-                                    </h1>
-                                </div>
+                                        {" "}
+                                        {this.state.name}{" "}
+                                    </h1>{" "}
+                                </div>{" "}
                                 <div className="image">
                                     <img
                                         className="product-image-detail"
                                         alt="productImg"
                                         src={this.state.image_link}
                                         name="image"
-                                    />
+                                    />{" "}
                                     {this.state.stock <= 0 ? (
                                         <img
                                             src={soldOut}
                                             alt="sold-out"
                                             className="sold-out"
                                         />
-                                    ) : null}
-                                </div>
+                                    ) : null}{" "}
+                                </div>{" "}
                                 {getCookie("access_token") &&
                                 this.state.shop_id != this.state.shopIdUser &&
                                 this.state.stock > 0 ? (
@@ -280,31 +282,32 @@ class ProductDetail extends Component {
                                             className="buy-product-btn"
                                             fullWidth
                                         >
-                                            購入
-                                        </Button>
+                                            購入{" "}
+                                        </Button>{" "}
                                     </div>
-                                ) : null}
+                                ) : null}{" "}
                                 {this.state.productRecommend && (
                                     <div className="product-recommend">
                                         <h4>
-                                            <b>関連製品</b>
-                                        </h4>
+                                            <b> 関連製品 </b>{" "}
+                                        </h4>{" "}
                                         <ProductList
                                             currentItems={
                                                 this.state.productRecommend
                                             }
                                             type={"detail"}
-                                        />
+                                        />{" "}
                                     </div>
-                                )}
-                            </div>
+                                )}{" "}
+                            </div>{" "}
                             <div className="col-sm-12 col-md-6">
                                 <ul className="theme-offers product-offers">
                                     <div className="flex">
                                         <div className="elem product-rating">
                                             <div className="product-rating-number">
-                                                {this.getProductRating()}
-                                            </div>
+                                                {" "}
+                                                {this.getProductRating()}{" "}
+                                            </div>{" "}
                                             <div className="product-rating-star">
                                                 <StarRatings
                                                     rating={this.getProductRating()}
@@ -312,16 +315,19 @@ class ProductDetail extends Component {
                                                     starSpacing="0"
                                                     starRatedColor="#d0011b"
                                                 />
-                                            </div>
-                                        </div>
+                                            </div>{" "}
+                                        </div>{" "}
                                         <div className="product-review-number">
-                                            {this.state.reviews.length} レビュー
-                                        </div>
-                                    </div>
-                                </ul>
+                                            {" "}
+                                            {this.state.reviews.length}
+                                            レビュー{" "}
+                                        </div>{" "}
+                                    </div>{" "}
+                                </ul>{" "}
                                 <div className="product-price">
-                                    <label className="title"> 価値： </label>
+                                    <label className="title"> 価値： </label>{" "}
                                     <h3 style={{ color: "red" }}>
+                                        {" "}
                                         {this.getPriceSale(
                                             this.state.price,
                                             this.state.discount
@@ -332,8 +338,8 @@ class ProductDetail extends Component {
                                                       this.state.discount
                                                   )
                                               )}円`
-                                            : "無料"}
-                                        &nbsp;&nbsp;&nbsp;
+                                            : "無料"}{" "}
+                                        & nbsp; & nbsp; & nbsp;{" "}
                                         <span
                                             style={{
                                                 textDecoration: "line-through",
@@ -341,28 +347,28 @@ class ProductDetail extends Component {
                                                 fontSize: 20,
                                             }}
                                         >
-                                            {format(this.state.price)} 円
-                                        </span>
+                                            {format(this.state.price)}円{" "}
+                                        </span>{" "}
                                         <span className="lead">
-                                            オンライン価格
-                                        </span>
-                                    </h3>
-                                </div>
+                                            オンライン価格{" "}
+                                        </span>{" "}
+                                    </h3>{" "}
+                                </div>{" "}
                                 <div className="product-detail">
-                                    <label className="title"> 製品詳細 </label>
+                                    <label className="title"> 製品詳細 </label>{" "}
                                     <ul>
                                         <li>
                                             <p>
-                                                <b>説明：</b>
-                                                {this.state.description}
-                                            </p>
-                                        </li>
+                                                <b> 説明： </b>{" "}
+                                                {this.state.description}{" "}
+                                            </p>{" "}
+                                        </li>{" "}
                                         <li>
                                             <p>
-                                                <b>カテゴリー：</b>
-                                                {this.state.category}
-                                            </p>
-                                        </li>
+                                                <b> カテゴリー： </b>{" "}
+                                                {this.state.category}{" "}
+                                            </p>{" "}
+                                        </li>{" "}
                                         <li>
                                             <p>
                                                 <Link to={this.state.linkShop}>
@@ -371,12 +377,12 @@ class ProductDetail extends Component {
                                                             color: "black",
                                                         }}
                                                     >
-                                                        店舗：
-                                                    </b>
-                                                    {this.state.shop}
-                                                </Link>
-                                            </p>
-                                        </li>
+                                                        店舗：{" "}
+                                                    </b>{" "}
+                                                    {this.state.shop}{" "}
+                                                </Link>{" "}
+                                            </p>{" "}
+                                        </li>{" "}
                                         <li>
                                             <p>
                                                 <b
@@ -384,43 +390,43 @@ class ProductDetail extends Component {
                                                         color: "black",
                                                     }}
                                                 >
-                                                    数量：
-                                                </b>
+                                                    数量：{" "}
+                                                </b>{" "}
                                                 {this.state.stock != 0
                                                     ? this.state.stock
-                                                    : "在庫切れ"}
-                                            </p>
-                                        </li>
-                                    </ul>
-                                </div>
+                                                    : "在庫切れ"}{" "}
+                                            </p>{" "}
+                                        </li>{" "}
+                                    </ul>{" "}
+                                </div>{" "}
                                 <div>
                                     <FacebookShareButton
                                         url={window.location.href}
                                         quote={document.title}
-                                        hashtag="#ZeroTwo"
+                                        hashtag="#QuangAnh"
                                         className="socialMediaButton"
                                     >
-                                        <FacebookIcon size={40} round={true} />
-                                    </FacebookShareButton>
+                                        <FacebookIcon size={40} round={true} />{" "}
+                                    </FacebookShareButton>{" "}
                                     <EmailShareButton
                                         url={window.location.href}
                                         quote={document.title}
-                                        hashtag="#ZeroTwo"
+                                        hashtag="#QuangAnh"
                                         className="socialMediaButton"
                                     >
-                                        <EmailIcon size={40} round={true} />
-                                    </EmailShareButton>
-                                </div>
+                                        <EmailIcon size={40} round={true} />{" "}
+                                    </EmailShareButton>{" "}
+                                </div>{" "}
                                 <div className="product-reviews">
-                                    <label className="title"> レビュー </label>
+                                    <label className="title"> レビュー </label>{" "}
                                     <div className="reviews">
                                         <Pagination
                                             dataItems={this.state.reviews}
                                             itemsPerPage={4}
                                             type={"vote-product"}
-                                        />
-                                    </div>
-                                </div>
+                                        />{" "}
+                                    </div>{" "}
+                                </div>{" "}
                                 {getCookie("access_token") &&
                                 this.state.shop_id != this.state.shopIdUser &&
                                 this.checkReviewed() ? (
@@ -431,18 +437,18 @@ class ProductDetail extends Component {
                                             }
                                             className="item-btn-care"
                                         >
-                                            レビュー
-                                        </Button>
+                                            レビュー{" "}
+                                        </Button>{" "}
                                     </div>
-                                ) : null}
-                            </div>
-                        </div>
+                                ) : null}{" "}
+                            </div>{" "}
+                        </div>{" "}
                         <RatingForm
                             isOpen={this.state.isOpenRate}
                             setIsOpen={this.setIsOpen}
                             productId={this.state.id}
                             reloadReview={this.reloadReview}
-                        />
+                        />{" "}
                         <FormBuy
                             isOpen={this.state.isOpenBuy}
                             setIsOpenBuy={this.setIsOpenBuy}
@@ -457,11 +463,11 @@ class ProductDetail extends Component {
                             stock={this.state.stock}
                             category_id={this.state.category_id}
                             updateQuantity={this.updateQuantity}
-                        />
+                        />{" "}
                     </>
                 ) : (
                     <Loading />
-                )}
+                )}{" "}
             </div>
         );
     }

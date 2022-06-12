@@ -1,19 +1,24 @@
-# itss-japanese-2
 ## Cách chạy project
+
 **Cài đặt xampp rồi clone project vào thư mục htdocs của xampp**
 
 **Tải và cài đặt composer trên trang chủ**
-Download *[Tại đây](https://getcomposer.org/download/)*.
+Download _[Tại đây](https://getcomposer.org/download/)_.
 
 **Cài đặt thư viện npm**
+
 ```sh
 npm install
 ```
+
 **Cài đặt thư viện composer**
+
 ```sh
 composer install
 ```
+
 **Tạo file .env trong thư mục gốc rồi coppy đoạn này vào và thay đổi thông tin db, username, password của mysql**
+
 ```sh
 APP_NAME=Laravel
 APP_ENV=local
@@ -70,22 +75,32 @@ MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 JWT_SECRET=XaXeFxNDPDGOQJuNUdN1ePg3J4RBxE3J4WSqJN2sK0tIUClY2Nday5PXV8RH61CC
 
 ```
+
 **Chaỵ server**
+
 ```sh
 php artisan serve
 ```
+
 **Chaỵ react**
+
 ```sh
 npm run watch
 ```
+
 **Sau đó truy cập vào**
+
 ```sh
 http://127.0.0.1:8000/
 ```
+
 **Nếu gặp lỗi như này**
+
 ```sh
 Notifications are disabled
 Reason: DisabledForApplication Please make sure that the app id is set correctly.
 ```
+
 **Cách fix**
-- Thay đổi appID từ 'Laravel Mix' sang 'Laravel Mix Plus' trong file node_modules\laravel-mix\src\components\Notifications.js
+
+-   Thay đổi appID từ 'Laravel Mix' sang 'Laravel Mix Plus' trong file node_modules\laravel-mix\src\components\Notifications.js

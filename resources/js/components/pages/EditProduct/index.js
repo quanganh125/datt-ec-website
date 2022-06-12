@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { apiProduct, apiStorage, apiCategory } from "../../constant";
+import { apiProduct, apiCategory } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import "./edit.scss";
 import Loading from "../../layouts/Loading";
@@ -194,9 +194,7 @@ class EditProduct extends React.Component {
                                             .put(this.state.new_image_file)
                                             .on(
                                                 "state_changed",
-                                                (snapShot) => {
-                                                    // console.log(snapShot);
-                                                },
+                                                (snapShot) => {},
                                                 (err) => {
                                                     console.log(err);
                                                 },

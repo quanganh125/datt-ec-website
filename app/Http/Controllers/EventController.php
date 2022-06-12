@@ -27,9 +27,7 @@ class EventController extends Controller
         return (new EventCollection($events))->response();
     }
 
-    public function eventCurrent()
-    {
-        //
+    public function eventCurrent(){
     }
 
     /**
@@ -37,9 +35,7 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(){
     }
 
     /**
@@ -80,9 +76,7 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id){
     }
 
     /**

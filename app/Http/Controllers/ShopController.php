@@ -63,7 +63,6 @@ class ShopController extends Controller
             return response()->json($validator->errors());
         }
         $user_id = Auth::user()->id;
-        // $logo_storage = $this->productService->saveImgBase64($request->input('logo'), 'product_img');
 
         $shop = new Shop();
         $shop->name = $request->input('name');
@@ -118,8 +117,6 @@ class ShopController extends Controller
         }
 
         $input = $request->all();
-        // $logo_storage = $this->productService->saveImgBase64($request->input('logo'), 'product_img');
-        // $input["logo"] = $logo_storage;
         $shop = $this->shopService->update($id, $input);
         return (new ShopResource($shop))->response();
     }

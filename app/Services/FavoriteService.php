@@ -34,7 +34,6 @@ class FavoriteService
     {
         //get favorite id from product id
         $favorite_id = Favorite::where("product_id", "=", $product_id)->get()->pluck('id')->first();
-        // dd($favorite_id);
         $favorite = Favorite::destroy($favorite_id);
         return response()->json($favorite_id);
     }

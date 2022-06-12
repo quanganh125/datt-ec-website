@@ -34,7 +34,6 @@ class ReviewService
     public function getReviewForProduct($product_id)
     {
         $reviews = Review::where('product_id', $product_id)->get();
-        //$reviews = Review::where('product_id', $product_id)->avg('rating');
         return $reviews;
     }
 

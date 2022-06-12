@@ -24,9 +24,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //$reviews = $this->reviewService->getAll();
         return $this->reviewService->getAll();
-        //return (new ReviewCollection($reviews))->response();
     }
 
     /**
@@ -34,9 +32,7 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(){
     }
 
     /**
@@ -85,9 +81,7 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id){
     }
 
     /**
