@@ -3,8 +3,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -18,10 +16,10 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast } from "react-toastify";
 import { validateEmail, validatePassword } from "../../utils/validate";
 import { setCookie } from "./../../utils/cookie";
-import { useHistory } from "react-router-dom";
 import { apiAuthLogin } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setHideNav } from "../../redux/actions/userActions";
+import signinSignup from "../Signin/signinSignup.scss";
 
 export default function Signin({ setAuth }) {
     const classes = useStyles();
@@ -177,7 +175,7 @@ export default function Signin({ setAuth }) {
                     <Grid container>
                         <Grid item xs={6}></Grid>
                         <Grid item xs={6}>
-                            <Link to="/register">
+                            <Link to="/register" className="link-to-rerister">
                                 アカウントをお持ちではありませんか？
                                 サインアップ
                             </Link>

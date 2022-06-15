@@ -18,6 +18,7 @@
     align-items: center;
     @include width-container();
     height: $height-top-nav;
+    height: 75px;
 }
 
 .logo-nav {

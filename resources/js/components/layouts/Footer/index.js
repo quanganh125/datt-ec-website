@@ -11,31 +11,7 @@ function Footer() {
             <hr style={{ width: "100%" }} className="line-footer" />
             <Grid item xs={12} sm={4} className="support">
                 <span>
-                    <h3 className="footer-title"> 顧客サポート </h3>{" "}
-                    <ul>
-                        <li>
-                            <a href="/"> ヘルプセンター </a>{" "}
-                        </li>{" "}
-                        <li>
-                            <a href="/"> 安全な売買 </a>{" "}
-                        </li>{" "}
-                        <li>
-                            <a href="/"> 知っておくべきルール </a>{" "}
-                        </li>{" "}
-                        <li>
-                            <a href="/"> プライバシーポリシー </a>{" "}
-                        </li>{" "}
-                        <li>
-                            <a href="/"> ヘルプに連絡 </a>{" "}
-                        </li>{" "}
-                    </ul>{" "}
-                </span>{" "}
-            </Grid>{" "}
-            <Grid item xs={12} sm={4} className="support">
-                <span>
-                    <h3 className="footer-title">
-                        レコメンデーションWEBサイト{" "}
-                    </h3>{" "}
+                    <h3 className="footer-title">Beauty Shop </h3>{" "}
                     <ul>
                         <li>
                             <a href="/"> 紹介 </a>{" "}

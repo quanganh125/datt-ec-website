@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./navigation.scss";
 import { Grid } from "@material-ui/core";
 import { toast } from "react-toastify";
-import Logo from "../../../assets/images/shop.png";
+import Logo from "../../../assets/images/default_logo.png";
 import Search from "./Search";
 import axios from "axios";
 import { apiLogout } from "../../constant";
@@ -119,7 +119,6 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                                 id="logopersonal"
                                 alt="logo"
                                 src={Logo}
-                                width="50"
                                 height="50"
                             />
                         </a>
@@ -235,7 +234,7 @@ function Navigation({ userProfile, loginState, isShowSearch }) {
                 ) : (
                     <ul className="signin-up" style={{ marginBottom: 0 }}>
                         <li className="sign-in" style={{ color: "white" }}>
-                            <p>こにちは、{userProfile.name}</p>
+                            <p>Hello、{userProfile.name}</p>
                         </li>
                         <li className="signup-btn" onClick={closeMobileMenu}>
                             <a onClick={() => logout()}>サインアウト</a>

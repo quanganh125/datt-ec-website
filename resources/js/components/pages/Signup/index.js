@@ -23,6 +23,7 @@ import {
 import { apiAuthRegister } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setHideNav } from "../../redux/actions/userActions";
+import signinSignup from "../Signin/signinSignup.scss";
 
 export default function Signup() {
     const classes = useStyles();
@@ -194,7 +195,7 @@ export default function Signup() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to="/login">
+                            <Link to="/login" className="link-to-login">
                                 すでにアカウントをお持ちですか？ ログイン
                             </Link>
                         </Grid>
