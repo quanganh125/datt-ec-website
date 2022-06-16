@@ -1,13 +1,12 @@
-import { event } from "jquery";
 import React, { Component } from "react";
 const maxFileSize = 1024 * 1024;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
-import { apiShop, apiStorage } from "../../constant";
+import { apiShop } from "../../constant";
 import Loading from "../../layouts/Loading";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
-import "./storeEdit.scss";
+import "../StoreShow/storeShow.scss";
 
 const headers = {
     "Content-type": "application/json",
@@ -59,9 +58,7 @@ class EditStoreProfile extends Component {
     }
 
     handleFileChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
             this.setState({
@@ -86,63 +83,32 @@ class EditStoreProfile extends Component {
     };
     handleDelete = async (event) => {
         event.preventDefault();
-        // const {match} = this.props;
         await axios
             .post(
                 `${apiShop}/${this.state.id}/delete`,
                 { data: "mydata" },
-                {
-                    headers: headers,
-                }
+                { headers: headers }
             )
             .then((response) => {
                 window.location.href = `/home`;
             })
-
-            .catch((error) => {
-                console.log("ERROR:: ", error.response.data);
-            });
+            .catch((error) => {});
     };
     handleReturnHomePage = () => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         window.location.href = `/home`;
     };
-    //xu li url
     handleUrlChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            url: event.target.value,
-        });
+        this.setState({ successmessage: "", url: event.target.value });
     };
-    //xu li ten cua san pham
     handleNameChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            name: event.target.value,
-        });
+        this.setState({ successmessage: "", name: event.target.value });
     };
-    //xu li gia cua san pham
     handleaddressChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            address: event.target.value,
-        });
+        this.setState({ successmessage: "", address: event.target.value });
     };
     handleLogoChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            logo: event.target.value,
-        });
+        this.setState({ successmessage: "", logo: event.target.value });
     };
     handleFormSubmit = (event) => {
         event.preventDefault();
@@ -174,12 +140,8 @@ class EditStoreProfile extends Component {
                                 .put(this.state.new_logo_file)
                                 .on(
                                     "state_changed",
-                                    (snapShot) => {
-                                        // console.log(snapShot);
-                                    },
-                                    (err) => {
-                                        console.log(err);
-                                    },
+                                    (snapShot) => {},
+                                    (err) => {},
                                     () => {
                                         storage
                                             .ref("store_logo")
@@ -219,9 +181,7 @@ class EditStoreProfile extends Component {
     };
 
     onSubmitEditStore = async (packets) => {
-        this.setState({
-            isSubmit: true,
-        });
+        this.setState({ isSubmit: true });
         await axios
             .post(`${apiShop}/${this.state.id}/edit`, packets, {
                 headers: headers,
@@ -232,10 +192,8 @@ class EditStoreProfile extends Component {
             })
             .catch((error) => {
                 toast.error("更新されたストアが失敗しました！");
-                console.error("ERROR:: ", error.response.data);
-                this.setState({
-                    isSubmit: false,
-                });
+                // console.error("ERROR:: ", error.response.data);
+                this.setState({ isSubmit: false });
             });
     };
 
@@ -253,9 +211,7 @@ class EditStoreProfile extends Component {
                     isLoading: true,
                 });
             })
-            .catch((error) => {
-                console.error("ERROR:: ", error.response.data);
-            });
+            .catch((error) => {});
     };
 
     componentDidMount() {
@@ -264,22 +220,11 @@ class EditStoreProfile extends Component {
 
     render() {
         return (
-            <div
-                className="row store-edit-container"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minHeight: "100vh",
-                    marginTop: 80,
-                    minWidth: 600,
-                }}
-            >
+            <div className="row store-edit-container">
                 {this.state.isLoading ? (
                     <div className="form-container">
-                        <h3>ストアを編集する</h3>
+                        <h3>店舗情報の編集</h3>
                         <form onSubmit={this.handleFormSubmit}>
-                            {/* input ten cua cua hang */}
                             <div className="form-group">
                                 <h5>名前</h5>
                                 <input
@@ -288,7 +233,6 @@ class EditStoreProfile extends Component {
                                     value={this.state.name}
                                     onChange={this.handleNameChange}
                                 />
-                                {/* input dia chi cua cua hang */}
                             </div>
                             <div className="form-group">
                                 <h5>住所</h5>
@@ -302,7 +246,8 @@ class EditStoreProfile extends Component {
                             <div className="form-group file-input">
                                 <button
                                     type="button"
-                                    className="btn btn-success"
+                                    className="btn btn-primary"
+                                    style={{ width: "100%" }}
                                     onClick={this.onBtnClick}
                                 >
                                     ロゴを選択 ...
@@ -363,14 +308,12 @@ class EditStoreProfile extends Component {
                                     type="submit"
                                     className="btn btn-success"
                                     value="アップデート"
-                                    style={{ margin: 5, width: "20%" }}
                                     disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
                                     className="btn btn-danger"
                                     onClick={this.handleDelete}
-                                    style={{ margin: 5, width: "20%" }}
                                     disabled={this.state.isSubmit}
                                 >
                                     消去
@@ -379,7 +322,6 @@ class EditStoreProfile extends Component {
                                     type="button"
                                     className="btn btn-secondary"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ margin: 5, width: "20%" }}
                                     disabled={this.state.isSubmit}
                                 >
                                     キャンセル
