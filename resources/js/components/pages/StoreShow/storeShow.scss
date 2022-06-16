@@ -2,13 +2,28 @@
 @import "../../../../sass/variables";
 
 .store-show-container {
-    margin-bottom: 20px;
     @include width-container();
     @include page-frame();
-    margin-top: 100px;
+
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 600;
+    margin-top: 90px !important;
+
     .form-container {
         @include deleteSpace();
+
+        width: 70%;
     }
+}
+
+.btn {
+    margin: 5px;
+    width: 30%;
+    min-width: 115px !important;
 }
 
 @media (min-width: 1500px) {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-const maxFileSize = 5000000;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
-import { apiShop, apiStorage, headers, apiGetShop } from "../../constant";
+import { apiShop, headers, apiGetShop } from "../../constant";
 import Loading from "../../layouts/Loading";
 import "./storeShow.scss";
 class ShowStoreProfile extends Component {
@@ -33,9 +32,7 @@ class ShowStoreProfile extends Component {
                     isLoading: true,
                 });
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => {});
         this.fetchUserShopId();
     }
 
@@ -55,65 +52,40 @@ class ShowStoreProfile extends Component {
     }
 
     handleReturnHomePage = () => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         window.location.href = `/home`;
     };
 
     handleGoToEdit = () => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         window.location.href = `/store/${this.state.id}/edit`;
     };
 
     fetchUserShopId = async () => {
         try {
             await axios
-                .get(`${apiGetShop}`, {
-                    headers: headers,
-                })
+                .get(`${apiGetShop}`, { headers: headers })
                 .then((res) => {
-                    const currentShopId = res.data; //shop cua nguoi dung dang xem san pham
-                    this.setState({
-                        shopIdUser: currentShopId,
-                    });
+                    const currentShopId = res.data; //shop cua nguoi dung
+                    this.setState({ shopIdUser: currentShopId });
                 })
-                .catch((error) => {
-                    console.error(error);
-                });
-        } catch (error) {
-            console.error(error);
-        }
+                .catch((error) => {});
+        } catch (error) {}
     };
 
     render() {
         return (
-            <div
-                className="row store-show-container"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minHeight: "100vh",
-                    marginTop: 80,
-                    minWidth: 600,
-                }}
-            >
+            <div className="row store-show-container">
                 {this.state.isLoading ? (
                     <div className="col-12 form-container">
                         <h3>ストアプロファイル</h3>
                         <form>
-                            {/* input ten cua cua hang */}
                             <div className="form-group">
                                 <h5>名前</h5>
                                 <label className="form-control">
                                     {" "}
                                     {this.state.name}
                                 </label>
-
-                                {/* input dia chi cua cua hang */}
                             </div>
                             <div className="form-group">
                                 <h5>住所</h5>
@@ -155,17 +127,12 @@ class ShowStoreProfile extends Component {
                                 </div>
                             ) : null}
 
-                            <div
-                                style={{
-                                    textAlign: "center",
-                                }}
-                            >
+                            <div style={{ textAlign: "center" }}>
                                 {this.state.id == this.state.shopIdUser ? (
                                     <button
                                         type="button"
                                         className="btn btn-success"
                                         onClick={this.handleGoToEdit}
-                                        style={{ margin: 5, width: "20%" }}
                                     >
                                         編集
                                     </button>
@@ -174,7 +141,6 @@ class ShowStoreProfile extends Component {
                                     type="button"
                                     className="btn btn-primary"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ margin: 5, width: "20%" }}
                                 >
                                     ホームに戻る
                                 </button>
