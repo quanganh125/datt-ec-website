@@ -64,65 +64,30 @@ class CreateProduct extends Component {
     };
     //xu li ten cua san pham
     handleNameChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            name: event.target.value,
-        });
+        this.setState({ successmessage: "", name: event.target.value });
     };
-
     handleCategoryChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            category: event.target.value,
-        });
+        this.setState({ successmessage: "", category: event.target.value });
     };
     //xu li gia cua san pham
     handlePriceChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            price: event.target.value,
-        });
+        this.setState({ successmessage: "", price: event.target.value });
     };
     handleContentChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            content: event.target.value,
-        });
+        this.setState({ successmessage: "", content: event.target.value });
     };
     handleStockChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            stock: event.target.value,
-        });
+        this.setState({ successmessage: "", stock: event.target.value });
     };
     handleDiscountChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
-        this.setState({
-            discount: event.target.value,
-        });
+        this.setState({ successmessage: "", discount: event.target.value });
     };
 
     handleFileChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
-            this.setState({
-                errormessage: "無効なファイル",
-            });
+            this.setState({ errormessage: "無効なファイル" });
         } else if (file.size > maxFileSize) {
             this.setState({
                 errormessage: "1MB未満の写真のみをアップロードできます",
@@ -143,17 +108,11 @@ class CreateProduct extends Component {
     };
     handleFormSubmit = (event) => {
         event.preventDefault();
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         if (!this.state.name) {
-            this.setState({
-                errormessage: "名前をアップロードしてください",
-            });
+            this.setState({ errormessage: "名前をアップロードしてください" });
         } else if (!this.state.image_link) {
-            this.setState({
-                errormessage: "画像をアップロードしてください",
-            });
+            this.setState({ errormessage: "画像をアップロードしてください" });
         } else {
             if (!this.state.content) {
                 this.setState({
@@ -192,9 +151,7 @@ class CreateProduct extends Component {
                                             "割引率は0％より大きく100％より小さい必要があります",
                                     });
                                 } else {
-                                    this.setState({
-                                        errormessage: "",
-                                    });
+                                    this.setState({ errormessage: "" });
                                     storage
                                         .ref(
                                             `/product_img/${this.state.image.name}`
@@ -202,12 +159,8 @@ class CreateProduct extends Component {
                                         .put(this.state.image)
                                         .on(
                                             "state_changed",
-                                            (snapShot) => {
-                                                // console.log(snapShot);
-                                            },
-                                            (err) => {
-                                                console.log(err);
-                                            },
+                                            (snapShot) => {},
+                                            (err) => {},
                                             () => {
                                                 storage
                                                     .ref("product_img")
@@ -261,9 +214,7 @@ class CreateProduct extends Component {
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
         await axios
-            .post(apiProduct, packets, {
-                headers: headers,
-            })
+            .post(apiProduct, packets, { headers: headers })
             .then((response) => {
                 toast.success("製品が正常に作成されました！");
                 this.setState({
@@ -284,18 +235,14 @@ class CreateProduct extends Component {
                     window.location.href = `/product/manager`;
                 }, 1000);
             })
-            .catch((error) => {
+            .catch(() => {
                 toast.error("製品の作成に失敗しました!");
-                this.setState({
-                    isSubmit: false,
-                });
+                this.setState({ isSubmit: false });
             });
     };
-
     componentDidMount() {
         this.fetchAllData();
     }
-
     fetchAllData = async () => {
         await axios
             .get(`${apiCategory}`)
@@ -306,23 +253,14 @@ class CreateProduct extends Component {
                     isLoading: true,
                 });
             })
-            .catch((error) => {
-                console.error(error);
-            });
+            .catch(() => {});
     };
 
     render() {
         return (
             <div
                 className="row product-create-container"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minHeight: "100vh",
-                    marginTop: 80,
-                    minWidth: 600,
-                }}
+                style={{ marginTop: "80px" }}
             >
                 {this.state.isLoading ? (
                     <div className="form-container">
@@ -334,7 +272,7 @@ class CreateProduct extends Component {
                             <div className="form-group file-input">
                                 <button
                                     type="button"
-                                    className="btn btn-success"
+                                    className="btn btn-primary"
                                     onClick={this.onBtnClick}
                                 >
                                     画像を選択 ...
@@ -418,7 +356,7 @@ class CreateProduct extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <h5>割引（％）</h5>
+                                <h5>割引（％)</h5>
                                 <input
                                     className="form-control"
                                     placeholder="割引を入力してください..."
@@ -450,22 +388,22 @@ class CreateProduct extends Component {
                             <div
                                 className="form-group"
                                 style={{
-                                    textAlign: `center`,
+                                    textAlign: "center",
                                     marginBottom: 30,
                                 }}
                             >
                                 <input
                                     type="submit"
-                                    className="btn btn-primary"
+                                    className="btn btn-success"
                                     value="作成"
-                                    style={{ marginRight: 10, width: "20%" }}
+                                    style={{ marginRight: 10, width: "30%" }}
                                     disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
-                                    className="btn btn-success"
+                                    className="btn btn-secondary"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ marginLeft: 10, width: "20%" }}
+                                    style={{ marginLeft: 10, width: "30%" }}
                                     disabled={this.state.isSubmit}
                                 >
                                     キャンセル
