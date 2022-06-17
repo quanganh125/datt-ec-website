@@ -2,12 +2,20 @@
 @import "../../../../sass/variables";
 
 .product-create-container {
-    margin-bottom: 20px;
     @include width-container();
     @include page-frame();
     margin-top: 100px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 600;
+
     .form-container {
         @include deleteSpace();
+
+        width: 70%;
     }
 }
 
@@ -37,7 +45,7 @@
         display: none;
     }
 
-    .btn-success {
+    .btn-primary {
         width: 100%;
         margin-bottom: 20px;
     }
