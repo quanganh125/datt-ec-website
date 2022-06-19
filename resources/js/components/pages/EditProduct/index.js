@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { apiProduct, apiCategory } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
-import "./edit.scss";
+import "../CreateProduct/create.scss";
 import Loading from "../../layouts/Loading";
 import storage from "../../services/firebaseConfig";
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
@@ -56,25 +56,19 @@ class EditProduct extends React.Component {
     }
 
     handleReturnHomePage = () => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         window.location.href = `/home`;
     };
     //xu li ten cua san pham
     handleCategoryChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             category: event.target.value,
         });
     };
     handlenewNameChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             newname: event.target.value,
         });
     };
@@ -82,44 +76,32 @@ class EditProduct extends React.Component {
     handlePriceChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             price: event.target.value,
         });
     };
     handleContentChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             description: event.target.value,
         });
     };
     handleStockChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             stock: event.target.value,
         });
     };
     handleDiscountChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             discount: event.target.value,
         });
     };
     handleFileChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
-            this.setState({
-                errormessage: "無効なファイル",
-            });
+            this.setState({ errormessage: "無効なファイル" });
         } else if (file.size > maxFileSize) {
             this.setState({
                 errormessage: "1MB未満の写真のみをアップロードできます",
@@ -141,13 +123,9 @@ class EditProduct extends React.Component {
     handleFormSubmit = async (event) => {
         event.preventDefault();
         if (!this.state.newname) {
-            this.setState({
-                errormessage: "名前をアップロードしてください",
-            });
+            this.setState({ errormessage: "名前をアップロードしてください" });
         } else if (!this.state.image_name) {
-            this.setState({
-                errormessage: "画像をアップロードしてください",
-            });
+            this.setState({ errormessage: "画像をアップロードしてください" });
         } else {
             if (!this.state.description) {
                 this.setState({
@@ -195,9 +173,7 @@ class EditProduct extends React.Component {
                                             .on(
                                                 "state_changed",
                                                 (snapShot) => {},
-                                                (err) => {
-                                                    console.log(err);
-                                                },
+                                                (err) => {},
                                                 () => {
                                                     storage
                                                         .ref("product_img")
@@ -264,9 +240,7 @@ class EditProduct extends React.Component {
     };
 
     onEditProductSubmit = async (packets) => {
-        this.setState({
-            isSubmit: true,
-        });
+        this.setState({ isSubmit: true });
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
@@ -280,9 +254,7 @@ class EditProduct extends React.Component {
                 window.location.href = `/product/manager`;
             })
             .catch((error) => {
-                this.setState({
-                    isSubmit: false,
-                });
+                this.setState({ isSubmit: false });
                 toast.error("編集に失敗しました!");
             });
     };
@@ -327,14 +299,7 @@ class EditProduct extends React.Component {
         return (
             <div
                 className="row product-edit-container"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minHeight: "100vh",
-                    marginTop: 80,
-                    minWidth: 600,
-                }}
+                style={{ marginTop: "80px" }}
             >
                 {this.state.isLoading ? (
                     <div className="form-container">
@@ -346,7 +311,7 @@ class EditProduct extends React.Component {
                             <div className="form-group file-input">
                                 <button
                                     type="button"
-                                    className="btn btn-success"
+                                    className="btn btn-primary"
                                     onClick={this.onBtnClick}
                                 >
                                     画像を選択 ...
@@ -467,16 +432,16 @@ class EditProduct extends React.Component {
                             >
                                 <input
                                     type="submit"
-                                    className="btn btn-primary"
+                                    className="btn btn-success"
                                     value="アップデート"
-                                    style={{ marginRight: 10, width: "20%" }}
+                                    style={{ marginRight: 10, width: "30%" }}
                                     disabled={this.state.isSubmit}
                                 />
                                 <button
                                     type="button"
-                                    className="btn btn-success"
+                                    className="btn btn-secondary"
                                     onClick={this.handleReturnHomePage}
-                                    style={{ marginLeft: 10, width: "20%" }}
+                                    style={{ marginLeft: 10, width: "30%" }}
                                     disabled={this.state.isSubmit}
                                 >
                                     キャンセル

@@ -339,7 +339,6 @@ class ProductDetail extends Component {
                                                   )
                                               )}円`
                                             : "無料"}{" "}
-                                        & nbsp; & nbsp; & nbsp;{" "}
                                         <span
                                             style={{
                                                 textDecoration: "line-through",

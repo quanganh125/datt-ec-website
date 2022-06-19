@@ -23,13 +23,12 @@ export default function Home() {
     const [displayProducts, setDisplayProducts] = useState([]);
     const [isFilter, setIsFilter] = useState(false);
     const [filterData, setFilterData] = useState("");
+    const product_recommend_datas = useSelector(
+        (state) => state.product.product_recommend
+    );
 
     const best_sale_category = useSelector(
         (state) => state.product.best_sale_category
-    );
-
-    const product_recommend_datas = useSelector(
-        (state) => state.product.product_recommend
     );
 
     const best_sale_datas = useSelector((state) => state.product.best_sale);
