@@ -1,7 +1,8 @@
 @import "../../../../sass/common";
 @import "../../../../sass/variables";
 
-.product-create-container {
+.product-create-container,
+.product-edit-container {
     @include width-container();
     @include page-frame();
     margin-top: 100px;
