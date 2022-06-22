@@ -37,6 +37,8 @@ export default function RatingForm({
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(evaluate);
+        console.log(numStar);
         if (evaluate == "" && numStar == 0) {
             alert("製品を評価するには、完全な情報を入力する必要があります");
         } else {
@@ -92,8 +94,8 @@ export default function RatingForm({
                         <Grid item xs={12} className={classes.rateContainer}>
                             <Rating
                                 choice={true}
-                                handleGetNumStar={handleGetNumStar}
                                 numStar={numStar}
+                                handleGetNumStar={handleGetNumStar}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.commentContainer}>
@@ -114,20 +116,20 @@ export default function RatingForm({
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        onClick={handleClose}
-                        color="secondary"
-                        variant="contained"
-                        className={classes.dialogaction}
-                    >
-                        キャンセル
-                    </Button>
-                    <Button
                         onClick={(e) => handleSubmit(e)}
                         color="primary"
                         variant="contained"
                         className={classes.dialogaction}
                     >
                         送信
+                    </Button>
+                    <Button
+                        onClick={handleClose}
+                        color="secondary"
+                        variant="contained"
+                        className={classes.dialogaction}
+                    >
+                        キャンセル
                     </Button>
                 </DialogActions>
             </Dialog>

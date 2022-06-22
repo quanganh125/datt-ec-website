@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import "./productManager.scss";
-import ProductManagerList from "../../layouts/ProductManagerList";
 import { fetchShopProduct } from "./../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";

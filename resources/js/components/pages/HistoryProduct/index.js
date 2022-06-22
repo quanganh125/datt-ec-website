@@ -3,6 +3,7 @@ import "./history.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../layouts/Loading";
 import { fetchProductHistory } from "../../redux/actions/productActions";
+import ProductNotFound from "../../../assets/images/Product Not Found.png";
 
 export default function Favorite() {
     const dispatch = useDispatch();
@@ -91,9 +92,11 @@ export default function Favorite() {
                     </div>
                     {all_history_product_datas.length == 0 && (
                         <div className="nonHistory">
-                            <div>
-                                <h3>購入履歴がありません</h3>
-                            </div>
+                            <img
+                                src={ProductNotFound}
+                                alt="product not found"
+                                className="product-not-found"
+                            />
                         </div>
                     )}
                 </>
