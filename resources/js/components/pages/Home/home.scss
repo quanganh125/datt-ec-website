@@ -18,7 +18,8 @@
     @include makeCenter();
 }
 
-.nonProduct {
+.nonProduct,
+.nonHistory {
     display: flex;
     justify-content: center;
     align-items: center;

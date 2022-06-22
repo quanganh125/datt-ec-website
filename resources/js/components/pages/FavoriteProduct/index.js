@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./favorite.scss";
-import { apiProduct, paginate_count } from "../../constant";
+import { paginate_count } from "../../constant";
 import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 import { useDispatch, useSelector } from "react-redux";

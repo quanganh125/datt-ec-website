@@ -3,7 +3,7 @@ import "../ProductDetail/productDetail.scss";
 import StarRatings from "react-star-ratings";
 import Pagination from "../../layouts/Pagination";
 import { Button } from "@material-ui/core";
-import { apiProduct, apiStorage, apiGetShop } from "./../../constant";
+import { apiProduct, apiGetShop } from "./../../constant";
 import axios from "axios";
 import RatingForm from "../../layouts/RatingForm";
 import { getCookie } from "../../utils/cookie";
@@ -76,9 +76,7 @@ class ProductDetail extends Component {
     }
 
     updateQuantity = (value) => {
-        this.setState({
-            stock: value,
-        });
+        this.setState({ stock: value });
     };
 
     fetchProductDetail = async () => {
@@ -106,15 +104,11 @@ class ProductDetail extends Component {
                     this.state.category_id
                 );
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => {});
     };
 
     componentWillMount() {
-        this.setState({
-            currentUserId: this.props.user.id,
-        });
+        this.setState({ currentUserId: this.props.user.id });
     }
 
     componentDidUpdate(prevProps) {
@@ -127,9 +121,7 @@ class ProductDetail extends Component {
         }
         if (this.props.user !== prevProps.user) {
             if (!this.state.currentUserId) {
-                this.setState({
-                    currentUserId: this.props.user.id,
-                });
+                this.setState({ currentUserId: this.props.user.id });
             }
         }
     }
@@ -142,18 +134,12 @@ class ProductDetail extends Component {
         };
         try {
             await axios
-                .get(`${apiGetShop}`, {
-                    headers: headers,
-                })
+                .get(`${apiGetShop}`, { headers: headers })
                 .then((res) => {
                     const currentShopId = res.data; //shop cua nguoi dung dang xem san pham
-                    this.setState({
-                        shopIdUser: currentShopId,
-                    });
+                    this.setState({ shopIdUser: currentShopId });
                 })
-                .catch((error) => {
-                    console.error(error);
-                });
+                .catch((error) => {});
         } catch (error) {}
     };
 
@@ -194,37 +180,25 @@ class ProductDetail extends Component {
             this.state.shop_id != this.state.shopIdUser &&
             this.checkReviewed()
         )
-            this.setState({
-                isOpenRate: true,
-            });
-        else {
-            alert("この機能を使用するには、ログインする必要があります");
-        }
+            this.setState({ isOpenRate: true });
+        else alert("この機能を使用するには、ログインする必要があります");
     };
 
     setIsOpen = (isOpen) => {
-        this.setState({
-            isOpenRate: isOpen,
-        });
+        this.setState({ isOpenRate: isOpen });
     };
 
     reloadReview = async () => {
         await axios
             .get(`${apiProduct}/${this.state.id}`)
             .then((res) => {
-                this.setState({
-                    reviews: res.data.data.reviews,
-                });
+                this.setState({ reviews: res.data.data.reviews });
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => {});
     };
 
     setIsOpenBuy = (isOpen) => {
-        this.setState({
-            isOpenBuy: isOpen,
-        });
+        this.setState({ isOpenBuy: isOpen });
     };
 
     onClickBuy = () => {
@@ -232,12 +206,8 @@ class ProductDetail extends Component {
             getCookie("access_token") &&
             this.state.shop_id != this.state.shopIdUser
         )
-            this.setState({
-                isOpenBuy: true,
-            });
-        else {
-            alert("この機能を使用するには、ログインする必要があります");
-        }
+            this.setState({ isOpenBuy: true });
+        else alert("この機能を使用するには、ログインする必要があります");
     };
 
     getPriceSale = (price, discount) => {

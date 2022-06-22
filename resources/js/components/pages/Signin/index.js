@@ -84,6 +84,7 @@ export default function Signin({ setAuth }) {
                     }
                     setLoginFaild("");
                     setErrorPassword("");
+                    console.log(data);
                     window.location.href = `/home`;
                 })
                 .catch((error) => {
