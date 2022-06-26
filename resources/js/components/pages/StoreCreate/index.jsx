@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
-import "./storeCreate.scss";
+import "../StoreShow/storeShow.scss";
 class StoreProfile extends Component {
     fileRef = React.createRef();
     state = {
@@ -25,17 +25,13 @@ class StoreProfile extends Component {
         this.fileRef.current.click();
     };
     handleReturnHomePage = () => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         window.location.href = `/home`;
     };
     //xu li url
     handleUrlChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             url: event.target.value,
         });
     };
@@ -43,8 +39,6 @@ class StoreProfile extends Component {
     handleNameChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             name: event.target.value,
         });
     };
@@ -52,20 +46,14 @@ class StoreProfile extends Component {
     handleaddressChange = (event) => {
         this.setState({
             successmessage: "",
-        });
-        this.setState({
             address: event.target.value,
         });
     };
     handleFileChange = (event) => {
-        this.setState({
-            successmessage: "",
-        });
+        this.setState({ successmessage: "" });
         const file = event.target.files[0];
         if (!imageFileRegex.test(file.name)) {
-            this.setState({
-                errormessage: "無効なファイル",
-            });
+            this.setState({ errormessage: "無効なファイル" });
         } else if (file.size > maxFileSize) {
             this.setState({
                 errormessage: "1MB未満の写真のみをアップロードできます",
@@ -100,9 +88,7 @@ class StoreProfile extends Component {
     handleFormSubmit = (event) => {
         event.preventDefault();
         if (!this.state.name) {
-            this.setState({
-                errormessage: "名前をアップロードしてください",
-            });
+            this.setState({ errormessage: "名前をアップロードしてください" });
         } else {
             if (!this.state.address) {
                 this.setState({
@@ -124,12 +110,8 @@ class StoreProfile extends Component {
                             .put(this.state.logo_url)
                             .on(
                                 "state_changed",
-                                (snapShot) => {
-                                    // console.log(snapShot);
-                                },
-                                (err) => {
-                                    console.log(err);
-                                },
+                                (snapShot) => {},
+                                (err) => {},
                                 () => {
                                     storage
                                         .ref("store_logo")
@@ -157,17 +139,13 @@ class StoreProfile extends Component {
     };
 
     onCreateStore = async (packets) => {
-        this.setState({
-            isSubmit: true,
-        });
+        this.setState({ isSubmit: true });
         const headers = {
             "Content-type": "application/json",
             Authorization: `Bearer ${getCookie("access_token")}`,
         };
         await axios
-            .post(apiShop, packets, {
-                headers: headers,
-            })
+            .post(apiShop, packets, { headers: headers })
             .then((response) => {
                 toast.success("ストアを正常に作成する!");
                 this.setState({
@@ -184,9 +162,7 @@ class StoreProfile extends Component {
 
             .catch((error) => {
                 toast.error("ストアの作成に失敗しました!");
-                this.setState({
-                    isSubmit: false,
-                });
+                this.setState({ isSubmit: false });
             });
     };
 
@@ -194,14 +170,7 @@ class StoreProfile extends Component {
         return (
             <div
                 className="row store-create-container"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minHeight: "100vh",
-                    marginTop: 80,
-                    minWidth: 600,
-                }}
+                style={{ marginTop: 80 }}
             >
                 <div className="form-container">
                     <h3>ストアを作成する</h3>
@@ -231,6 +200,7 @@ class StoreProfile extends Component {
                                 type="button"
                                 className="btn btn-success"
                                 onClick={this.onBtnClick}
+                                style={{ width: "100%" }}
                             >
                                 ロゴを選択 ...
                             </button>
@@ -274,22 +244,20 @@ class StoreProfile extends Component {
                         ) : null}
                         <div
                             className="form-group"
-                            style={{
-                                textAlign: `center`,
-                            }}
+                            style={{ textAlign: `center` }}
                         >
                             <input
                                 type="submit"
                                 className="btn btn-primary"
                                 value="作成"
-                                style={{ margin: 5, width: "20%" }}
+                                style={{ margin: 5, width: "30%" }}
                                 disabled={this.state.isSubmit}
                             />
                             <button
                                 type="button"
                                 className="btn btn-success"
                                 onClick={this.handleReturnHomePage}
-                                style={{ margin: 5, width: "20%" }}
+                                style={{ margin: 5, width: "30%" }}
                                 disabled={this.state.isSubmit}
                             >
                                 キャンセル
