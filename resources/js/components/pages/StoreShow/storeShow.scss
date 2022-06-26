@@ -2,7 +2,8 @@
 @import "../../../../sass/variables";
 
 .store-show-container,
-.store-edit-container {
+.store-edit-container,
+.store-create-container {
     @include width-container();
     @include page-frame();
 
