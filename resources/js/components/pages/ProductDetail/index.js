@@ -23,60 +23,41 @@ import {
 } from "react-share";
 import soldOut from "../../../assets/images/soldout.png";
 
+const init_state = {
+    name: "",
+    image_link: "",
+    price: "",
+    description: "",
+    recommend_mark: "",
+    reviews: [],
+    category: "",
+    category_id: null,
+    shop: "",
+    id: null,
+    isOpenRate: false,
+    isLoading: false,
+    shop_id: null,
+    linkShop: "",
+    currentUserId: null,
+    shopIdUser: null,
+    productRecommend: [],
+    isOpenBuy: false,
+    stock: null,
+    discount: null,
+    sale_number: null,
+    color_code: "#ffffff",
+};
+
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: "",
-            image_link: "",
-            price: "",
-            description: "",
-            recommend_mark: "",
-            reviews: [],
-            category: "",
-            category_id: null,
-            shop: "",
-            id: Number(this.getProductId()),
-            isOpenRate: false,
-            isLoading: false,
-            shop_id: null,
-            linkShop: "",
-            currentUserId: null,
-            shopIdUser: null,
-            productRecommend: [],
-            isOpenBuy: false,
-            stock: null,
-            discount: null,
-            sale_number: null,
-            color_code: "#ffffff",
-        };
+        init_state["id"] = Number(this.getProductId());
+        this.state = init_state;
     }
 
     componentWillUnmount() {
-        this.setState({
-            name: "",
-            image_link: "",
-            price: "",
-            description: "",
-            recommend_mark: "",
-            reviews: [],
-            category: "",
-            category_id: null,
-            shop: "",
-            id: null,
-            isOpenRate: false,
-            isLoading: false,
-            shop_id: null,
-            linkShop: "",
-            currentUserId: null,
-            shopIdUser: null,
-            productRecommend: [],
-            isOpenBuy: false,
-            stock: null,
-            discount: null,
-            sale_number: null,
-            color_code: "#ffffff",
-        });
+        init_state["id"] = null;
+        this.setState(init_state);
     }
 
     updateQuantity = (value) => {

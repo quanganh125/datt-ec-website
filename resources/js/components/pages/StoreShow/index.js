@@ -39,7 +39,7 @@ class ShowStoreProfile extends Component {
     }
 
     componentWillUnmount() {
-        console.log(init_state);
+        init_state["id"] = null;
         this.setState(init_state);
     }
 

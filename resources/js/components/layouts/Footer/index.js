@@ -11,39 +11,39 @@ function Footer() {
             <hr style={{ width: "100%" }} className="line-footer" />
             <Grid item xs={12} sm={4} className="support">
                 <span>
-                    <h3 className="footer-title">Beauty Cent</h3>{" "}
+                    <h3 className="footer-title">Beauty Cent</h3>
                     <ul>
                         <li>
-                            <a href="/"> 紹介 </a>{" "}
-                        </li>{" "}
+                            <a href="/"> 紹介 </a>
+                        </li>
                         <li>
-                            <a href="/"> メディア </a>{" "}
-                        </li>{" "}
-                    </ul>{" "}
-                </span>{" "}
-            </Grid>{" "}
+                            <a href="/"> メディア </a>
+                        </li>
+                    </ul>
+                </span>
+            </Grid>
             <Grid item xs={12} sm={4} className="support">
                 <span>
-                    <h3 className="footer-title"> 私達と接続 </h3>{" "}
+                    <h3 className="footer-title"> 私達と接続 </h3>
                     <ul>
                         <li style={{ float: "left" }}>
                             <a href="/">
                                 <FacebookIcon fontSize="large" />
-                            </a>{" "}
-                        </li>{" "}
+                            </a>
+                        </li>
                         <li style={{ float: "left" }}>
                             <a href="/">
                                 <InstagramIcon fontSize="large" />
-                            </a>{" "}
-                        </li>{" "}
+                            </a>
+                        </li>
                         <li style={{ float: "left" }}>
                             <a href="/">
                                 <TwitterIcon fontSize="large" />
-                            </a>{" "}
-                        </li>{" "}
-                    </ul>{" "}
-                </span>{" "}
-            </Grid>{" "}
+                            </a>
+                        </li>
+                    </ul>
+                </span>
+            </Grid>
             <hr
                 style={{ width: "80%", marginLeft: "10%", marginRight: "10%" }}
                 className="line-footer"
@@ -51,17 +51,17 @@ function Footer() {
             <Grid item xs={12} id="nocopyright">
                 <p style={{ color: "white" }}>
                     @2021 - QuangAnh.All Right Reserved.Designed and Developed
-                    by & nbsp;{" "}
+                    by & nbsp;
                     <a
                         href="https://www.facebook.com"
                         rel="name noreferrer"
                         target="_blank"
                         style={{ color: "#0abfd2", textDecoration: "none" }}
                     >
-                        QuangAnh{" "}
-                    </a>{" "}
-                </p>{" "}
-            </Grid>{" "}
+                        QuangAnh
+                    </a>
+                </p>
+            </Grid>
         </Grid>
     );
 }

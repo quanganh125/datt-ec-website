@@ -275,7 +275,7 @@ class CreateProduct extends Component {
 
                             <div className="d-flex justify-content-around w-100">
                                 <div className="form-group p-2">
-                                    <h5 class="control-label">名前</h5>
+                                    <h5 className="control-label">名前</h5>
                                     <input
                                         className="form-control"
                                         placeholder="製品名を入力してください ..."
@@ -284,7 +284,9 @@ class CreateProduct extends Component {
                                     />
                                 </div>
                                 <div className="form-group p-2 w-50">
-                                    <h5 class="control-label">カテゴリー</h5>
+                                    <h5 className="control-label">
+                                        カテゴリー
+                                    </h5>
                                     <select
                                         className="form-control"
                                         name="製品のカテゴリを入力してください..."
@@ -308,7 +310,9 @@ class CreateProduct extends Component {
 
                             <div className="d-flex justify-content-around w-100">
                                 <div className="form-group p-2">
-                                    <h5 class="control-label">価格（円）</h5>
+                                    <h5 className="control-label">
+                                        価格（円）
+                                    </h5>
                                     <input
                                         className="form-control"
                                         placeholder="価格を入力してください..."
@@ -317,7 +321,7 @@ class CreateProduct extends Component {
                                     />
                                 </div>
                                 <div className="form-group p-2">
-                                    <h5 class="control-label">数量</h5>
+                                    <h5 className="control-label">数量</h5>
                                     <input
                                         className="form-control"
                                         placeholder="数量を入力してください..."
@@ -341,19 +345,21 @@ class CreateProduct extends Component {
                                     />
                                 </div>
                                 <div className="form-group p-2 w-75">
-                                    <h5 class="control-label">カラーコード</h5>
+                                    <h5 className="control-label">
+                                        カラーコード
+                                    </h5>
                                     <input
                                         className="form-control"
                                         placeholder="割引を入力してください..."
                                         type="color"
-                                        value="#ffffff"
+                                        value={this.state.color_code}
                                         onChange={this.handleColorChange}
                                     />
                                 </div>
                             </div>
 
                             <div className="form-group">
-                                <h5 class="col">説明</h5>
+                                <h5 className="col">説明</h5>
                                 <textarea
                                     className="form-control"
                                     id="exampleFormControlTextarea1"

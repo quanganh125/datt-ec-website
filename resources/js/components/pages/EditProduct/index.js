@@ -8,53 +8,37 @@ import Loading from "../../layouts/Loading";
 import storage from "../../services/firebaseConfig";
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 const maxFileSize = 1024 * 1024;
+const init_state = {
+    description: "",
+    image_name: "",
+    image_link: "",
+    new_image: "",
+    new_image_file: {},
+    errormessage: "",
+    successmessage: "",
+    price: "",
+    category: "",
+    new_name: "",
+    url: "",
+    id: null,
+    isLoading: false,
+    stock: "",
+    color_code: "#ffffff",
+    discount: "",
+    categories: [],
+    isSubmit: false,
+};
 class EditProduct extends React.Component {
     constructor(props) {
         super(props);
         this.fileRef = React.createRef();
-        this.state = {
-            description: "",
-            image_name: "",
-            image_link: "",
-            new_image: "",
-            new_image_file: {},
-            errormessage: "",
-            successmessage: "",
-            price: "",
-            category: "",
-            new_name: "",
-            url: "",
-            id: this.props.match.params.id,
-            isLoading: false,
-            stock: "",
-            color_code: "#ffffff",
-            discount: "",
-            categories: [],
-            isSubmit: false,
-        };
+        init_state["id"] = this.props.match.params.id;
+        this.state = init_state;
     }
 
     componentWillUnmount() {
-        this.setState({
-            description: "",
-            image_name: "",
-            image_link: "",
-            new_image: "",
-            new_image_file: {},
-            errormessage: "",
-            successmessage: "",
-            price: "",
-            category: "",
-            new_name: "",
-            url: "",
-            id: null,
-            isLoading: false,
-            stock: "",
-            color_code: "#ffffff",
-            discount: "",
-            categories: [],
-            isSubmit: false,
-        });
+        init_state["id"] = null;
+        this.setState(init_state);
     }
 
     handleReturnHomePage = () => {
@@ -320,7 +304,7 @@ class EditProduct extends React.Component {
                             </div>
                             <div className="d-flex justify-content-around w-100">
                                 <div className="form-group p-2">
-                                    <h5 class="control-label">名前</h5>
+                                    <h5 className="control-label">名前</h5>
                                     <input
                                         className="form-control"
                                         placeholder="製品名を入力してください ..."
@@ -329,7 +313,9 @@ class EditProduct extends React.Component {
                                     />
                                 </div>
                                 <div className="form-group p-2 w-50">
-                                    <h5 class="control-label">カテゴリー</h5>
+                                    <h5 className="control-label">
+                                        カテゴリー
+                                    </h5>
                                     <select
                                         className="form-control"
                                         placeholder="製品のカテゴリを入力してください..."
@@ -351,7 +337,9 @@ class EditProduct extends React.Component {
                             </div>
                             <div className="d-flex justify-content-around w-100">
                                 <div className="form-group p-2">
-                                    <h5 class="control-label">価格（円）</h5>
+                                    <h5 className="control-label">
+                                        価格（円）
+                                    </h5>
                                     <input
                                         className="form-control"
                                         placeholder="価格を入力してください..."
@@ -360,7 +348,7 @@ class EditProduct extends React.Component {
                                     />
                                 </div>
                                 <div className="form-group p-2">
-                                    <h5 class="control-label">数量</h5>
+                                    <h5 className="control-label">数量</h5>
                                     <input
                                         className="form-control"
                                         placeholder="株式を入力してください..."
@@ -382,7 +370,9 @@ class EditProduct extends React.Component {
                                     />
                                 </div>
                                 <div className="form-group p-2 w-75">
-                                    <h5 class="control-label">カラーコード</h5>
+                                    <h5 className="control-label">
+                                        カラーコード
+                                    </h5>
                                     <input
                                         className="form-control"
                                         placeholder="割引を入力してください..."
@@ -393,7 +383,7 @@ class EditProduct extends React.Component {
                                 </div>
                             </div>
                             <div className="form-group p-2">
-                                <h5 class="col">説明</h5>
+                                <h5 className="col">説明</h5>
                                 <textarea
                                     className="form-control"
                                     id="exampleFormControlTextarea1"
