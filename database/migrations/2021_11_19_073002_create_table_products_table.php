@@ -18,7 +18,9 @@ class CreateTableProductsTable extends Migration
             $table->string('name');
             $table->string('image_link')->nullable()->default("product-default-image.jpg");
             $table->double('price');
+            $table->string('color_code')->default('#000');;
             $table->longText('description')->nullable()->default(null);
+            $table->integer('sale_number')->default(0);
             $table->timestamps();
 
             $table->unsignedBigInteger('category_id');

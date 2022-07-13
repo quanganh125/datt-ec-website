@@ -225,23 +225,25 @@ class EditStoreProfile extends Component {
                     <div className="form-container">
                         <h3>店舗情報の編集</h3>
                         <form onSubmit={this.handleFormSubmit}>
-                            <div className="form-group">
-                                <h5>名前</h5>
-                                <input
-                                    className="form-control"
-                                    placeholder="お店の名前を入力してください..."
-                                    value={this.state.name}
-                                    onChange={this.handleNameChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <h5>住所</h5>
-                                <input
-                                    className="form-control"
-                                    placeholder="住所を入力してください..."
-                                    value={this.state.address}
-                                    onChange={this.handleaddressChange}
-                                />
+                            <div className="d-flex justify-content-around w-100">
+                                <div className="form-group p-2 w-50">
+                                    <h5 className="control-label">店舗</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="お店の名前を入力してください..."
+                                        value={this.state.name}
+                                        onChange={this.handleNameChange}
+                                    />
+                                </div>
+                                <div className="form-group p-2 w-50">
+                                    <h5 className="control-label">住所</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="住所を入力してください..."
+                                        value={this.state.address}
+                                        onChange={this.handleaddressChange}
+                                    />
+                                </div>
                             </div>
                             <div className="form-group file-input">
                                 <button
@@ -261,7 +263,10 @@ class EditStoreProfile extends Component {
                                     onChange={this.handleFileChange}
                                 />
                             </div>
-                            <div className="img-container">
+                            <div
+                                className="img-container"
+                                style={{ height: 200 }}
+                            >
                                 <img
                                     src={
                                         this.state.new_logo
@@ -273,7 +278,7 @@ class EditStoreProfile extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <h5>ストアのURL</h5>
+                                <h5 className="control-label">ストアのURL</h5>
                                 <input
                                     className="form-control"
                                     placeholder="URLを入力してください..."

@@ -11,7 +11,7 @@ function Footer() {
             <hr style={{ width: "100%" }} className="line-footer" />
             <Grid item xs={12} sm={4} className="support">
                 <span>
-                    <h3 className="footer-title">Beauty Shop </h3>{" "}
+                    <h3 className="footer-title">Beauty Cent</h3>{" "}
                     <ul>
                         <li>
                             <a href="/"> 紹介 </a>{" "}
