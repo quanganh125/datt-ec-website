@@ -24,6 +24,8 @@ class ProductSeeder extends Seeder
                 'description' => Str::random(100),
                 'category_id' => random_int(1, 5),
                 'shop_id' => 1,
+                'sale_number' => 0,
+                'color_code' => '#ffffff',
                 'created_at' => $random_Date,
                 'updated_at' => $random_Date,
             ]);

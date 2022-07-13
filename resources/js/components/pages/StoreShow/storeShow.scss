@@ -37,4 +37,12 @@
 
 .form-group {
     margin-top: 20px;
+
+    .required,
+    .control-label:after {
+        color: #d00;
+        content: "*";
+        margin-left: 5px;
+        top: 2px;
+    }
 }

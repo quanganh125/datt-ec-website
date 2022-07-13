@@ -59,9 +59,10 @@ class ProductController extends Controller
             'image_link' => 'bail|string',
             'category_id' => 'bail|required|numeric',
             'price' => 'bail|required|regex:/^\d+(\.\d{1,2})?$/',
-            'description' => 'bail|required|string',
+            'description' => 'bail',
             'stock' => 'bail|required|regex:/^\d+(\.\d{1,2})?$/',
             'discount' => 'bail|required|regex:/^\d+(\.\d{1,2})?$/',
+            'color_code' => 'bail|required|string',
         ]);
 
         if ($validator->fails()) {
@@ -76,9 +77,11 @@ class ProductController extends Controller
         $product->category_id = $request->input('category_id');
         $product->image_link = $request->input('image_link');
         $product->price = $request->input('price');
-        $product->description = $request->input('description');
+        if ($request->has('description')) 
+            $product->description = $request->input('description');
         $product->stock = $request->input('stock');
         $product->discount = $request->input('discount');
+        $product->color_code = $request->input('color_code');
         $product->shop_id = $shop_id;
 
         $product->save();
@@ -122,9 +125,10 @@ class ProductController extends Controller
             'image_link' => 'bail|required|string',
             'category_id' => 'bail|required|numeric',
             'price' => 'bail|regex:/^\d+(\.\d{1,2})?$/',
-            'description' => 'bail|string',
+            'description' => 'bail',
             'stock' => 'bail|required|regex:/^\d+(\.\d{1,2})?$/',
             'discount' => 'bail|required|regex:/^\d+(\.\d{1,2})?$/',
+            // 'color_code' => 'bail|required|string',
         ]);
 
         if ($validator->fails()) {

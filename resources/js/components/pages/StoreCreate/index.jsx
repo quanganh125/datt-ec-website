@@ -1,25 +1,27 @@
 import { event } from "jquery";
 import React, { Component } from "react";
-const maxFileSize = 1024 * 1024;
-const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { toast } from "react-toastify";
 import { apiShop } from "../../constant";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
 import "../StoreShow/storeShow.scss";
+
+const maxFileSize = 1024 * 1024;
+const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
+const init_state = {
+    errormessage: "",
+    successmessage: "",
+    address: "",
+    name: "",
+    url: "",
+    logo: "",
+    logo_url: {},
+    isLoadLinkImage: false,
+    isSubmit: false,
+};
 class StoreProfile extends Component {
     fileRef = React.createRef();
-    state = {
-        errormessage: "",
-        successmessage: "",
-        address: "",
-        name: "",
-        url: "",
-        logo: "",
-        logo_url: {},
-        isLoadLinkImage: false,
-        isSubmit: false,
-    };
+    state = init_state;
 
     onBtnClick = () => {
         this.fileRef.current.click();
@@ -72,17 +74,7 @@ class StoreProfile extends Component {
     };
 
     componentWillUnmount() {
-        this.setState({
-            errormessage: "",
-            successmessage: "",
-            address: "",
-            name: "",
-            url: "",
-            logo: "",
-            logo_url: {},
-            isLoadLinkImage: false,
-            isSubmit: false,
-        });
+        this.setState(init_state);
     }
 
     handleFormSubmit = (event) => {
@@ -148,15 +140,7 @@ class StoreProfile extends Component {
             .post(apiShop, packets, { headers: headers })
             .then((response) => {
                 toast.success("ストアを正常に作成する!");
-                this.setState({
-                    errormessage: "",
-                    successmessage: "",
-                    address: "",
-                    name: "",
-                    url: "",
-                    logo: "",
-                    logo_url: {},
-                });
+                this.setState(init_state);
                 window.location.href = `/home`;
             })
 
@@ -176,24 +160,26 @@ class StoreProfile extends Component {
                     <h3>ストアを作成する</h3>
                     <form onSubmit={this.handleFormSubmit}>
                         {/* input ten cua cua hang */}
-                        <div className="form-group">
-                            <h5>名前</h5>
-                            <input
-                                className="form-control"
-                                placeholder="お店の名前を入力してください..."
-                                value={this.state.name}
-                                onChange={this.handleNameChange}
-                            />
-                            {/* input dia chi cua cua hang */}
-                        </div>
-                        <div className="form-group">
-                            <h5>住所</h5>
-                            <input
-                                className="form-control"
-                                placeholder="住所を入力してください..."
-                                value={this.state.address}
-                                onChange={this.handleaddressChange}
-                            />
+                        <div className="d-flex justify-content-around w-100">
+                            <div className="form-group p-2 w-50">
+                                <h5 className="control-label">店舗</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="お店の名前を入力してください..."
+                                    value={this.state.name}
+                                    onChange={this.handleNameChange}
+                                />
+                                {/* input dia chi cua cua hang */}
+                            </div>
+                            <div className="form-group p-2 w-50">
+                                <h5 className="control-label">住所</h5>
+                                <input
+                                    className="form-control"
+                                    placeholder="住所を入力してください..."
+                                    value={this.state.address}
+                                    onChange={this.handleaddressChange}
+                                />
+                            </div>
                         </div>
                         <div className="form-group file-input">
                             <button
@@ -214,7 +200,10 @@ class StoreProfile extends Component {
                             />
                         </div>
                         {this.state.logo ? (
-                            <div className="img-container">
+                            <div
+                                className="img-container"
+                                style={{ height: 200 }}
+                            >
                                 <img
                                     src={`${this.state.logo}`}
                                     alt="productImg"
@@ -223,7 +212,7 @@ class StoreProfile extends Component {
                             </div>
                         ) : null}
                         <div className="form-group">
-                            <h5>ストアのURL</h5>
+                            <h5 className="control-label">ストアのURL</h5>
                             <input
                                 className="form-control"
                                 placeholder="URLを入力してください..."

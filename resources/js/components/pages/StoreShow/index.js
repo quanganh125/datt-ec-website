@@ -1,23 +1,25 @@
 import React, { Component } from "react";
-const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 import { apiShop, headers, apiGetShop } from "../../constant";
 import Loading from "../../layouts/Loading";
 import "./storeShow.scss";
+const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
+const init_state = {
+    errormessage: "",
+    successmessage: "",
+    name: "",
+    address: "",
+    logo: "",
+    url: "",
+    logo_url: "",
+    id: null,
+    isLoading: false,
+    shopIdUser: null,
+};
 class ShowStoreProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            errormessage: "",
-            successmessage: "",
-            name: "",
-            address: "",
-            logo: "",
-            url: "",
-            logo_url: "",
-            id: this.props.match.params.id,
-            isLoading: false,
-            shopIdUser: null,
-        };
+        init_state["id"] = this.props.match.params.id;
+        this.state = init_state;
     }
 
     componentDidMount() {
@@ -37,18 +39,8 @@ class ShowStoreProfile extends Component {
     }
 
     componentWillUnmount() {
-        this.setState({
-            errormessage: "",
-            successmessage: "",
-            name: "",
-            address: "",
-            logo: "",
-            url: "",
-            logo_url: "",
-            id: null,
-            isLoading: false,
-            shopIdUser: null,
-        });
+        console.log(init_state);
+        this.setState(init_state);
     }
 
     handleReturnHomePage = () => {
@@ -80,22 +72,25 @@ class ShowStoreProfile extends Component {
                     <div className="col-12 form-container">
                         <h3>ストアプロファイル</h3>
                         <form>
-                            <div className="form-group">
-                                <h5>名前</h5>
-                                <label className="form-control">
-                                    {" "}
-                                    {this.state.name}
-                                </label>
-                            </div>
-                            <div className="form-group">
-                                <h5>住所</h5>
-                                <label className="form-control">
-                                    {" "}
-                                    {this.state.address}
-                                </label>
+                            <div className="d-flex justify-content-around w-100">
+                                <div className="form-group p-2 w-50">
+                                    <h5>店舗</h5>
+                                    <label className="form-control">
+                                        {this.state.name}
+                                    </label>
+                                </div>
+                                <div className="form-group p-2 w-50">
+                                    <h5>住所</h5>
+                                    <label className="form-control">
+                                        {this.state.address}
+                                    </label>
+                                </div>
                             </div>
                             <h5 style={{ marginTop: 20 }}>ロゴ</h5>
-                            <div className="img-container form-group">
+                            <div
+                                className="img-container form-group"
+                                style={{ height: 200 }}
+                            >
                                 <img
                                     src={this.state.logo}
                                     alt="productImg"
@@ -105,7 +100,6 @@ class ShowStoreProfile extends Component {
                             <div className="form-group">
                                 <h5>ストアのURL</h5>
                                 <label className="form-control">
-                                    {" "}
                                     {this.state.url}
                                 </label>
                             </div>

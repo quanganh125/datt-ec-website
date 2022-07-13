@@ -79,7 +79,12 @@ export default function Item({ data }) {
                     onClick={() => nextDetail()}
                 >
                     <h6>{data.name}</h6>
-                    <p>レビュー数: {reviews.length}</p>
+                    <p>
+                        <b>レビュー数:</b> {reviews.length}
+                    </p>
+                    <p>
+                        <b>販売数:</b> {data.sale_number}
+                    </p>
                 </Grid>
                 <Grid item className="item-manager-button" xs={3}>
                     <div className="button-control">

@@ -29,6 +29,8 @@ class ProductResource extends JsonResource
             'stock' => $this->stock,
             'discount' => $this->discount,
             'created_at' => $this->created_at,
+            'color_code' => $this->color_code,
+            'sale_number' => $this->sale_number,
         ];
     }
 }
