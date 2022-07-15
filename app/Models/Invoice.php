@@ -12,9 +12,10 @@ class Invoice extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'category_id',
-        'quantity',
+        'coupon_id',
+        'discount_at_purchase_time',
         'price_at_purchase_time',
+        'quantity',
     ];
 
     public function user()
@@ -26,9 +27,8 @@ class Invoice extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    
-    public function category()
+    public function coupon()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Coupon::class);
     }
 }

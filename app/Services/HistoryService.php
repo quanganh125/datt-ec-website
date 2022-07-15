@@ -22,7 +22,7 @@ class HistoryService
     public function getAllOfUser()
     {
         $user_id = Auth::user()->id;
-        $histories = Invoice::where("user_id", "=", $user_id)->get();
+        $histories = Invoice::where("user_id", "=", $user_id)->orderBy('created_at', 'DESC')->get();
         return $histories;
     }
 

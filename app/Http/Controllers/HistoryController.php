@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\HistoryService;
 use App\Models\Invoice;
+use App\Models\Product;
 use App\Http\Resources\HistoryCollection;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\HistoryResource;
@@ -61,10 +62,15 @@ class HistoryController extends Controller
         $history = new Invoice();
         $history->user_id = $user_id;
         $history->product_id = $request->input('product_id');
-        $history->category_id = $request->input('category_id');
         $history->quantity = $request->input('quantity');
         $history->price_at_purchase_time = $request->input('price_at_purchase_time');
+        $history->discount_at_purchase_time = $request->input('discount_at_purchase_time');
         $history->save();
+
+        $product = Product::find($request->input('product_id'));
+        $product->stock -= $request->input('quantity');
+        $product->sale_number += $request->input('quantity');
+        $product->update();
         return (new HistoryResource($history))->response();
     }
 

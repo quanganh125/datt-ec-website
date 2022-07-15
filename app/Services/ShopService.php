@@ -24,7 +24,7 @@ class ShopService
      */
     public function getAll()
     {
-        return Shop::all();
+        return Shop::all()->orderBy('created_at', 'DESC');
     }
 
     public function find($id)

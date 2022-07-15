@@ -350,6 +350,7 @@ class CreateProduct extends Component {
                                     </h5>
                                     <input
                                         className="form-control"
+                                        style={{ position: "relative", top: 5 }}
                                         placeholder="割引を入力してください..."
                                         type="color"
                                         value={this.state.color_code}

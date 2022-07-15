@@ -36,7 +36,11 @@ export default function Favorite() {
 
     const convertDate = (date) => {
         let d = new Date(date);
-        return d.toLocaleString("en-US");
+        let now = new Date();
+        let diff_days = parseInt((now - d) / (1000 * 60 * 60 * 24));
+        if (diff_days == 0) return "Today";
+        else if (diff_days == 1) return "Yesterday";
+        else return diff_days + " days ago";
     };
 
     return (
@@ -52,6 +56,7 @@ export default function Favorite() {
                                 <th scope="col">商品名</th>
                                 <th scope="col">カテゴリー</th>
                                 <th scope="col">数量</th>
+                                <th scope="col">割引</th>
                                 <th scope="col">価格</th>
                                 <th scope="col">時間</th>
                             </tr>
@@ -75,7 +80,16 @@ export default function Favorite() {
                                         <td data-label="数量">
                                             {data.quantity}
                                         </td>
-                                        <td data-label="価格">
+                                        <td
+                                            data-label="割引"
+                                            style={{ color: "red" }}
+                                        >
+                                            {data.discount_at_purchase_time}円
+                                        </td>
+                                        <td
+                                            data-label="価格"
+                                            style={{ color: "blue" }}
+                                        >
                                             {data.price_at_purchase_time}円
                                         </td>
                                         <td data-label="時間">

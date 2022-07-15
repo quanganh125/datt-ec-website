@@ -18,7 +18,6 @@ export default function FormBuy({
     description,
     setIsOpenBuy,
     stock,
-    category_id,
     updateQuantity,
 }) {
     const [open, setOpen] = useState(false);
@@ -42,11 +41,12 @@ export default function FormBuy({
         //update history
         const buyProduct = {
             product_id: product_id,
-            category_id: category_id,
             quantity: quantily,
             price_at_purchase_time:
                 total - discountValue >= 0 ? total - discountValue : 0,
+            discount_at_purchase_time: discountValue,
         };
+        console.log(buyProduct);
         try {
             await axios
                 .post(apiHistory, buyProduct, { headers: headers })
@@ -56,24 +56,8 @@ export default function FormBuy({
         } catch (error) {
             return { statusCode: 500, body: error.toString() };
         }
-
-        //update stock product
-        let remain = stock - quantily;
-        const updateStock = {
-            feild: "stock",
-            value: remain,
-        };
-        try {
-            await axios
-                .post(`${apiProduct}/${product_id}/editOne`, updateStock)
-                .then((res) => {
-                    //update ui
-                    updateQuantity(remain);
-                });
-        } catch (error) {
-            return { statusCode: 500, body: error.toString() };
-        }
         handleClose();
+        window.location.href = `/history`;
     };
 
     useEffect(() => {
@@ -153,6 +137,15 @@ export default function FormBuy({
                 <DialogTitle id="form-dialog-title">
                     ショッピングカート
                 </DialogTitle>
+                <p
+                    style={{
+                        color: "red",
+                        textAlign: "right",
+                        marginRight: 25,
+                    }}
+                >
+                    {validateNofi}
+                </p>
                 <DialogContent>
                     <div className="shopping-cart">
                         <div className="column-labels-cart">
@@ -201,16 +194,7 @@ export default function FormBuy({
                                 {total}
                             </div>
                         </div>
-                        <div>
-                            <p
-                                style={{
-                                    color: "red",
-                                    float: "right",
-                                }}
-                            >
-                                {validateNofi}
-                            </p>
-                        </div>
+                        <div></div>
                         <div className="discount-code-form">
                             <h6>割引コード</h6>
                             <input
