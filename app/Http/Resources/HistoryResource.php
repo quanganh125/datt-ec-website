@@ -20,6 +20,7 @@ class HistoryResource extends JsonResource
             'price_at_purchase_time' => $this->price_at_purchase_time,
             'discount_at_purchase_time' => $this->discount_at_purchase_time,
             'user_id' => $this->user_id,
+            'customer_name' => $this->user->name,
             'product_name' => $this->product->name,
             'product_id' => $this->product->id,
             'category' => $this->product->category->name,

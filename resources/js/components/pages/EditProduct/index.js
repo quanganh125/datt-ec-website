@@ -206,7 +206,6 @@ class EditProduct extends React.Component {
         this.prepareUpdateRequest();
     };
     onEditProductSubmit = async (packets) => {
-        console.log(packets);
         this.setState({ isSubmit: true });
         const headers = {
             "Content-type": "application/json",
