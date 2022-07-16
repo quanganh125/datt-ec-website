@@ -78,6 +78,7 @@ Route::group(['prefix' => 'favorite'], function ($router) {
 
 Route::group(['prefix' => 'history'], function ($router) {
     Route::get('/', [HistoryController::class, 'index']);
+    Route::get('/sale-history', [HistoryController::class, 'saleHistory']);
     Route::get('/user', [HistoryController::class, 'historyOfUser']);
     Route::get('/best-sale-category', [HistoryController::class, 'bestSaleCategory']);
     Route::post('/', [HistoryController::class, 'store']);

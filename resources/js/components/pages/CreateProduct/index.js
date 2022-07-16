@@ -197,7 +197,6 @@ class CreateProduct extends Component {
     };
 
     onCreateProduct = async (packets) => {
-        console.log(packets);
         this.setState({ isSubmit: true });
         const headers = {
             "Content-type": "application/json",

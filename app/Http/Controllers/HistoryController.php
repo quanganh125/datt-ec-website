@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\HistoryService;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\User;
+use App\Models\Shop;
 use App\Http\Resources\HistoryCollection;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\HistoryResource;
@@ -29,7 +31,14 @@ class HistoryController extends Controller
         $histories = $this->historyService->getAll();
         return (new HistoryCollection($histories))->response();
     }
-
+    public function saleHistory()
+    {
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        $product_ids = $user->shops[0]->products->pluck('id');
+        $histories = Invoice::whereIn('product_id', $product_ids)->orderBy('created_at', 'DESC')->get();
+        return (new HistoryCollection($histories))->response();
+    }
     public function historyOfUser()
     {
         $histories = $this->historyService->getAllOfUser();

@@ -46,7 +46,6 @@ export default function FormBuy({
                 total - discountValue >= 0 ? total - discountValue : 0,
             discount_at_purchase_time: discountValue,
         };
-        console.log(buyProduct);
         try {
             await axios
                 .post(apiHistory, buyProduct, { headers: headers })

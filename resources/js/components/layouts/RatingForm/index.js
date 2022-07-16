@@ -37,8 +37,6 @@ export default function RatingForm({
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(evaluate);
-        console.log(numStar);
         if (evaluate == "" && numStar == 0) {
             alert("製品を評価するには、完全な情報を入力する必要があります");
         } else {
