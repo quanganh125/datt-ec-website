@@ -151,7 +151,7 @@ class StoreProfile extends Component {
         return (
             <div
                 className="row store-create-container"
-                style={{ marginTop: 80 }}
+                style={{ marginTop: "10px !important" }}
             >
                 <div className="form-container">
                     <h3>ストアを作成する</h3>

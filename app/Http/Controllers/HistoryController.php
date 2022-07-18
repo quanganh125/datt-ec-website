@@ -78,7 +78,6 @@ class HistoryController extends Controller
 
         $product = Product::find($request->input('product_id'));
         $product->stock -= $request->input('quantity');
-        $product->sale_number += $request->input('quantity');
         $product->update();
         return (new HistoryResource($history))->response();
     }

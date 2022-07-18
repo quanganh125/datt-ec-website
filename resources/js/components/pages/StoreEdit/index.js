@@ -7,54 +7,54 @@ import Loading from "../../layouts/Loading";
 import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
 import "../StoreShow/storeShow.scss";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { Button } from "@material-ui/core";
+import Slide from "@material-ui/core/Slide";
 
 const headers = {
     "Content-type": "application/json",
     Authorization: `Bearer ${getCookie("access_token")}`,
 };
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+const init_state = {
+    logo: "",
+    logo_url: "",
+    new_logo: "",
+    new_logo_file: {},
+    file: "",
+    errormessage: "",
+    successmessage: "",
+    address: "",
+    name: "",
+    url: "",
+    id: null,
+    isLoading: false,
+    isSubmit: false,
+    openDialog: false,
+};
 class EditStoreProfile extends Component {
     constructor(props) {
         super(props);
         this.fileRef = React.createRef();
-        this.state = {
-            logo: "",
-            logo_url: "",
-            new_logo: "",
-            new_logo_file: {},
-            file: "",
-            errormessage: "",
-            successmessage: "",
-            address: "",
-            name: "",
-            url: "",
-            id:
-                this.props.match && this.props.match.params.id
-                    ? this.props.match.params.id
-                    : null,
-            isLoading: false,
-            isSubmit: false,
-        };
+        init_state["id"] =
+            this.props.match && this.props.match.params.id
+                ? this.props.match.params.id
+                : null;
+        this.state = init_state;
     }
     onBtnClick = () => {
         this.fileRef.current.click();
     };
 
     componentWillUnmount() {
-        this.setState({
-            logo: "",
-            logo_url: "",
-            new_logo: "",
-            new_logo_file: {},
-            file: "",
-            errormessage: "",
-            successmessage: "",
-            address: "",
-            name: "",
-            url: "",
-            id: null,
-            isLoading: false,
-            isSubmit: false,
-        });
+        init_state["id"] = null;
+        this.setState(init_state);
     }
 
     handleFileChange = (event) => {
@@ -90,6 +90,7 @@ class EditStoreProfile extends Component {
                 { headers: headers }
             )
             .then((response) => {
+                toast.success("店舗が正常に削除されました！");
                 window.location.href = `/home`;
             })
             .catch((error) => {});
@@ -109,6 +110,12 @@ class EditStoreProfile extends Component {
     };
     handleLogoChange = (event) => {
         this.setState({ successmessage: "", logo: event.target.value });
+    };
+    handleOpenDialog = (event) => {
+        this.setState({ openDialog: true });
+    };
+    handleCloseDialog = (event) => {
+        this.setState({ openDialog: false });
     };
     handleFormSubmit = (event) => {
         event.preventDefault();
@@ -220,7 +227,7 @@ class EditStoreProfile extends Component {
 
     render() {
         return (
-            <div className="row store-edit-container">
+            <div className="row store-edit-container" style={{ marginTop: 80 }}>
                 {this.state.isLoading ? (
                     <div className="form-container">
                         <h3>店舗情報の編集</h3>
@@ -318,7 +325,7 @@ class EditStoreProfile extends Component {
                                 <button
                                     type="button"
                                     className="btn btn-danger"
-                                    onClick={this.handleDelete}
+                                    onClick={this.handleOpenDialog}
                                     disabled={this.state.isSubmit}
                                 >
                                     消去
@@ -337,6 +344,28 @@ class EditStoreProfile extends Component {
                 ) : (
                     <Loading />
                 )}
+                <Dialog
+                    open={this.state.openDialog}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={this.handleCloseDialog}
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>
+                        {"この店舗を削除してもよろしいですか？"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            店舗とすべての製品は完全に削除されます。
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCloseDialog}>
+                            キャンセル
+                        </Button>
+                        <Button onClick={this.handleDelete}>確認</Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

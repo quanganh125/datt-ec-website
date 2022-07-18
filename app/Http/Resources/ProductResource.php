@@ -30,7 +30,7 @@ class ProductResource extends JsonResource
             'discount' => $this->discount,
             'created_at' => $this->created_at,
             'color_code' => $this->color_code,
-            'sale_number' => $this->sale_number,
+            'sale_number' => $this->saleNumber(),
         ];
     }
 }
