@@ -19,7 +19,6 @@ class Product extends Model
         'category_id',
         'shop_id',
         'color_code',
-        'sale_number'
     ];
 
     protected $appends = ['recommend_mark'];
@@ -49,6 +48,11 @@ class Product extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    public function saleNumber()
+    {
+        return $this->invoices->sum('quantity');
     }
 
     public function getRecommendMarkAttribute()

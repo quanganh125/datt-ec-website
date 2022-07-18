@@ -67,7 +67,7 @@ class ShowStoreProfile extends Component {
 
     render() {
         return (
-            <div className="row store-show-container">
+            <div className="row store-show-container" style={{ marginTop: 80 }}>
                 {this.state.isLoading ? (
                     <div className="col-12 form-container">
                         <h3>ストアプロファイル</h3>

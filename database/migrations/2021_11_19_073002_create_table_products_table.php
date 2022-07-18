@@ -20,7 +20,6 @@ class CreateTableProductsTable extends Migration
             $table->double('price');
             $table->string('color_code')->default('#000');;
             $table->longText('description')->nullable()->default(null);
-            $table->integer('sale_number')->default(0);
             $table->timestamps();
 
             $table->unsignedBigInteger('category_id');

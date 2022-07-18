@@ -294,7 +294,7 @@ class ProductDetail extends Component {
                                         ) : (
                                             ""
                                         )}{" "}
-                                        {"　"}
+                                        {""}
                                         <span className="lead">
                                             オンライン価格
                                         </span>
@@ -375,7 +375,9 @@ class ProductDetail extends Component {
                                     </EmailShareButton>
                                 </div>
                                 <div className="product-reviews">
-                                    <label className="title"> レビュー </label>
+                                    <label className="title">
+                                        カスタマーレビュー
+                                    </label>
                                     <div className="reviews">
                                         <Pagination
                                             dataItems={this.state.reviews}
