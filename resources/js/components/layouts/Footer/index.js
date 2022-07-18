@@ -50,8 +50,7 @@ function Footer() {
             />
             <Grid item xs={12} id="nocopyright">
                 <p style={{ color: "white" }}>
-                    @2021 - QuangAnh.All Right Reserved.Designed and Developed
-                    by & nbsp;
+                    @2022 - All Right Reserved.Designed and Developed by
                     <a
                         href="https://www.facebook.com"
                         rel="name noreferrer"

@@ -6,6 +6,7 @@ import { getCookie } from "./../../utils/cookie";
 import "../CreateProduct/create.scss";
 import Loading from "../../layouts/Loading";
 import storage from "../../services/firebaseConfig";
+import { CKEditor } from "ckeditor4-react";
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
 const maxFileSize = 1024 * 1024;
 const init_state = {
@@ -59,9 +60,6 @@ class EditProduct extends React.Component {
     //xu li gia cua san pham
     handlePriceChange = (event) => {
         this.setState({ successmessage: "", price: event.target.value });
-    };
-    handleContentChange = (event) => {
-        this.setState({ successmessage: "", description: event.target.value });
     };
     handleStockChange = (event) => {
         this.setState({ successmessage: "", stock: event.target.value });
@@ -384,14 +382,16 @@ class EditProduct extends React.Component {
                             </div>
                             <div className="form-group p-2">
                                 <h5 className="col">説明</h5>
-                                <textarea
-                                    className="form-control"
-                                    id="exampleFormControlTextarea1"
-                                    rows="3"
-                                    placeholder="説明を入力してください ..."
-                                    value={this.state.description}
-                                    onChange={this.handleContentChange}
-                                ></textarea>
+                                <CKEditor
+                                    initData={this.state.description}
+                                    removeButtons="Image"
+                                    onChange={({ editor }) => {
+                                        this.setState({
+                                            successmessage: "",
+                                            description: editor.getData(),
+                                        });
+                                    }}
+                                />
                             </div>
                             <div className="form-group"></div>
                             {this.state.errormessage ? (

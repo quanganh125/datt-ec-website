@@ -73,6 +73,9 @@ export default function ProductManager() {
         else if (diff_days == 1) return "Yesterday";
         else return diff_days + " days ago";
     };
+    const toDetail = (id) => {
+        window.location.href = `/product/${id}/detail`;
+    };
 
     return (
         <div id="productManagerContainer">
@@ -191,7 +194,10 @@ export default function ProductManager() {
                                             <td data-label="時間">
                                                 {convertDate(data.created_at)}
                                             </td>
-                                            <td data-label="顧客">
+                                            <td
+                                                data-label="顧客"
+                                                style={{ overflow: "auto" }}
+                                            >
                                                 {data.customer_name}
                                             </td>
                                         </tr>

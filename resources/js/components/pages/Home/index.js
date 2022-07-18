@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./home.scss";
 import {
     fetchProductRecommend,
@@ -19,16 +19,18 @@ import saleIcon from "../../../assets/images/Super Sale Vector PNG.png";
 
 export default function Home() {
     const dispatch = useDispatch();
+    const mountedRef = useRef(true);
     const [isLoading, setIsLoading] = useState(false);
     const [displayProducts, setDisplayProducts] = useState([]);
     const [isFilter, setIsFilter] = useState(false);
     const [filterData, setFilterData] = useState("");
-    const product_recommend_datas = useSelector(
-        (state) => state.product.product_recommend
-    );
 
     const best_sale_category = useSelector(
         (state) => state.product.best_sale_category
+    );
+
+    const product_recommend_datas = useSelector(
+        (state) => state.product.product_recommend
     );
 
     const best_sale_datas = useSelector((state) => state.product.best_sale);
@@ -57,6 +59,7 @@ export default function Home() {
         fetchBestSaleCategoryHome();
         fetchProduct();
         fetchBestSaleProduct();
+        mountedRef.current = false;
     }, []);
 
     useEffect(() => {
@@ -66,6 +69,7 @@ export default function Home() {
         }
         return () => {
             setIsLoading(null);
+            mountedRef.current = false;
         };
     }, [isLoading, product_recommend_datas]);
 
@@ -128,6 +132,7 @@ export default function Home() {
     };
 
     const filterByFilterData = (filterData) => {
+        console.log(displayProducts);
         setDisplayProducts(
             product_recommend_datas
                 .filter(function (el) {
