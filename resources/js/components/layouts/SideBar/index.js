@@ -15,11 +15,9 @@ class SideBar extends Component {
             validateNofi: "",
         };
     }
-
     isPositiveInteger = (number) => {
         return /^\+?\d+$/.test(number);
     };
-
     handleSubmit = () => {
         if (
             this.state.min_price &&
@@ -44,57 +42,34 @@ class SideBar extends Component {
                 validateNofi: "最小値よりも大きい最大値を入力してください",
             });
         } else {
-            this.setState({
-                validateNofi: "",
-            });
+            this.setState({ validateNofi: "" });
             this.props.onFilterSubmit(this.state);
         }
     };
-
     handleCategoryChange = (event) => {
-        this.setState({
-            category: event.target.value,
-        });
+        this.setState({ category: event.target.value });
     };
-
     handleSortOptionChange = (event) => {
-        this.setState({
-            sort_option: event.target.value,
-        });
+        this.setState({ sort_option: event.target.value });
     };
-
     handleDiscountOptionChange = (event) => {
-        this.setState({
-            is_discount_selected: event.target.value,
-        });
+        this.setState({ is_discount_selected: event.target.value });
     };
-
     handleMinPriceChange = (event) => {
-        this.setState({
-            min_price: event.target.value,
-        });
+        this.setState({ min_price: event.target.value });
     };
-
     handleMaxPriceChange = (event) => {
-        this.setState({
-            max_price: event.target.value,
-        });
+        this.setState({ max_price: event.target.value });
     };
-
     fetchCategory = async () => {
         await axios
             .get(`${apiCategory}`)
             .then((res) => {
                 const dataCategories = res.data.data;
-                this.setState({
-                    categories: dataCategories,
-                });
+                this.setState({ categories: dataCategories });
             })
-            .catch((error) => {
-                console.error(error);
-            });
+            .catch((error) => {});
     };
-
     componentDidMount() {
         this.fetchCategory();
     }
@@ -148,7 +123,7 @@ class SideBar extends Component {
                                     className="form-control"
                                     type="text"
                                     data-trigger=""
-                                    placeholder="から"
+                                    placeholder="〜円から"
                                     value={this.state.min_price}
                                     onChange={this.handleMinPriceChange}
                                 />
@@ -160,7 +135,7 @@ class SideBar extends Component {
                                     className="form-control"
                                     type="text"
                                     data-trigger=""
-                                    placeholder="まで"
+                                    placeholder="〜円まで"
                                     value={this.state.max_price}
                                     onChange={this.handleMaxPriceChange}
                                 />

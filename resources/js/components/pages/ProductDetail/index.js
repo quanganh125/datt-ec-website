@@ -12,9 +12,9 @@ import { connect } from "react-redux";
 import Loading from "../../layouts/Loading";
 import { getProductRecommendDetail } from "../../redux/actions/productActions";
 import ProductList from "../../layouts/ProductList";
-import storage from "../../services/firebaseConfig";
 import FormBuy from "../../layouts/FormBuy";
 import { format } from "./../../utils/common";
+import ReactHtmlParser from "react-html-parser";
 import {
     FacebookShareButton,
     FacebookIcon,
@@ -54,16 +54,13 @@ class ProductDetail extends Component {
         init_state["id"] = Number(this.getProductId());
         this.state = init_state;
     }
-
     componentWillUnmount() {
         init_state["id"] = null;
         this.setState(init_state);
     }
-
     updateQuantity = (value) => {
         this.setState({ stock: value });
     };
-
     fetchProductDetail = async () => {
         await axios
             .get(`${apiProduct}/${this.state.id}`)
@@ -93,11 +90,9 @@ class ProductDetail extends Component {
             })
             .catch((error) => {});
     };
-
-    componentWillMount() {
+    componentDidMount() {
         this.setState({ currentUserId: this.props.user.id });
     }
-
     componentDidUpdate(prevProps) {
         if (this.props.productRecommend !== prevProps.productRecommend) {
             if (!this.state.productRecommend.length) {
@@ -112,7 +107,6 @@ class ProductDetail extends Component {
             }
         }
     }
-
     //get shop_id hien tai de so sanh voi shop cua product, giong nhau thi khong duoc comment, mua hang
     fetchUserShopId = async () => {
         const headers = {
@@ -129,12 +123,10 @@ class ProductDetail extends Component {
                 .catch((error) => {});
         } catch (error) {}
     };
-
     componentDidMount() {
         this.fetchProductDetail();
         this.fetchUserShopId();
     }
-
     checkReviewed = () => {
         let isExsist = true;
         for (let i = 0; i < this.state.reviews.length; i++) {
@@ -145,12 +137,10 @@ class ProductDetail extends Component {
         }
         return isExsist;
     };
-
     getProductId = () => {
         let slice_arr = window.location.href.split("/");
         return slice_arr[slice_arr.length - 2];
     };
-
     getProductRating = () => {
         if (this.state.reviews.length == 0) return 0;
         let sum = 0;
@@ -160,7 +150,6 @@ class ProductDetail extends Component {
         var avg = sum / this.state.reviews.length;
         return parseFloat(avg.toFixed(1));
     };
-
     handeOpenRatingForm = () => {
         if (
             getCookie("access_token") &&
@@ -170,11 +159,9 @@ class ProductDetail extends Component {
             this.setState({ isOpenRate: true });
         else alert("この機能を使用するには、ログインする必要があります");
     };
-
     setIsOpen = (isOpen) => {
         this.setState({ isOpenRate: isOpen });
     };
-
     reloadReview = async () => {
         await axios
             .get(`${apiProduct}/${this.state.id}`)
@@ -183,11 +170,9 @@ class ProductDetail extends Component {
             })
             .catch((error) => {});
     };
-
     setIsOpenBuy = (isOpen) => {
         this.setState({ isOpenBuy: isOpen });
     };
-
     onClickBuy = () => {
         if (
             getCookie("access_token") &&
@@ -196,7 +181,6 @@ class ProductDetail extends Component {
             this.setState({ isOpenBuy: true });
         else alert("この機能を使用するには、ログインする必要があります");
     };
-
     getPriceSale = (price, discount) => {
         return Math.round(discount ? price - (price * discount) / 100 : price);
     };
@@ -348,9 +332,13 @@ class ProductDetail extends Component {
                                         </li>
                                         <li>
                                             <p>
-                                                <b> 説明： </b>
-                                                {this.state.description}
+                                                <b> 説明： </b>{" "}
                                             </p>
+                                            <div style={{ marginLeft: 15 }}>
+                                                {ReactHtmlParser(
+                                                    this.state.description
+                                                )}
+                                            </div>
                                         </li>
                                         <li>
                                             <p>

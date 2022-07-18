@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
     public function run()
     {
         for ($i = 0; $i < 25; $i++) {
-            $timestamp = rand( strtotime("Jan 01 2018"), strtotime("Nov 01 2021") );
+            $timestamp = rand( strtotime("Jan 01 2020"), strtotime("Nov 01 2022") );
             $random_Date = date("Y-m-d H:i:s", $timestamp );
             DB::table('products')->insert([
                 'name' => Str::random(10),

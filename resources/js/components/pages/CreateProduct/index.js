@@ -6,6 +6,7 @@ import { getCookie } from "./../../utils/cookie";
 import storage from "../../services/firebaseConfig";
 import Loading from "../../layouts/Loading";
 import "./create.scss";
+import { CKEditor } from "ckeditor4-react";
 
 const maxFileSize = 1024 * 1024;
 const imageFileRegex = /\.(gif|jpg|jpeg|tiff|png)$/i;
@@ -34,11 +35,9 @@ class CreateProduct extends Component {
         this.fileRef = React.createRef();
         this.state = init_state;
     }
-
     componentWillUnmount() {
         this.setState(init_state);
     }
-
     onBtnClick = () => {
         this.fileRef.current.click();
     };
@@ -56,9 +55,6 @@ class CreateProduct extends Component {
     //xu li gia cua san pham
     handlePriceChange = (event) => {
         this.setState({ successmessage: "", price: event.target.value });
-    };
-    handleContentChange = (event) => {
-        this.setState({ successmessage: "", content: event.target.value });
     };
     handleStockChange = (event) => {
         this.setState({ successmessage: "", stock: event.target.value });
@@ -195,7 +191,6 @@ class CreateProduct extends Component {
         if (this.handleColorCodeError()) return;
         this.prepareCreateRequest();
     };
-
     onCreateProduct = async (packets) => {
         this.setState({ isSubmit: true });
         const headers = {
@@ -360,14 +355,16 @@ class CreateProduct extends Component {
 
                             <div className="form-group">
                                 <h5 className="col">説明</h5>
-                                <textarea
-                                    className="form-control"
-                                    id="exampleFormControlTextarea1"
-                                    rows="3"
-                                    placeholder="説明を入力してください ..."
-                                    value={this.state.content}
-                                    onChange={this.handleContentChange}
-                                ></textarea>
+                                <CKEditor
+                                    initData={this.state.content}
+                                    removeButtons="Image"
+                                    onChange={({ editor }) => {
+                                        this.setState({
+                                            successmessage: "",
+                                            content: editor.getData(),
+                                        });
+                                    }}
+                                />
                             </div>
 
                             <div className="form-group"></div>

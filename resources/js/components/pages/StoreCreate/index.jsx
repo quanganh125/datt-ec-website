@@ -72,11 +72,9 @@ class StoreProfile extends Component {
             };
         }
     };
-
     componentWillUnmount() {
         this.setState(init_state);
     }
-
     handleFormSubmit = (event) => {
         event.preventDefault();
         if (!this.state.name) {
@@ -129,7 +127,6 @@ class StoreProfile extends Component {
             }
         }
     };
-
     onCreateStore = async (packets) => {
         this.setState({ isSubmit: true });
         const headers = {

@@ -16,7 +16,7 @@ class CouponSeeder extends Seeder
     public function run()
     {
         for ($i = 0; $i < 10; $i++) {
-            $timestamp = rand(strtotime("Jan 01 2021"), strtotime("Nov 01 2023"));
+            $timestamp = rand(strtotime("Jan 01 2022"), strtotime("Nov 01 2023"));
             $random_Date = date("Y-m-d H:i:s", $timestamp);
 
             DB::table('coupons')->insert([
