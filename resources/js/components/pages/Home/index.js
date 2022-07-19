@@ -239,10 +239,10 @@ export default function Home() {
                             />
                             <div className="carousel-caption title-carousel">
                                 <h3 style={{ color: "white" }}>
-                                    多くの魅力的なオファーで新年あけましておめでとうございます
+                                    多くの魅力的なオファーで
                                 </h3>
                                 <h5 style={{ color: "white" }}>
-                                    0円からのご注文で全国送料無料
+                                    0円からのご注文で全国送料無料。
                                 </h5>
                             </div>
                         </div>
@@ -272,7 +272,7 @@ export default function Home() {
                                     見逃せない情報
                                 </h3>
                                 <h5 style={{ color: "white" }}>
-                                    具体的には、衝撃的な割引プログラム
+                                    売買する簡単で便利な方法
                                 </h5>
                             </div>
                         </div>
