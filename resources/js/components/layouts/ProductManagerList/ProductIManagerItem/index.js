@@ -11,8 +11,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { deleteProduct } from "./../../../redux/actions/productActions";
 import { useDispatch } from "react-redux";
-import { apiStorage } from "../../../constant";
-import storage from "../../../services/firebaseConfig";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
