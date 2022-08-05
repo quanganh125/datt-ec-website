@@ -7,6 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ReactHtmlParser from "react-html-parser";
 import { headers, apiHistory, apiProduct, apiCoupon } from "./../../constant";
 
 export default function FormBuy({
@@ -168,7 +169,7 @@ export default function FormBuy({
                             <div className="product-details-cart">
                                 <div className="product-title-cart">{name}</div>
                                 <p className="product-description-cart">
-                                    {description}
+                                    {ReactHtmlParser(description)}
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
