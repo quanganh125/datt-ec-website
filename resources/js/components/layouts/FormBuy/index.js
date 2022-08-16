@@ -16,55 +16,58 @@ export default function FormBuy({
     image_link,
     name,
     price,
-    description,
     setIsOpenBuy,
     stock,
-    updateQuantity,
 }) {
     const [open, setOpen] = useState(false);
     const [total, setTotal] = useState(price);
-    const [quantily, setQuantily] = useState(1);
+    const [quantity, setQuantity] = useState(1);
     const [buyEnable, setBuyEnable] = useState(true);
     const [discountCode, setDiscountCode] = useState("");
     const [discountPercent, setDiscountPercent] = useState(0);
     const [discountValue, setDiscountValue] = useState(0);
     const [validateNofi, setValidateNofi] = useState("");
     const [validateCode, setValidateCode] = useState("");
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    const [deliveryAddress, setDeliveryAddress] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleClose = () => {
         setIsOpenBuy(false);
         setOpen(false);
     };
     const handleCheckout = async () => {
-        //update history
-        const buyProduct = {
-            product_id: product_id,
-            quantity: quantily,
-            price_at_purchase_time:
-                total - discountValue >= 0 ? total - discountValue : 0,
-            discount_at_purchase_time: discountValue,
-        };
-        try {
-            await axios
-                .post(apiHistory, buyProduct, { headers: headers })
-                .then((res) => {
-                    toast.success("購入に成功しました");
-                });
-        } catch (error) {
-            return { statusCode: 500, body: error.toString() };
+        if (!deliveryAddress) {
+            setErrorMessage("配送先住所を入力してください");
+        } else {
+            //update history
+            setErrorMessage("");
+            const buyProduct = {
+                product_id: product_id,
+                delivery_address: deliveryAddress,
+                quantity: quantity,
+                price_at_purchase_time:
+                    total - discountValue >= 0 ? total - discountValue : 0,
+                discount_at_purchase_time: discountValue,
+            };
+            try {
+                await axios
+                    .post(apiHistory, buyProduct, { headers: headers })
+                    .then((res) => {
+                        toast.success("購入に成功しました");
+                    });
+            } catch (error) {
+                return { statusCode: 500, body: error.toString() };
+            }
+            handleClose();
+            window.location.href = `/history`;
         }
-        handleClose();
-        window.location.href = `/history`;
     };
 
     useEffect(() => {
         setOpen(isOpen);
         return () => {
             setTotal(price);
-            setQuantily(1);
+            setQuantity(1);
             setBuyEnable(true);
             setValidateNofi("");
             setDiscountCode("");
@@ -75,11 +78,11 @@ export default function FormBuy({
     }, [isOpen]);
 
     const onChangeQuantity = (event) => {
-        let nquantily = event.target.value;
-        if (nquantily == "" || nquantily <= 0) {
+        let nquantity = event.target.value;
+        if (nquantity == "" || nquantity <= 0) {
             setValidateNofi("数値は0より大きくなければなりません");
             setBuyEnable(false);
-        } else if (nquantily > stock) {
+        } else if (nquantity > stock) {
             setValidateNofi(
                 `在庫が残っている商品は${stock}のみです。これ以上購入することはできません`
             );
@@ -87,17 +90,20 @@ export default function FormBuy({
         } else {
             setBuyEnable(true);
             setValidateNofi("");
-            let sum = nquantily * price;
+            let sum = nquantity * price;
             if (discountPercent > 0)
                 setDiscountValue(Math.round(sum * (discountPercent / 100)));
-            setQuantily(nquantily);
+            setQuantity(nquantity);
             setTotal(sum);
         }
     };
 
     const onChangeCode = (event) => {
-        let code = event.target.value;
-        setDiscountCode(code);
+        setDiscountCode(event.target.value);
+    };
+
+    const onChangeDeliveryAddress = (event) => {
+        setDeliveryAddress(event.target.value);
     };
 
     const onSubmitDiscountCode = async () => {
@@ -148,7 +154,8 @@ export default function FormBuy({
                 </p>
                 <DialogContent>
                     <div className="shopping-cart">
-                        <div className="column-labels-cart">
+                        <div className="product-cart"></div>
+                        <div className="product-cart">
                             <label className="product-image-cart">Image</label>
                             <label className="product-details-cart">
                                 Product
@@ -168,14 +175,6 @@ export default function FormBuy({
                             </div>
                             <div className="product-details-cart">
                                 <div className="product-title-cart">{name}</div>
-                                <p className="product-description-cart">
-                                    {ReactHtmlParser(description)}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                </p>
                             </div>
                             <div className="product-price-cart">{price}</div>
                             <div className="product-quantity-cart">
@@ -194,7 +193,30 @@ export default function FormBuy({
                                 {total}
                             </div>
                         </div>
-                        <div></div>
+
+                        <div className="product-cart">
+                            <p
+                                style={{
+                                    color: "red",
+                                    textAlign: "right",
+                                    marginRight: 25,
+                                }}
+                            >
+                                {errorMessage}
+                            </p>
+                            <div className="address-input-cart">
+                                <h6>配送先住所</h6>
+                                <input
+                                    type="text"
+                                    name="delivery-address"
+                                    className="input-address"
+                                    onChange={(event) =>
+                                        onChangeDeliveryAddress(event)
+                                    }
+                                />
+                            </div>
+                        </div>
+
                         <div className="discount-code-form">
                             <h6>割引コード</h6>
                             <input

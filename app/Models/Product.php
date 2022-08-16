@@ -19,6 +19,10 @@ class Product extends Model
         'category_id',
         'shop_id',
         'color_code',
+        'expiry',
+        'brand',
+        'finish',
+        'material',
     ];
 
     protected $appends = ['recommend_mark'];

@@ -16,6 +16,8 @@ class Invoice extends Model
         'discount_at_purchase_time',
         'price_at_purchase_time',
         'quantity',
+        'delivery_address',
+        'order_status',
     ];
 
     public function user()

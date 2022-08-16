@@ -72,6 +72,7 @@ class HistoryController extends Controller
         $history->user_id = $user_id;
         $history->product_id = $request->input('product_id');
         $history->quantity = $request->input('quantity');
+        $history->delivery_address = $request->input('delivery_address');
         $history->price_at_purchase_time = $request->input('price_at_purchase_time');
         $history->discount_at_purchase_time = $request->input('discount_at_purchase_time');
         $history->save();
@@ -119,5 +120,31 @@ class HistoryController extends Controller
     public function destroy($id)
     {
         return $this->historyService->delete($id);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function accept($id)
+    {
+        $history = Invoice::findOrFail($id);
+        $history->update(['order_status' => 'CONFIRMED']);
+        return (new HistoryResource($history))->response();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function reject($id)
+    {
+        $history = Invoice::findOrFail($id);
+        $history->update(['order_status' => 'REJECTED']);
+        return response()->json([],201);  
     }
 }

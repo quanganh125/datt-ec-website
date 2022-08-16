@@ -20,6 +20,10 @@ const init_state = {
     price: "",
     name: "",
     url: "",
+    expiry: "",
+    brand: "",
+    finish: "",
+    material: "",
     image: {},
     color_code: "#ffffff",
     stock: 1,
@@ -48,6 +52,18 @@ class CreateProduct extends Component {
     //xu li ten cua san pham
     handleNameChange = (event) => {
         this.setState({ successmessage: "", name: event.target.value });
+    };
+    handleExpiryChange = (event) => {
+        this.setState({ successmessage: "", expiry: event.target.value });
+    };
+    handleBrandChange = (event) => {
+        this.setState({ successmessage: "", brand: event.target.value });
+    };
+    handleFinishChange = (event) => {
+        this.setState({ successmessage: "", finish: event.target.value });
+    };
+    handleMaterialChange = (event) => {
+        this.setState({ successmessage: "", material: event.target.value });
     };
     handleCategoryChange = (event) => {
         this.setState({ successmessage: "", category: event.target.value });
@@ -108,6 +124,10 @@ class CreateProduct extends Component {
                             });
                             const packets = {
                                 name: this.state.name,
+                                brand: this.state.brand,
+                                finish: this.state.finish,
+                                expiry: this.state.expiry,
+                                material: this.state.material,
                                 price: this.state.price,
                                 category_id: this.state.category,
                                 description: this.state.content,
@@ -152,7 +172,31 @@ class CreateProduct extends Component {
     }
     handleNameError() {
         if (!this.state.name) {
-            this.setState({ errormessage: "名前をアップロードしてください" });
+            this.setState({ errormessage: "名前を入力してください" });
+            return true;
+        }
+    }
+    handleFinishError() {
+        if (!this.state.finish) {
+            this.setState({ errormessage: "仕上げを入力してください" });
+            return true;
+        }
+    }
+    handleBrandError() {
+        if (!this.state.brand) {
+            this.setState({ errormessage: "ブランドを入力してください" });
+            return true;
+        }
+    }
+    handleExpiryError() {
+        if (!this.state.expiry) {
+            this.setState({ errormessage: "期限切れを入力してください" });
+            return true;
+        }
+    }
+    handleMaterialError() {
+        if (!this.state.material) {
+            this.setState({ errormessage: "マテリアルを入力してください" });
             return true;
         }
     }
@@ -185,6 +229,10 @@ class CreateProduct extends Component {
         if (this.handleImageError()) return;
         if (this.handleNameError()) return;
         if (this.handleCategoryError()) return;
+        if (this.handleBrandError()) return;
+        if (this.handleMaterialError()) return;
+        if (this.handleFinishError()) return;
+        if (this.handleExpiryError()) return;
         if (this.handlePriceError()) return;
         if (this.handleStockError()) return;
         if (this.handleDiscountError()) return;
@@ -299,6 +347,50 @@ class CreateProduct extends Component {
                                             )
                                         )}
                                     </select>
+                                </div>
+                            </div>
+
+                            <div className="d-flex justify-content-around w-100">
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">ブランド</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="ブランドを入力してください ..."
+                                        value={this.state.brand}
+                                        onChange={this.handleBrandChange}
+                                    />
+                                </div>
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">
+                                        マテリアル
+                                    </h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="マテリアルを入力してください ..."
+                                        value={this.state.material}
+                                        onChange={this.handleMaterialChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="d-flex justify-content-around w-100">
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">仕上げ</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="仕上げを入力してください ..."
+                                        value={this.state.finish}
+                                        onChange={this.handleFinishChange}
+                                    />
+                                </div>
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">期限切れ</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="期限切れを入力してください ..."
+                                        value={this.state.expiry}
+                                        onChange={this.handleExpiryChange}
+                                    />
                                 </div>
                             </div>
 

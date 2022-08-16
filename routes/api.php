@@ -83,6 +83,8 @@ Route::group(['prefix' => 'history'], function ($router) {
     Route::get('/best-sale-category', [HistoryController::class, 'bestSaleCategory']);
     Route::post('/', [HistoryController::class, 'store']);
     Route::delete('/{id}', [HistoryController::class, 'destroy']);
+    Route::get('/accept/{id}', [HistoryController::class, 'accept']);
+    Route::get('/reject/{id}', [HistoryController::class, 'reject']);
 });
 
 Route::group(['prefix' => 'event'], function ($router) {

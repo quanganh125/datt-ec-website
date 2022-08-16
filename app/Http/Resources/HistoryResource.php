@@ -24,6 +24,8 @@ class HistoryResource extends JsonResource
             'product_name' => $this->product->name,
             'product_id' => $this->product->id,
             'category' => $this->product->category->name,
+            'delivery_address' => $this->delivery_address,
+            'order_status' => $this->order_status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

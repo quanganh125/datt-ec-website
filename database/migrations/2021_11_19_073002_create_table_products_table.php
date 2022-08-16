@@ -20,6 +20,10 @@ class CreateTableProductsTable extends Migration
             $table->double('price');
             $table->string('color_code')->default('#000');;
             $table->longText('description')->nullable()->default(null);
+            $table->string('expiry')->nullable();
+            $table->string('brand')->nullable();
+            $table->string('material')->nullable();
+            $table->string('finish')->nullable();
             $table->timestamps();
 
             $table->unsignedBigInteger('category_id');

@@ -19,6 +19,10 @@ const init_state = {
     successmessage: "",
     price: "",
     category: "",
+    expiry: "",
+    brand: "",
+    finish: "",
+    material: "",
     new_name: "",
     url: "",
     id: null,
@@ -49,6 +53,18 @@ class EditProduct extends React.Component {
     handleReturnProductPage = () => {
         this.setState({ successmessage: "" });
         window.location.href = `/product/manager`;
+    };
+    handleExpiryChange = (event) => {
+        this.setState({ successmessage: "", expiry: event.target.value });
+    };
+    handleBrandChange = (event) => {
+        this.setState({ successmessage: "", brand: event.target.value });
+    };
+    handleFinishChange = (event) => {
+        this.setState({ successmessage: "", finish: event.target.value });
+    };
+    handleMaterialChange = (event) => {
+        this.setState({ successmessage: "", material: event.target.value });
     };
     //xu li ten cua san pham
     handleCategoryChange = (event) => {
@@ -113,6 +129,10 @@ class EditProduct extends React.Component {
                                 });
                                 const packets = {
                                     name: this.state.new_name,
+                                    brand: this.state.brand,
+                                    finish: this.state.finish,
+                                    expiry: this.state.expiry,
+                                    material: this.state.material,
                                     price: this.state.price,
                                     category_id: this.state.category,
                                     description: this.state.description,
@@ -130,6 +150,10 @@ class EditProduct extends React.Component {
         } else {
             const packets = {
                 name: this.state.new_name,
+                brand: this.state.brand,
+                finish: this.state.finish,
+                expiry: this.state.expiry,
+                material: this.state.material,
                 price: this.state.price,
                 category_id: this.state.category,
                 description: this.state.description,
@@ -164,7 +188,31 @@ class EditProduct extends React.Component {
     }
     handleNameError() {
         if (!this.state.new_name) {
-            this.setState({ errormessage: "名前をアップロードしてください" });
+            this.setState({ errormessage: "名前を入力してください" });
+            return true;
+        }
+    }
+    handleFinishError() {
+        if (!this.state.finish) {
+            this.setState({ errormessage: "仕上げを入力してください" });
+            return true;
+        }
+    }
+    handleBrandError() {
+        if (!this.state.brand) {
+            this.setState({ errormessage: "ブランドを入力してください" });
+            return true;
+        }
+    }
+    handleExpiryError() {
+        if (!this.state.expiry) {
+            this.setState({ errormessage: "期限切れを入力してください" });
+            return true;
+        }
+    }
+    handleMaterialError() {
+        if (!this.state.material) {
+            this.setState({ errormessage: "マテリアルを入力してください" });
             return true;
         }
     }
@@ -197,6 +245,10 @@ class EditProduct extends React.Component {
         event.preventDefault();
         if (this.handleNameError()) return;
         if (this.handleCategoryError()) return;
+        if (this.handleBrandError()) return;
+        if (this.handleMaterialError()) return;
+        if (this.handleFinishError()) return;
+        if (this.handleExpiryError()) return;
         if (this.handlePriceError()) return;
         if (this.handleStockError()) return;
         if (this.handleDiscountError()) return;
@@ -245,6 +297,10 @@ class EditProduct extends React.Component {
                     errormessage: "",
                     successmessage: "",
                     price: dataProduct.price,
+                    expiry: dataProduct.expiry,
+                    finish: dataProduct.finish,
+                    brand: dataProduct.brand,
+                    material: dataProduct.material,
                     category: dataProduct.category_id,
                     new_name: dataProduct.name,
                     id: this.props.match.params.id,
@@ -332,6 +388,51 @@ class EditProduct extends React.Component {
                                     </select>
                                 </div>
                             </div>
+
+                            <div className="d-flex justify-content-around w-100">
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">ブランド</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="ブランドを入力してください ..."
+                                        value={this.state.brand}
+                                        onChange={this.handleBrandChange}
+                                    />
+                                </div>
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">
+                                        マテリアル
+                                    </h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="マテリアルを入力してください ..."
+                                        value={this.state.material}
+                                        onChange={this.handleMaterialChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="d-flex justify-content-around w-100">
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">仕上げ</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="仕上げを入力してください ..."
+                                        value={this.state.finish}
+                                        onChange={this.handleFinishChange}
+                                    />
+                                </div>
+                                <div className="form-group p-2">
+                                    <h5 className="control-label">期限切れ</h5>
+                                    <input
+                                        className="form-control"
+                                        placeholder="期限切れを入力してください ..."
+                                        value={this.state.expiry}
+                                        onChange={this.handleExpiryChange}
+                                    />
+                                </div>
+                            </div>
+
                             <div className="d-flex justify-content-around w-100">
                                 <div className="form-group p-2">
                                     <h5 className="control-label">

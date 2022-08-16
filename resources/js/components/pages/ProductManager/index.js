@@ -8,11 +8,16 @@ import Pagination from "../../layouts/Pagination";
 import Loading from "../../layouts/Loading";
 import ProductNotFound from "../../../assets/images/Product Not Found.png";
 import { apiHistory, headers } from "../../constant/index";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function ProductManager() {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [saleHistory, setSaleHistory] = useState([]);
+    const [waiting, setWaiting] = useState([]);
+    const [reject, setReject] = useState([]);
+    const [confirmed, setConfirmed] = useState([]);
     const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const fetchShopProducts = () => {
         dispatch(fetchShopProduct());
@@ -49,7 +54,7 @@ export default function ProductManager() {
         document.getElementById(tabName).style.display = "block";
         event.currentTarget.className += " active";
 
-        if (tabName === "history" && !isLoadingHistory) {
+        if (tabName != "product" && !isLoadingHistory) {
             dispatch(fetchSaleHistory());
             setIsLoadingHistory(true);
         }
@@ -60,6 +65,21 @@ export default function ProductManager() {
             .then((res) => {
                 const get_shop_product = res.data.data;
                 setSaleHistory(get_shop_product);
+                setWaiting(
+                    get_shop_product.filter(function (el) {
+                        return el.order_status == "CONFIRM_WAITING";
+                    })
+                );
+                setReject(
+                    get_shop_product.filter(function (el) {
+                        return el.order_status == "REJECTED";
+                    })
+                );
+                setConfirmed(
+                    get_shop_product.filter(function (el) {
+                        return el.order_status == "CONFIRMED";
+                    })
+                );
             })
             .catch((error) => {
                 console.error(error);
@@ -76,6 +96,39 @@ export default function ProductManager() {
     const toDetail = (id) => {
         window.location.href = `/product/${id}/detail`;
     };
+    const handleAccept = (item) => {
+        let filteredArr = waiting.filter((el) => el.id !== item.id);
+        setWaiting(filteredArr);
+        setConfirmed([...confirmed, item]);
+        dispatch(apiAccept(item.id));
+    };
+    const handleReject = (item) => {
+        let filteredArr = waiting.filter((el) => el.id !== item.id);
+        setWaiting(filteredArr);
+        setReject([...reject, item]);
+        dispatch(apiReject(item.id));
+    };
+    const apiAccept = (id) => async () => {
+        await axios
+            .get(`${apiHistory}/accept/${id}`, { headers: headers })
+            .then((res) => {
+                toast.success("注文を受け付けました");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+    const apiReject = (id) => async () => {
+        console.log(id);
+        await axios
+            .get(`${apiHistory}/reject/${id}`, { headers: headers })
+            .then((res) => {
+                toast.success("注文が拒否されました");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     return (
         <div id="productManagerContainer">
@@ -85,6 +138,18 @@ export default function ProductManager() {
                     onClick={(event) => onClickTab(event, "product")}
                 >
                     製品管理
+                </button>
+                <button
+                    className="tablinks"
+                    onClick={(event) => onClickTab(event, "waiting")}
+                >
+                    確認待ち
+                </button>
+                <button
+                    className="tablinks"
+                    onClick={(event) => onClickTab(event, "reject")}
+                >
+                    キャンセル
                 </button>
                 <button
                     className="tablinks"
@@ -141,49 +206,41 @@ export default function ProductManager() {
                 )}
             </div>
 
-            <div id="history" className="tabcontent">
+            <div id="waiting" className="tabcontent">
                 {isLoadingHistory ? (
                     <>
                         <h3>
-                            <b>販売履歴</b>
+                            <b>確認待ち</b>
                         </h3>
                         <table>
                             <thead>
                                 <tr>
                                     <th scope="col">商品名</th>
-                                    <th scope="col">カテゴリー</th>
                                     <th scope="col">数量</th>
-                                    <th scope="col">割引</th>
                                     <th scope="col">価格</th>
                                     <th scope="col">時間</th>
+                                    <th scope="col">配送先住所</th>
                                     <th scope="col">顧客</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {saleHistory &&
-                                    saleHistory.map((data, index) => (
+                                {waiting &&
+                                    waiting.map((data, index) => (
                                         <tr
                                             key={index}
-                                            onClick={() =>
-                                                toDetail(data.product_id)
-                                            }
                                             className="item-history"
                                         >
-                                            <td data-label="商品名">
+                                            <td
+                                                data-label="商品名"
+                                                onClick={() =>
+                                                    toDetail(data.product_id)
+                                                }
+                                            >
                                                 {data.product_name}
-                                            </td>
-                                            <td data-label="カテゴリー">
-                                                {data.category}
                                             </td>
                                             <td data-label="数量">
                                                 {data.quantity}
-                                            </td>
-                                            <td
-                                                data-label="割引"
-                                                style={{ color: "red" }}
-                                            >
-                                                {data.discount_at_purchase_time}
-                                                円
                                             </td>
                                             <td
                                                 data-label="価格"
@@ -198,13 +255,193 @@ export default function ProductManager() {
                                                 data-label="顧客"
                                                 style={{ overflow: "auto" }}
                                             >
+                                                {data.delivery_address}
+                                            </td>
+                                            <td
+                                                data-label="顧客"
+                                                style={{ overflow: "auto" }}
+                                            >
                                                 {data.customer_name}
+                                            </td>
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-success"
+                                                    onClick={() =>
+                                                        handleAccept(data)
+                                                    }
+                                                >
+                                                    Accept
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-danger"
+                                                    onClick={() =>
+                                                        handleReject(data)
+                                                    }
+                                                >
+                                                    Reject
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
                             </tbody>
                         </table>
-                        {saleHistory.length == 0 && (
+                        {waiting.length == 0 && (
+                            <div className="nonHistory">
+                                <img
+                                    src={ProductNotFound}
+                                    alt="product not found"
+                                    className="product-not-found"
+                                />
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </div>
+
+            <div id="reject" className="tabcontent">
+                {isLoadingHistory ? (
+                    <>
+                        <h3>
+                            <b>キャンセル</b>
+                        </h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">商品名</th>
+                                    <th scope="col">数量</th>
+                                    <th scope="col">価格</th>
+                                    <th scope="col">時間</th>
+                                    <th scope="col">配送先住所</th>
+                                    <th scope="col">顧客</th>
+                                    <th scope="col">状態</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {reject &&
+                                    reject.map((data, index) => (
+                                        <tr
+                                            key={index}
+                                            onClick={() =>
+                                                toDetail(data.product_id)
+                                            }
+                                            className="item-history"
+                                        >
+                                            <td data-label="商品名">
+                                                {data.product_name}
+                                            </td>
+                                            <td data-label="数量">
+                                                {data.quantity}
+                                            </td>
+                                            <td
+                                                data-label="価格"
+                                                style={{ color: "blue" }}
+                                            >
+                                                {data.price_at_purchase_time}円
+                                            </td>
+                                            <td data-label="時間">
+                                                {convertDate(data.created_at)}
+                                            </td>
+                                            <td
+                                                data-label="顧客"
+                                                style={{ overflow: "auto" }}
+                                            >
+                                                {data.delivery_address}
+                                            </td>
+                                            <td
+                                                data-label="顧客"
+                                                style={{ overflow: "auto" }}
+                                            >
+                                                {data.customer_name}
+                                            </td>
+                                            <td className="alert alert-danger">
+                                                Rejected
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                        {reject.length == 0 && (
+                            <div className="nonHistory">
+                                <img
+                                    src={ProductNotFound}
+                                    alt="product not found"
+                                    className="product-not-found"
+                                />
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </div>
+
+            <div id="history" className="tabcontent">
+                {isLoadingHistory ? (
+                    <>
+                        <h3>
+                            <b>販売履歴</b>
+                        </h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">商品名</th>
+                                    <th scope="col">数量</th>
+                                    <th scope="col">価格</th>
+                                    <th scope="col">時間</th>
+                                    <th scope="col">配送先住所</th>
+                                    <th scope="col">顧客</th>
+                                    <th scope="col">状態</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {confirmed &&
+                                    confirmed.map((data, index) => (
+                                        <tr
+                                            key={index}
+                                            onClick={() =>
+                                                toDetail(data.product_id)
+                                            }
+                                            className="item-history"
+                                        >
+                                            <td data-label="商品名">
+                                                {data.product_name}
+                                            </td>
+                                            <td data-label="数量">
+                                                {data.quantity}
+                                            </td>
+                                            <td
+                                                data-label="価格"
+                                                style={{ color: "blue" }}
+                                            >
+                                                {data.price_at_purchase_time}円
+                                            </td>
+                                            <td data-label="時間">
+                                                {convertDate(data.created_at)}
+                                            </td>
+                                            <td
+                                                data-label="顧客"
+                                                style={{ overflow: "auto" }}
+                                            >
+                                                {data.delivery_address}
+                                            </td>
+                                            <td
+                                                data-label="顧客"
+                                                style={{ overflow: "auto" }}
+                                            >
+                                                {data.customer_name}
+                                            </td>
+                                            <td className="alert alert-success">
+                                                Success
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                        {confirmed.length == 0 && (
                             <div className="nonHistory">
                                 <img
                                     src={ProductNotFound}

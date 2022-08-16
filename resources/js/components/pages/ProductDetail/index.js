@@ -28,6 +28,10 @@ const init_state = {
     image_link: "",
     price: "",
     description: "",
+    expiry: "",
+    brand: "",
+    material: "",
+    finish: "",
     recommend_mark: "",
     reviews: [],
     category: "",
@@ -69,6 +73,10 @@ class ProductDetail extends Component {
                     name: res.data.data.name,
                     image_link: res.data.data.image_link,
                     price: res.data.data.price,
+                    expiry: res.data.data.expiry,
+                    brand: res.data.data.brand,
+                    material: res.data.data.material,
+                    finish: res.data.data.finish,
                     description: res.data.data.description,
                     recommend_mark: res.data.data.recommend_mark,
                     reviews: res.data.data.reviews,
@@ -324,21 +332,35 @@ class ProductDetail extends Component {
                                         </li>
                                         <li>
                                             <p>
+                                                <b>ブランド： </b>
+                                                {this.state.brand}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <b>マテリアル: </b>
+                                                {this.state.material}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <b>仕上げ: </b>
+                                                {this.state.finish}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <b>期限切れ: </b>
+                                                {this.state.expiry}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
                                                 <b>在庫：</b>
                                                 {this.state.stock != 0
                                                     ? this.state.stock
                                                     : "在庫切れ"}
                                             </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <b> 説明： </b>{" "}
-                                            </p>
-                                            <div style={{ marginLeft: 15 }}>
-                                                {ReactHtmlParser(
-                                                    this.state.description
-                                                )}
-                                            </div>
                                         </li>
                                         <li>
                                             <p>
@@ -353,6 +375,16 @@ class ProductDetail extends Component {
                                                     {this.state.shop}
                                                 </Link>
                                             </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <b> 説明： </b>{" "}
+                                            </p>
+                                            <div style={{ marginLeft: 15 }}>
+                                                {ReactHtmlParser(
+                                                    this.state.description
+                                                )}
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
